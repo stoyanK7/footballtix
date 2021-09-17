@@ -11,8 +11,6 @@ variables:
 cache:
   paths:
     - .gradle
-    - .gradle/wrapper
-    - .gradle/caches
 
 stages:
   - build
