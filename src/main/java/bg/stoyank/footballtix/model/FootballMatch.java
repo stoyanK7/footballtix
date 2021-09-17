@@ -21,6 +21,20 @@ public class FootballMatch {
     public FootballMatch() {
     }
 
+    public FootballMatch(String homeTeam,
+                         String awayTeam,
+                         LocalDateTime startingDateTime,
+                         String stadium,
+                         String location,
+                         String league) {
+        this.homeTeam = homeTeam;
+        this.awayTeam = awayTeam;
+        this.startingDateTime = startingDateTime;
+        this.stadium = stadium;
+        this.location = location;
+        this.league = league;
+    }
+
     public FootballMatch(Integer id,
                          String homeTeam,
                          String awayTeam,

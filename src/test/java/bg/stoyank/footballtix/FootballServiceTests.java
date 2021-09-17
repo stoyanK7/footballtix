@@ -18,7 +18,6 @@ public class FootballServiceTests {
         this.footballMatchService = footballMatchService;
     }
 
-
     @Test
     @Order(1)
     public void testAddFootballMatch() {
@@ -29,9 +28,28 @@ public class FootballServiceTests {
         Assertions.assertEquals(1, footballMatchService.getFootballMatches().size());
     }
 
+    @Test
+    @Order(2)
+    public void testDeleteFootballMatch() {
+        footballMatchService.deleteFootballMatch(1);
+
+        Assertions.assertEquals(0, footballMatchService.getFootballMatches().size());
+    }
+
 //    @Test
-//    @Order(2)
-//    public void test
+//    @Order(3)
+//    public void testGetFootballMatchById() {
+//        FootballMatch footballMatch = new FootballMatch(3 , "hometeam",
+//                "awayteam",
+//                LocalDateTime.now(),
+//                "stadium 1",
+//                "location 1",
+//                "league");
+//
+//        footballMatchService.addFootballMatch(footballMatch);
+//
+//        Assertions.assertEquals(footballMatch, footballMatchService.getFootballMatch(3));
+// }
 
 
 }
