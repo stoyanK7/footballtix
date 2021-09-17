@@ -2,13 +2,12 @@ package bg.stoyank.footballtix;
 
 import bg.stoyank.footballtix.model.FootballMatch;
 import bg.stoyank.footballtix.service.FootballMatchService;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class FootballServiceTests {
 
     private final FootballMatchService footballMatchService;
@@ -36,20 +35,23 @@ public class FootballServiceTests {
         Assertions.assertEquals(0, footballMatchService.getFootballMatches().size());
     }
 
-//    @Test
-//    @Order(3)
-//    public void testGetFootballMatchById() {
-//        FootballMatch footballMatch = new FootballMatch(3 , "hometeam",
-//                "awayteam",
-//                LocalDateTime.now(),
-//                "stadium 1",
-//                "location 1",
-//                "league");
-//
-//        footballMatchService.addFootballMatch(footballMatch);
-//
-//        Assertions.assertEquals(footballMatch, footballMatchService.getFootballMatch(3));
-// }
+    @Test
+    @Order(3)
+    public void testGetAllFootballMatches() {
+        FootballMatch footballMatch1 = new FootballMatch();
+        FootballMatch footballMatch2 = new FootballMatch();
+        FootballMatch footballMatch3 = new FootballMatch();
+        FootballMatch footballMatch4 = new FootballMatch();
+
+        footballMatchService.addFootballMatch(footballMatch1);
+        footballMatchService.addFootballMatch(footballMatch2);
+        footballMatchService.addFootballMatch(footballMatch3);
+        footballMatchService.addFootballMatch(footballMatch4);
+
+        Assertions.assertEquals(4, footballMatchService.getFootballMatches().size());
+    }
+
+
 
 
 }
