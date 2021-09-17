@@ -14,7 +14,7 @@ import java.util.Optional;
 
 @Service
 public class FootballMatchService {
-    private final FootballMatchRepository footballMatchRepository;
+    private FootballMatchRepository footballMatchRepository;
 
     @Autowired
 
@@ -22,18 +22,18 @@ public class FootballMatchService {
         this.footballMatchRepository = footballMatchRepository;
     }
 
-    public List<FootballMatch> getFootballMatches() {
+    public List<FootballMatch> getAllFootballMatches() {
         return footballMatchRepository.findAll();
     }
 
     public FootballMatch getFootballMatch(Integer footballMatchId) {
         Optional<FootballMatch> footballMatchOptional = footballMatchRepository.findById(footballMatchId);
 
-        if (footballMatchOptional.isPresent()) {
-            return footballMatchOptional.get();
+        if (footballMatchOptional.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Football match not found!");
         }
 
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Football match not found!");
+        return footballMatchOptional.get();
     }
 
     public void addFootballMatch(FootballMatch footballMatch) {
@@ -48,7 +48,7 @@ public class FootballMatchService {
     public void updateFootballMatch(Integer footballMatchId, FootballMatch footballMatch) {
         FootballMatch footballMatchToUpdate = this.getFootballMatch(footballMatchId);
         // TO DO
-        footballMatchToUpdate.setAwayTeam(footballMatch.getAwayTeam());
+
 
     }
 }

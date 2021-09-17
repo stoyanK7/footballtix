@@ -24,7 +24,7 @@ public class FootballServiceTests {
 
         footballMatchService.addFootballMatch(footballMatch);
 
-        Assertions.assertEquals(1, footballMatchService.getFootballMatches().size());
+        Assertions.assertEquals(1, footballMatchService.getAllFootballMatches().size());
     }
 
     @Test
@@ -32,7 +32,7 @@ public class FootballServiceTests {
     public void testDeleteFootballMatch() {
         footballMatchService.deleteFootballMatch(1);
 
-        Assertions.assertEquals(0, footballMatchService.getFootballMatches().size());
+        Assertions.assertEquals(0, footballMatchService.getAllFootballMatches().size());
     }
 
     @Test
@@ -48,7 +48,8 @@ public class FootballServiceTests {
         footballMatchService.addFootballMatch(footballMatch3);
         footballMatchService.addFootballMatch(footballMatch4);
 
-        Assertions.assertEquals(4, footballMatchService.getFootballMatches().size());
+
+        Assertions.assertEquals(4, footballMatchService.getAllFootballMatches().size());
     }
 
 

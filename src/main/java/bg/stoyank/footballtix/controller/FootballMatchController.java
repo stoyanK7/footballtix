@@ -19,7 +19,7 @@ public class FootballMatchController {
 
     @GetMapping
     public List<FootballMatch> getAllFootballMatches() {
-        return this.footballMatchService.getFootballMatches();
+        return this.footballMatchService.getAllFootballMatches();
     }
 
     @GetMapping(path = "{footballMatchId}")
