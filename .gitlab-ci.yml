@@ -2,8 +2,8 @@ before_script:
   - export GRADLE_USER_HOME=`pwd`/.gradle
   - chmod +x ./gradlew
 
-variables:
-  GRADLE_USER_HOME: /cache/.gradle
+#variables:
+#  GRADLE_USER_HOME: /cache/.gradle
 
 cache:
   paths:
