@@ -62,7 +62,7 @@ class UserServiceTest {
     @Test
     @DisplayName("Ensure the user id is being passed on to getById().")
     void testGetUserById() {
-        int userId = any();
+        int userId = anyInt();
         given(userRepository.existsById(userId))
                 .willReturn(true);
 
