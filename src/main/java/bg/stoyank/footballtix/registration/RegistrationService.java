@@ -5,6 +5,8 @@ import bg.stoyank.footballtix.email.EmailValidator;
 import bg.stoyank.footballtix.email.exception.InvalidEmailException;
 import bg.stoyank.footballtix.registration.token.ConfirmationToken;
 import bg.stoyank.footballtix.registration.token.ConfirmationTokenService;
+import bg.stoyank.footballtix.registration.token.exception.EmailConfirmedException;
+import bg.stoyank.footballtix.registration.token.exception.ConfirmationTokenExpiredException;
 import bg.stoyank.footballtix.user.User;
 import bg.stoyank.footballtix.user.UserRole;
 import bg.stoyank.footballtix.user.UserService;
@@ -22,7 +24,7 @@ public class RegistrationService {
     private final ConfirmationTokenService confirmationTokenService;
     private final EmailSender emailSender;
 
-    public String register(RegistrationRequest registrationRequest) {
+    public String register(RegistrationRequest registrationRequest) throws InvalidEmailException {
         boolean isValidEmail = emailValidator.test(registrationRequest.getEmail());
         if (!isValidEmail) {
             throw new InvalidEmailException("Invalid email: " + registrationRequest.getEmail());
@@ -36,32 +38,28 @@ public class RegistrationService {
         ));
         String link = "http://localhost:8080/api/registration/confirm?token=" + token;
 
-        emailSender.send(registrationRequest.getEmail(),"Confirm your email" , buildEmail(registrationRequest.getFullName(),
+        emailSender.send(registrationRequest.getEmail(), "Confirm your email", buildEmail(registrationRequest.getFullName(),
                 link));
 
         return token;
     }
 
     @Transactional
-    public String confirmToken(String token) {
-        ConfirmationToken confirmationToken = confirmationTokenService
-                .getToken(token)
-                .orElseThrow(() ->
-                        new IllegalStateException("token not found"));
+    public String confirmToken(String token) throws EmailConfirmedException, ConfirmationTokenExpiredException {
+        ConfirmationToken confirmationToken = confirmationTokenService.getConfirmationToken(token);
 
         if (confirmationToken.getConfirmedAt() != null) {
-            throw new IllegalStateException("email already confirmed");
+            throw new EmailConfirmedException("Email " + confirmationToken.getUser().getEmail() + " is already confirmed on " + confirmationToken.getConfirmedAt() + ".");
         }
 
         LocalDateTime expiredAt = confirmationToken.getExpiresAt();
-
         if (expiredAt.isBefore(LocalDateTime.now())) {
-            throw new IllegalStateException("token expired");
+            throw new ConfirmationTokenExpiredException("Token {" + token + "} has expired.");
         }
 
         confirmationTokenService.setConfirmedAt(token);
         userService.enableUser(confirmationToken.getUser().getEmail());
-        return "confirmed";
+        return "Token is confirmed";
     }
 
     private String buildEmail(String name, String link) {

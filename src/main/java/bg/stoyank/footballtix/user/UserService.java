@@ -5,6 +5,7 @@ import bg.stoyank.footballtix.user.exception.UserNotFoundException;
 import lombok.AllArgsConstructor;
 import bg.stoyank.footballtix.registration.token.ConfirmationToken;
 import bg.stoyank.footballtix.registration.token.ConfirmationTokenService;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,10 +18,11 @@ import java.util.UUID;
 
 @Service
 @AllArgsConstructor
+@NoArgsConstructor
 public class UserService implements UserDetailsService {
-    private final UserRepository userRepository;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private final ConfirmationTokenService confirmationTokenService;
+    private UserRepository userRepository;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private ConfirmationTokenService confirmationTokenService;
 
     public String createUser(User user) throws UserAlreadyExistsException {
         if (userExistsByEmail(user.getEmail())) {
@@ -49,7 +51,13 @@ public class UserService implements UserDetailsService {
             return userRepository.getById(userId);
         }
         throw new UserNotFoundException("Could not find user with id: " + userId);
+    }
 
+    public User getUserByEmail(String email) throws UserNotFoundException {
+        if (userExistsByEmail(email)) {
+            return userRepository.getByEmail(email);
+        }
+        throw new UserNotFoundException("Could not find user with email: " + email);
     }
 
     public List<User> getAllUsers() {
@@ -57,18 +65,12 @@ public class UserService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        if (!userExistsByEmail(email)) {
-            throw new UserNotFoundException("Could not find user with email: " + email);
-        }
-        return userRepository.getByEmail(email);
+    public UserDetails loadUserByUsername(String email) {
+        return getUserByEmail(email);
     }
 
     public void enableUser(String email) {
-        if (!userExistsByEmail(email)) {
-            throw new UserNotFoundException();
-        }
-        User user = userRepository.getByEmail(email);
+        User user = getUserByEmail(email);
         user.setEnabled(true);
     }
 
