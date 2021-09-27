@@ -20,7 +20,7 @@ public class FootballMatchService {
         if (footballMatchExistsById(footballMatchId)) {
             return footballMatchRepository.getById(footballMatchId);
         }
-        throw new FootballMatchNotFoundException("Could not find football match with id: " + footballMatchId);
+        throw new FootballMatchNotFoundException("Could not find football match with id: " + footballMatchId + ".");
     }
 
     public void createFootballMatch(FootballMatch footballMatch) {
@@ -28,11 +28,10 @@ public class FootballMatchService {
     }
 
     public void deleteFootballMatchById(int footballMatchId) throws FootballMatchNotFoundException {
-        if (footballMatchExistsById(footballMatchId)) {
-            footballMatchRepository.deleteById(footballMatchId);
-            return;
+        if (!footballMatchExistsById(footballMatchId)) {
+            throw new FootballMatchNotFoundException("Could not find football match with id: " + footballMatchId + ".");
         }
-        throw new FootballMatchNotFoundException("Could not find football match with id: " + footballMatchId);
+        footballMatchRepository.deleteById(footballMatchId);
     }
 
     @Transactional
