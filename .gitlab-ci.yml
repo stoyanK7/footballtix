@@ -1,13 +1,11 @@
 before_script:
-# changed from "export GRADLE_USER_HOME=$(pwd)/.gradle"
   - export GRADLE_USER_HOME=`pwd`/.gradle
   - chmod +x ./gradlew
 
-# this is what worked for me
 cache:
   paths:
     - .gradle
-# ^^^^^^^^^^^^^
+
 stages:
   - build
   - test
@@ -15,7 +13,6 @@ stages:
 build:
   stage: build
   script:
-#   you can use "./gradlew build -x test"  as well
     - ./gradlew assemble
 
 test:

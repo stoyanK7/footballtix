@@ -1,4 +1,4 @@
-package bg.stoyank.footballtix.model.exception;
+package bg.stoyank.footballtix.footballmatch.exception;
 
 public class FootballMatchNotFoundException extends RuntimeException{
 }

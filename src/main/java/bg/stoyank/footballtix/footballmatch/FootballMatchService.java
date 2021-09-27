@@ -1,8 +1,6 @@
-package bg.stoyank.footballtix.service;
+package bg.stoyank.footballtix.footballmatch;
 
-import bg.stoyank.footballtix.model.FootballMatch;
-import bg.stoyank.footballtix.model.exception.FootballMatchNotFoundException;
-import bg.stoyank.footballtix.repository.FootballMatchRepository;
+import bg.stoyank.footballtix.footballmatch.exception.FootballMatchNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +17,7 @@ public class FootballMatchService {
     }
 
     public FootballMatch getFootballMatchById(int footballMatchId) {
-        if(footballMatchRepository.existsById(footballMatchId)) {
+        if (footballMatchExistsById(footballMatchId)) {
             return footballMatchRepository.getById(footballMatchId);
         }
         throw new FootballMatchNotFoundException();
@@ -30,7 +28,11 @@ public class FootballMatchService {
     }
 
     public void deleteFootballMatchById(int footballMatchId) {
-        footballMatchRepository.deleteById(footballMatchId);
+        if (footballMatchExistsById(footballMatchId)) {
+            footballMatchRepository.deleteById(footballMatchId);
+            return;
+        }
+        throw new FootballMatchNotFoundException();
     }
 
     @Transactional
@@ -40,4 +42,7 @@ public class FootballMatchService {
 
     }
 
+    private boolean footballMatchExistsById(int footballMatchId) {
+        return footballMatchRepository.existsById(footballMatchId);
+    }
 }

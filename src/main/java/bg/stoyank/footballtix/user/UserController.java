@@ -1,7 +1,5 @@
-package bg.stoyank.footballtix.controller;
+package bg.stoyank.footballtix.user;
 
-import bg.stoyank.footballtix.model.User;
-import bg.stoyank.footballtix.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -10,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/api/user")
+@RequestMapping("/api/users")
 public class UserController {
     private final UserService userService;
 
@@ -18,4 +16,6 @@ public class UserController {
     private void registerUser(@RequestBody User user) {
         this.userService.createUser(user);
     }
+
+
 }

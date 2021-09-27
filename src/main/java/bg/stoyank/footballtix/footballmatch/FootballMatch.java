@@ -1,4 +1,4 @@
-package bg.stoyank.footballtix.model;
+package bg.stoyank.footballtix.footballmatch;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

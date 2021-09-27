@@ -1,8 +1,6 @@
-package bg.stoyank.footballtix.service;
+package bg.stoyank.footballtix.footballmatch;
 
-import bg.stoyank.footballtix.model.FootballMatch;
-import bg.stoyank.footballtix.model.exception.FootballMatchNotFoundException;
-import bg.stoyank.footballtix.repository.FootballMatchRepository;
+import bg.stoyank.footballtix.footballmatch.exception.FootballMatchNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -70,8 +68,8 @@ class FootballMatchServiceTest {
     }
 
     @Test
-    @DisplayName("Ensure the football match is being passed on to save() from addFootballMatch().")
-    void testAddFootballMatch() {
+    @DisplayName("Ensure the football match is being passed on to save() from createFootballMatch().")
+    void testCreateFootballMatch() {
         // given
         FootballMatch footballMatch = new FootballMatch(null, "Home team",
                 "Away team", LocalDateTime.now(), "Stadium", "Location", "League");
@@ -91,6 +89,8 @@ class FootballMatchServiceTest {
     void testDeleteFootballMatch() {
         // given
         int footballMatchId = 1;
+        given(footballMatchRepository.existsById(footballMatchId))
+                .willReturn(true);
         // when
         componentUnderTest.deleteFootballMatchById(footballMatchId);
         //then
@@ -100,6 +100,18 @@ class FootballMatchServiceTest {
 
         int capturedFootballMatchId = footballMatchIdArgumentCaptor.getValue();
         assertThat(capturedFootballMatchId).isEqualTo(footballMatchId);
+    }
+
+    @Test
+    @DisplayName("Ensure FootballMatchNotFoundException is thrown in deleteFootballMatchById().")
+    void testDeleteFootballMatchByIdFootballMatchNotFoundException() {
+        // given
+        int footballMatchId = 1;
+        given(footballMatchRepository.existsById(footballMatchId))
+                .willReturn(false);
+        //then
+        assertThatThrownBy(() -> componentUnderTest.deleteFootballMatchById(footballMatchId))
+                .isInstanceOf(FootballMatchNotFoundException.class);
     }
 
 }
