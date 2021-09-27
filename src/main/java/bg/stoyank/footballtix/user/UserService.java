@@ -22,9 +22,9 @@ public class UserService implements UserDetailsService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ConfirmationTokenService confirmationTokenService;
 
-    public String createUser(User user) {
+    public String createUser(User user) throws UserAlreadyExistsException {
         if (userExistsByEmail(user.getEmail())) {
-            throw new UserAlreadyExistsException();
+            throw new UserAlreadyExistsException("User with such email already exists: " + user.getEmail());
         }
 
         String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
@@ -44,11 +44,12 @@ public class UserService implements UserDetailsService {
         return token;
     }
 
-    public User getUserById(int userId) {
+    public User getUserById(int userId) throws UserNotFoundException {
         if (userExistsById(userId)) {
             return userRepository.getById(userId);
         }
-        throw new UserNotFoundException();
+        throw new UserNotFoundException("Could not find user with id: " + userId);
+
     }
 
     public List<User> getAllUsers() {
@@ -58,7 +59,7 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         if (!userExistsByEmail(email)) {
-            throw new UserNotFoundException();
+            throw new UserNotFoundException("Could not find user with email: " + email);
         }
         return userRepository.getByEmail(email);
     }
@@ -67,7 +68,8 @@ public class UserService implements UserDetailsService {
         if (!userExistsByEmail(email)) {
             throw new UserNotFoundException();
         }
-        userRepository.enableUser(email);
+        User user = userRepository.getByEmail(email);
+        user.setEnabled(true);
     }
 
     private boolean userExistsByEmail(String email) {

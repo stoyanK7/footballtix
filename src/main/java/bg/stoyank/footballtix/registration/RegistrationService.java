@@ -1,6 +1,8 @@
 package bg.stoyank.footballtix.registration;
 
 import bg.stoyank.footballtix.email.EmailSender;
+import bg.stoyank.footballtix.email.EmailValidator;
+import bg.stoyank.footballtix.email.exception.InvalidEmailException;
 import bg.stoyank.footballtix.registration.token.ConfirmationToken;
 import bg.stoyank.footballtix.registration.token.ConfirmationTokenService;
 import bg.stoyank.footballtix.user.User;
@@ -23,7 +25,7 @@ public class RegistrationService {
     public String register(RegistrationRequest registrationRequest) {
         boolean isValidEmail = emailValidator.test(registrationRequest.getEmail());
         if (!isValidEmail) {
-//            throw new IllegalAccessException("Email not valid!");
+            throw new InvalidEmailException("Invalid email: " + registrationRequest.getEmail());
         }
 
         String token = userService.createUser(new User(
@@ -34,7 +36,7 @@ public class RegistrationService {
         ));
         String link = "http://localhost:8080/api/registration/confirm?token=" + token;
 
-        emailSender.send(registrationRequest.getEmail(), buildEmail(registrationRequest.getFullName(),
+        emailSender.send(registrationRequest.getEmail(),"Confirm your email" , buildEmail(registrationRequest.getFullName(),
                 link));
 
         return token;

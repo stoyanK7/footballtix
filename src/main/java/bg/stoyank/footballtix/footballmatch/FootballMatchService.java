@@ -16,23 +16,23 @@ public class FootballMatchService {
         return footballMatchRepository.findAll();
     }
 
-    public FootballMatch getFootballMatchById(int footballMatchId) {
+    public FootballMatch getFootballMatchById(int footballMatchId) throws FootballMatchNotFoundException {
         if (footballMatchExistsById(footballMatchId)) {
             return footballMatchRepository.getById(footballMatchId);
         }
-        throw new FootballMatchNotFoundException();
+        throw new FootballMatchNotFoundException("Could not find football match with id: " + footballMatchId);
     }
 
     public void createFootballMatch(FootballMatch footballMatch) {
         footballMatchRepository.save(footballMatch);
     }
 
-    public void deleteFootballMatchById(int footballMatchId) {
+    public void deleteFootballMatchById(int footballMatchId) throws FootballMatchNotFoundException {
         if (footballMatchExistsById(footballMatchId)) {
             footballMatchRepository.deleteById(footballMatchId);
             return;
         }
-        throw new FootballMatchNotFoundException();
+        throw new FootballMatchNotFoundException("Could not find football match with id: " + footballMatchId);
     }
 
     @Transactional

@@ -8,6 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -21,6 +22,7 @@ import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
+    @InjectMocks
     private UserService componentUnderTest;
 
     @Mock
@@ -29,11 +31,6 @@ class UserServiceTest {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     @Mock
     private ConfirmationTokenService confirmationTokenService;
-
-    @BeforeEach
-    void setUp() {
-        componentUnderTest = new UserService(userRepository, bCryptPasswordEncoder, confirmationTokenService);
-    }
 
     @Test
     @DisplayName("Ensure the user is being passed on to save() from createUser().")
@@ -50,7 +47,6 @@ class UserServiceTest {
         User capturedUser = userArgumentCaptor.getValue();
         assertThat(capturedUser).isEqualTo(user);
     }
-
 
     @Test
     @DisplayName("Ensure UserAlreadyExistsException is thrown in createUser().")
@@ -131,21 +127,18 @@ class UserServiceTest {
     }
 
     @Test
-    @DisplayName("Ensure the email is being passed on to enableUser().")
+    @DisplayName("Ensure enableUser() works.")
     void testEnableUser() {
         // given
-        String userEmail = "test@gmail.com";
-        given(userRepository.existsByEmail(userEmail))
+        User testUser = mock(User.class);
+        given(userRepository.existsByEmail(testUser.getEmail()))
                 .willReturn(true);
+        given(userRepository.getByEmail(testUser.getEmail()))
+                .willReturn(testUser);
         // when
-        componentUnderTest.enableUser(userEmail);
+        componentUnderTest.enableUser(testUser.getEmail());
         // then
-        ArgumentCaptor<String> userEmailArgumentCaptor = ArgumentCaptor.forClass(String.class);
-
-        verify(userRepository).enableUser(userEmailArgumentCaptor.capture());
-
-        String capturedUserEmail = userEmailArgumentCaptor.getValue();
-        assertThat(capturedUserEmail).isEqualTo(userEmail);
+       verify(testUser).setEnabled(true);
     }
 
     @Test

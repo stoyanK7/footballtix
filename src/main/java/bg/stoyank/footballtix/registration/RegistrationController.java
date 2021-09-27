@@ -1,6 +1,5 @@
 package bg.stoyank.footballtix.registration;
 
-import bg.stoyank.footballtix.user.User;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -8,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/registration")
 @AllArgsConstructor
 public class RegistrationController {
-
     private RegistrationService registrationService;
 
     @PostMapping
@@ -16,7 +14,7 @@ public class RegistrationController {
         return registrationService.register(registrationRequest);
     }
 
-    @GetMapping(path="/confirm")
+    @GetMapping(path = "/confirm")
     public String confirm(@RequestParam("token") String token) {
         return registrationService.confirmToken(token);
     }
