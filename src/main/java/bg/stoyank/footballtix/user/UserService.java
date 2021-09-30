@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import bg.stoyank.footballtix.registration.token.ConfirmationToken;
 import bg.stoyank.footballtix.registration.token.ConfirmationTokenService;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,7 +19,6 @@ import java.util.UUID;
 
 @Service
 @AllArgsConstructor
-@NoArgsConstructor
 public class UserService implements UserDetailsService {
     private UserRepository userRepository;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -74,7 +74,7 @@ public class UserService implements UserDetailsService {
         user.setEnabled(true);
     }
 
-    private boolean userExistsByEmail(String email) {
+    public boolean userExistsByEmail(String email) {
         return userRepository.existsByEmail(email);
     }
 

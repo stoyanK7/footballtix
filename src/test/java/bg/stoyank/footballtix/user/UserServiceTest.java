@@ -3,14 +3,13 @@ package bg.stoyank.footballtix.user;
 import bg.stoyank.footballtix.registration.token.ConfirmationTokenService;
 import bg.stoyank.footballtix.user.exception.UserAlreadyExistsException;
 import bg.stoyank.footballtix.user.exception.UserNotFoundException;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Spy;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -24,7 +23,6 @@ import static org.mockito.Mockito.verify;
 @ExtendWith(MockitoExtension.class)
 class UserServiceTest {
     @InjectMocks
-    @Spy
     private UserService componentUnderTest;
 
     @Mock
@@ -98,15 +96,16 @@ class UserServiceTest {
     @DisplayName("Ensure the email is being passed on to getUserByEmail().")
     void testLoadUserByUsername() {
         String userEmail = "test@gmail.com";
+        UserService spyComponent = Mockito.spy(componentUnderTest);
 
         given(userRepository.existsByEmail(userEmail))
                 .willReturn(true);
 
-        componentUnderTest.loadUserByUsername(userEmail);
+        spyComponent.loadUserByUsername(userEmail);
 
         ArgumentCaptor<String> userEmailArgumentCaptor = ArgumentCaptor.forClass(String.class);
 
-        verify(componentUnderTest).getUserByEmail(userEmailArgumentCaptor.capture());
+        verify(spyComponent).getUserByEmail(userEmailArgumentCaptor.capture());
 
         String capturedUserEmail = userEmailArgumentCaptor.getValue();
         assertThat(capturedUserEmail).isEqualTo(userEmail);
