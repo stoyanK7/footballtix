@@ -19,10 +19,10 @@ import java.time.LocalDateTime;
 @Service
 @AllArgsConstructor
 public class RegistrationService {
-    private final EmailValidator emailValidator;
-    private final UserService userService;
-    private final ConfirmationTokenService confirmationTokenService;
-    private final EmailSender emailSender;
+    private EmailValidator emailValidator;
+    private UserService userService;
+    private ConfirmationTokenService confirmationTokenService;
+    private EmailSender emailSender;
 
     public String register(RegistrationRequest registrationRequest) throws InvalidEmailException {
         boolean isValidEmail = emailValidator.test(registrationRequest.getEmail());

@@ -1,22 +1,29 @@
 package bg.stoyank.footballtix.security.config;
 
+import bg.stoyank.footballtix.security.jwt.JwtRequestFilter;
 import bg.stoyank.footballtix.user.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import javax.servlet.Filter;
 
 @Configuration
 @AllArgsConstructor
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    private final UserService userService;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private UserService userService;
+    private JwtRequestFilter jwtRequestFilter;
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -26,9 +33,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/api/registration/**").permitAll()
+                .antMatchers("/api/authenticate").permitAll()
+                .antMatchers("/hello").hasRole("ADMIN")
                 // any other request must be authenticated
                 .anyRequest().authenticated()
-                .and().formLogin();
+                .and().sessionManagement()
+                // do not manage sessions
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override
@@ -44,5 +57,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // it needs a class that implements user service in order to have a way of retrieving the user
         provider.setUserDetailsService(userService);
         return provider;
+    }
+
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
     }
 }
