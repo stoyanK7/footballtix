@@ -1,0 +1,6 @@
+.Input {
+  border: 1px solid var(--light-grey);
+  color: var(--dark-grey);
+  padding: 5px;
+  margin: 10px 0;
+}

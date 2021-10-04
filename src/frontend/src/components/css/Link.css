@@ -1,0 +1,5 @@
+.Link {
+  text-decoration: none;
+  color: var(--light-green);
+  font-weight:600;
+}
