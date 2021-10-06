@@ -14,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
 
 import javax.servlet.Filter;
 
@@ -27,13 +28,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues());
         http
                 // send post requests without being rejected
                 // enable once using form based authentication
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api/registration/**").permitAll()
-                .antMatchers("/api/authenticate").permitAll()
+                .antMatchers("/api/register/**").permitAll()
+                .antMatchers("/api/authenticate/**").permitAll()
+                .antMatchers("/**").permitAll()
                 .antMatchers("/hello").hasRole("ADMIN")
                 // any other request must be authenticated
                 .anyRequest().authenticated()

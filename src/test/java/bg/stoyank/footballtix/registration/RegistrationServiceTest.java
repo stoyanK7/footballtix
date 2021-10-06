@@ -40,9 +40,10 @@ class RegistrationServiceTest {
     @Test
     @DisplayName("Ensure register() invokes createUser().")
     void testRegisterInvokesSaveUser() {
-        given(emailValidator.test(anyString())).willReturn(true);
+        RegistrationRequest stub = mock(RegistrationRequest.class);
+        given(emailValidator.test(stub.getEmail())).willReturn(true);
 
-        componentUnderTest.register(mock(RegistrationRequest.class));
+        componentUnderTest.register(stub);
 
         verify(userService).createUser(any(User.class));
     }
