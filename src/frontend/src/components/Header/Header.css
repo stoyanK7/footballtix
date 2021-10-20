@@ -1,0 +1,37 @@
+.Header {
+  width: 100%;
+  display: grid;
+  grid-template-areas: 
+    "Bars FootballTix" 
+    "Navbar Navbar";
+    grid-template-rows: minmax(0, auto) 1fr;
+    grid-template-columns: minmax(0, auto) 1fr;
+  padding: 10px;
+}
+
+.Header .Bars {
+  color: var(--light-grey);
+  font-size: 2rem;
+  grid-area: Bars;
+  place-self: center;
+}
+
+.Header .Bars:hover {
+  cursor: pointer;
+  color: var(--dark-grey);
+}
+
+.Header .FootballTixLink {
+  grid-area: FootballTix;
+  text-decoration: none;
+  place-self: center;
+  margin-left: -28px;
+}
+
+.Header .FootballTix .Football {
+  color: var(--dark-grey);
+}
+
+.Header .Navbar {
+  grid-area: Navbar;
+}

@@ -1,0 +1,9 @@
+.GreenLine {
+  background-color: var(--light-green);
+  color: var(--white);
+  text-align: center;
+  width: 100%;
+  font-size: 1.8rem;
+  font-weight: 700;
+  padding: 5px;
+}

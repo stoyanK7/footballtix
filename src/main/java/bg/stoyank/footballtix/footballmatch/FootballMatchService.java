@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -14,6 +15,10 @@ public class FootballMatchService {
 
     public List<FootballMatch> getAllFootballMatches() {
         return footballMatchRepository.findAll();
+    }
+
+    public List<FootballMatch> getAllUpcomingFootballMatches() {
+        return footballMatchRepository.getFootballMatchesByStartingDateTimeAfter(LocalDateTime.now());
     }
 
     public FootballMatch getFootballMatchById(int footballMatchId) throws FootballMatchNotFoundException {

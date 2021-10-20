@@ -1,0 +1,37 @@
+.MatchCard {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  border-bottom: 1px solid var(--light-grey);
+  text-align: center;
+}
+
+.MatchCardPart {
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  align-items: center;
+  padding: 3vw;
+}
+
+.MatchCardDate {
+  background-color: #E3E3E3;
+}
+
+.MatchCardDateDay {
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+.MatchCardDateMonth {
+  text-transform: uppercase;
+}
+.MatchCardMatch {
+  justify-items: start !important;
+}
+
+.MatchCardMatchRivals {
+  font-weight: 700;
+}
+
+.MatchCardMatchDate {
+  font-weight: 700;
+}

@@ -1,5 +1,6 @@
 package bg.stoyank.footballtix.footballmatch;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,7 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class FootballMatch {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,4 +28,6 @@ public class FootballMatch {
     private String stadium;
     private String location;
     private String league;
+    private Integer ticketsAvailable;
+    private Double pricePerTicket;
 }

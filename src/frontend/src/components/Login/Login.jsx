@@ -1,17 +1,19 @@
-import { useState } from 'react'
+import { useState } from 'react';
+import { Link, Redirect } from 'react-router-dom';
+import axios from 'axios';
 import Logo from '../Logo/Logo.jsx';
 import Input from '../Input/Input.jsx';
-import { Link } from 'react-router-dom';
 import '../css/Link.css';
-import '../css/Auth.css';
+import '../css/Form.css';
 import '../css/Button.css';
-import axios from 'axios';
+import '../css/FormTitle.css';
 
 const Login = () => {
   const [fields, setFields] = useState({
     "e-mail": "",
     "password": ""
   });
+  const [redirect, setRedirect] = useState(false);
 
   const onChange = (e) => {
     setFields({
@@ -28,6 +30,9 @@ const Login = () => {
     })
       .then((res) => {
         console.log(res.data.jwt);
+        const jwt = res.data.jwt;
+        sessionStorage.setItem('jwtToken', jwt);
+        setRedirect(true);
 
       })
       .catch((err) => {
@@ -35,10 +40,15 @@ const Login = () => {
       });
   };
 
+  if(redirect) {
+    return <Redirect to="/" />;
+  }
+
   return (
-    <div className="Auth">
+    <div className="FormWrapper">
       <Logo />
-      <form className="AuthForm" action="" onSubmit={authenticate}>
+      <h1 className="FormTitle">Log in</h1>
+      <form className="Form" onSubmit={authenticate}>
         <Input
           name="e-mail"
           placeholder="E-mail"

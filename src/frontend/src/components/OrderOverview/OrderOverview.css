@@ -1,0 +1,36 @@
+.OrderOverview {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.MatchOverviewSection {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin: 10px 0;
+}
+
+.MatchOverviewSection * {
+  margin: 5px;
+}
+
+.MatchOverviewSectionTitle {
+  color: var(--dark-green);
+  font-weight: 700;
+  font-size: 1.3rem;
+}
+
+.Bold {
+  font-weight: 700;
+}
+
+.Green {
+color:var(--dark-green);
+}
+
+.FlexStart {
+  justify-self: flex-start;
+}

@@ -1,4 +1,5 @@
-.Auth {
+/* TODO: SIMILAR TO OTHER FORMS */
+.CreateMatch {
   color: var(--dark-grey);
   max-width: 350px;
   place-self: center;
@@ -9,12 +10,12 @@
   display: grid;
 }
 
-.AuthForm {
+.CreateMatchForm {
   display: grid;
   grid-template-columns: 1fr;
 }
 
-.Logo {
+.Image {
   width: 50vw;
   max-width: 180px;
   justify-self: center;
@@ -22,8 +23,8 @@
   margin: 2vh 0 2vh 0;
 }
 
-@media only screen and (max-width: 380px) {
-  .Auth {
+@media only screen and (max-width: 400px) {
+  .CreateMatch {
     place-self: unset;
     width: 100vw;
     max-width: none;

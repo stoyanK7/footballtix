@@ -1,0 +1,10 @@
+.FootballTix {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  font-size: 2rem;
+  margin: 0;
+}
+
+.Tix {
+  color: var(--dark-green);
+}

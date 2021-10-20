@@ -1,5 +1,4 @@
-import React from 'react';
-import './Logo.css';
+import '../css/Image.css';
 
 const Logo = () => {
   return (

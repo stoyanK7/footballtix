@@ -1,0 +1,34 @@
+.Footer {
+  background-color: var(--dark-grey);
+  color: var(--white);
+  width: 100%;
+  height: 237px;
+  position: absolute;
+  bottom: 0;
+}
+
+.Footer .FootballTix {
+  text-align: center;
+}
+
+.Footer .Links {
+  padding:  15px 25px;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 10px;
+}
+
+.Footer .Link {
+  color: var(--white);
+}
+
+.Footer .Link:hover {
+  color: var(--light-green);
+}
+
+.Footer .AllRightsReserved {
+  background-color: var(--dark-green);
+  text-align: center;
+  width: 100%;
+  padding: 15px;
+}

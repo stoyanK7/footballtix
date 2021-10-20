@@ -15,6 +15,7 @@ import java.time.LocalDateTime;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 @ExtendWith(MockitoExtension.class)
@@ -68,17 +69,16 @@ class FootballMatchServiceTest {
     @DisplayName("Ensure the football match is being passed on to save() from createFootballMatch().")
     void testCreateFootballMatch() {
         // given
-        FootballMatch footballMatch = new FootballMatch(null, "Home team",
-                "Away team", LocalDateTime.now(), "Stadium", "Location", "League");
+        FootballMatch stub = mock(FootballMatch.class);
         // when
-        componentUnderTest.createFootballMatch(footballMatch);
+        componentUnderTest.createFootballMatch(stub);
         // then
         ArgumentCaptor<FootballMatch> footballMatchArgumentCaptor = ArgumentCaptor.forClass(FootballMatch.class);
 
         verify(footballMatchRepository).save(footballMatchArgumentCaptor.capture());
 
         FootballMatch capturedFootballMatch = footballMatchArgumentCaptor.getValue();
-        assertThat(capturedFootballMatch).isEqualTo(footballMatch);
+        assertThat(capturedFootballMatch).isEqualTo(stub);
     }
 
     @Test
