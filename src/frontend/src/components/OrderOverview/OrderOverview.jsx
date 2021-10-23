@@ -1,29 +1,33 @@
 import './OrderOverview.css';
 import { useState, useEffect } from 'react';
-import {  useLocation } from 'react-router';
-import { Link } from 'react-router-dom';
+import { useLocation } from 'react-router';
 import axios from 'axios';
 import Logo from '../Logo/Logo.jsx';
 import Input from '../Input/Input.jsx';
 
 const OrderOverview = () => {
   const [match, setMatch] = useState({});
-  const matchId = useLocation().pathname.substring(useLocation().pathname.lastIndexOf('/') - 1)[0];
+  const pathname = useLocation().pathname;
+  const matchId = pathname.split("/")[2];
 
   useEffect(() => {
     axios.get(`/api/matches/${matchId}`)
       .then(res => {
         setMatch(res.data);
       });
-  }, []);
+  }, [matchId]);
 
   const date = new Date(match.startingDateTime);
   const matchDate = `${date.toLocaleDateString("en-US", { weekday: 'long' })}, ${date.getDay()} ${date.toLocaleString('default', { month: 'long' })} ${date.getFullYear()} ${date.getHours().toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false })}:${date.getMinutes().toLocaleString('en-US', { minimumIntegerDigits: 2, useGrouping: false })}`;
 
   const [fields, setFields] = useState({
-    "e-mail": "",
-    "full-name": "",
-    "password": ""
+    "fullName": "",
+    "email": "",
+    "mobilePhone": "",
+    "address": "",
+    "city": "",
+    "country": "",
+    "postcode": ""
   });
 
   const onChange = (e) => {
@@ -96,16 +100,16 @@ const OrderOverview = () => {
             onChange={onChange} />
 
           <div className="FlexStart">
-            <input type="checkbox" name="terms-and-conditions" id="terms-and-conditions" required/>
+            <input type="checkbox" name="terms-and-conditions" id="terms-and-conditions" required />
             <label htmlFor="terms-and-conditions">I have read and agree to the<span className="Green">Terms and conditions</span></label>
           </div>
           <div className="FlexStart">
-            <input type="checkbox" name="terms-and-conditions" id="terms-and-conditions" required/>
+            <input type="checkbox" name="terms-and-conditions" id="terms-and-conditions" required />
             <label htmlFor="terms-and-conditions">I have read and understood the<span className="Green">Privacy policy</span></label>
           </div>
-            <button className="Button MatchOverviewButton">
-              MAKE PAYMENT
-            </button>
+          <button className="Button MatchOverviewButton">
+            MAKE PAYMENT
+          </button>
         </form>
       </section >
     </div>

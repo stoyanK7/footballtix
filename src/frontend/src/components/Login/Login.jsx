@@ -8,7 +8,7 @@ import '../css/Form.css';
 import '../css/Button.css';
 import '../css/FormTitle.css';
 
-const Login = () => {
+const Login = ({ setToken }) => {
   const [fields, setFields] = useState({
     "e-mail": "",
     "password": ""
@@ -29,8 +29,8 @@ const Login = () => {
       password: fields.password
     })
       .then((res) => {
-        console.log(res.data.jwt);
         const jwt = res.data.jwt;
+        setToken(jwt);
         sessionStorage.setItem('jwtToken', jwt);
         setRedirect(true);
 
@@ -40,7 +40,7 @@ const Login = () => {
       });
   };
 
-  if(redirect) {
+  if (redirect) {
     return <Redirect to="/" />;
   }
 

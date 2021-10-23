@@ -7,9 +7,9 @@ const Footer = () => {
     <footer className="Footer">
       <FootballTix />
       <div className="Links">
-        <Link className="Link" to="/about">About us</Link>
         <Link className="Link" to="/contact">Contact us</Link>
         <Link className="Link" to="/privacy">Privacy</Link>
+        <Link className="Link" to="/terms">Terms and conditions</Link>
       </div>
       <div className="AllRightsReserved">
         &copy; footballtix

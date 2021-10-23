@@ -15,7 +15,7 @@ const MatchOverview = () => {
       .then(res => {
         setMatch(res.data);
       });
-  }, []);
+  }, [matchId]);
 
   // 'dddd, dd mmmm yyyy HH:MM'
 

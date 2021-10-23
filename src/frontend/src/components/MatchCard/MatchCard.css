@@ -1,16 +1,27 @@
 .MatchCard {
+  width: 100%;
   display: grid;
   grid-template-columns: auto 1fr;
   border-bottom: 1px solid var(--light-grey);
   text-align: center;
+  transition: transform .2s; /* Animation */
+}
+
+.MatchCard:hover {
+  zoom: 1.1;
+  -ms-zoom: 1.1;
+  -webkit-zoom: 1.1;
+  -moz-transform: scale(1.1, 1.1);
+  -moz-transform-origin: 50% 50%;
+  transform-origin: 50% 50%;
+  border: 1px solid var(--light-grey);
 }
 
 .MatchCardPart {
   display: flex;
   flex-direction: column;
-  justify-items: center;
   align-items: center;
-  padding: 3vw;
+  padding: min(2vw, 20px);
 }
 
 .MatchCardDate {
@@ -21,11 +32,14 @@
   font-weight: 700;
   font-size: 1.5rem;
 }
+
 .MatchCardDateMonth {
   text-transform: uppercase;
 }
+
 .MatchCardMatch {
   justify-items: start !important;
+  background-color: var(--white);
 }
 
 .MatchCardMatchRivals {

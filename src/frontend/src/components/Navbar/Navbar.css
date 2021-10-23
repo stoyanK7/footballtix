@@ -7,10 +7,15 @@
   align-items: center;
 }
 
+.Navbar .Link {
+  margin: 20px 0;
+}
+
 .Navbar .Link .NavbarText {
   color: var(--dark-grey);
   text-decoration: none;
   margin-left: 15px;
+  font-weight: 500;
 }
 
 .Navbar .Link:hover .NavbarIcon {
