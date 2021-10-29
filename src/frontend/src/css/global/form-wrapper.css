@@ -1,0 +1,22 @@
+.form-wrapper {
+  padding: 3vw;
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  width: 100%;
+}
+
+.form-wrapper img {
+  display: block;
+  margin: 0 auto;
+  max-width: 50%
+}
+
+.form-wrapper h1 {
+  text-align: center;
+}
+
+.form-wrapper a {
+  color: var(--dark-green);
+}

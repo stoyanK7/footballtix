@@ -1,5 +1,7 @@
 package bg.stoyank.footballtix.user;
 
+import bg.stoyank.footballtix.user.exception.InvalidCredentialsException;
+import bg.stoyank.footballtix.user.exception.PasswordsDoNotMatchException;
 import bg.stoyank.footballtix.user.exception.UserAlreadyExistsException;
 import bg.stoyank.footballtix.user.exception.UserNotFoundException;
 import lombok.AllArgsConstructor;
@@ -60,6 +62,13 @@ public class UserService implements UserDetailsService {
         throw new UserNotFoundException("Could not find user with email: " + email);
     }
 
+    public String getFullNameByEmail(String email) throws UserNotFoundException {
+        if (userExistsByEmail(email)) {
+            return userRepository.getFullNameByEmail(email).getFullName();
+        }
+        throw new UserNotFoundException("Could not find user with email: " + email);
+    }
+
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
@@ -80,5 +89,26 @@ public class UserService implements UserDetailsService {
 
     private boolean userExistsById(int userId) {
         return userRepository.existsById(userId);
+    }
+
+    public void updateInfo(String oldEmail, String newEmail, String newFullName) {
+        User user = getUserByEmail(oldEmail);
+        user.setEmail(newEmail);
+        user.setFullName(newFullName);
+        userRepository.save(user);
+    }
+
+    public void updatePassword(String email, String currentPassword, String newPassword, String confirmPassword) {
+        if (!newPassword.equals(confirmPassword)) {
+            throw new PasswordsDoNotMatchException("Passwords do not match.");
+        }
+        String encodedCurrentPassword = bCryptPasswordEncoder.encode(currentPassword);
+        User user = getUserByEmail(email);
+        if (!bCryptPasswordEncoder.matches(currentPassword, user.getPassword())) {
+            throw new InvalidCredentialsException("Provided current password is invalid.");
+        }
+        String encodedNewPassword = bCryptPasswordEncoder.encode(newPassword);
+        user.setPassword(encodedNewPassword);
+        userRepository.save(user);
     }
 }

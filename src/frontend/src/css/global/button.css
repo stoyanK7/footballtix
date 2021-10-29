@@ -1,0 +1,15 @@
+button {
+  background-color: var(--dark-green);
+  color: var(--white);
+  font-size: inherit;
+  padding: 1rem 1rem;
+  justify-self: center;
+  border: none;
+  border-radius: 3px;
+  transition: var(--hover-transition);
+}
+
+button:hover {
+  cursor: pointer;
+  background-color: var(--darker-green);
+}

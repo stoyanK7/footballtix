@@ -1,0 +1,33 @@
+/* TODO: SIMILAR TO OTHER FORMS */
+.CreateMatch {
+  color: var(--dark-grey);
+  max-width: 350px;
+  place-self: center;
+  width: 100vw;
+  padding: 1rem;
+  box-shadow: 0px 0px 30px 0px #bbbbbb;
+  border-radius: 10px;
+  display: grid;
+  position: relative;
+}
+
+.CreateMatchForm {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.Image {
+  width: 50vw;
+  max-width: 180px;
+  justify-self: center;
+  align-self: center;
+  margin: 2vh 0 2vh 0;
+}
+
+@media only screen and (max-width: 400px) {
+  .CreateMatch {
+    place-self: unset;
+    width: 100vw;
+    max-width: none;
+  }
+}

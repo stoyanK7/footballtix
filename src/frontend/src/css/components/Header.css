@@ -1,0 +1,32 @@
+header {
+  width: 100%;
+  display: grid;
+  grid-template-areas: "burger FootballTix" "nav nav";
+  grid-template-rows: repeat(2, minmax(0, auto));
+  grid-template-columns: minmax(0, auto) 1fr;
+  padding: 10px;
+}
+
+header .burger {
+  color: var(--light-grey);
+  font-size: 2rem;
+  grid-area: burger;
+  place-self: center;
+  transition: var(--hover-transition);
+}
+
+header .burger:hover {
+  cursor: pointer;
+  color: var(--dark-grey);
+}
+
+header .footballTix-link {
+  grid-area: FootballTix;
+  text-decoration: none;
+  place-self: center;
+  margin-left: -28px;
+}
+
+header nav {
+  grid-area: nav;
+}

@@ -41,9 +41,16 @@ public class FootballMatchService {
 
     @Transactional
     public void updateFootballMatch(int footballMatchId, FootballMatch footballMatch) {
-
-        // TO DO
-
+        FootballMatch oldFootballMatch = footballMatchRepository.getById(footballMatchId);
+        oldFootballMatch.setHomeTeam(footballMatch.getHomeTeam());
+        oldFootballMatch.setAwayTeam(footballMatch.getAwayTeam());
+        oldFootballMatch.setStartingDateTime(footballMatch.getStartingDateTime());
+        oldFootballMatch.setStadium(footballMatch.getStadium());
+        oldFootballMatch.setLocation(footballMatch.getLocation());
+        oldFootballMatch.setLeague(footballMatch.getLeague());
+        oldFootballMatch.setTicketsAvailable(footballMatch.getTicketsAvailable());
+        oldFootballMatch.setPricePerTicket(footballMatch.getPricePerTicket());
+        footballMatchRepository.save(oldFootballMatch);
     }
 
     private boolean footballMatchExistsById(int footballMatchId) {

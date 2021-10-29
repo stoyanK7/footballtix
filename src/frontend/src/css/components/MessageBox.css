@@ -1,0 +1,17 @@
+.MessageBox {
+  width: 100%;
+  min-width: auto;
+  max-width: 600px;
+  font-weight: bold;
+  text-align: center;
+  transition: 1s;
+  padding: 10px;
+  border-radius: 3px;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-color: var(--dark-green);
+  color: var(--white);
+  opacity: 0;
+}

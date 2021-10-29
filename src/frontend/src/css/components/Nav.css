@@ -1,0 +1,31 @@
+nav {
+  display: flex;
+  overflow: hidden;
+  flex-direction: column;
+  padding: 0 15px 0 15px;
+  font-size: 2.5rem;
+  -webkit-transition: height 0.8s ease;
+  -moz-transition: height 0.8s ease;
+  -o-transition: height 0.8s ease;
+  -ms-transition: height 0.8s ease;
+  transition: height 0.8s ease;
+}
+
+nav a {
+  margin: 20px 0;
+}
+
+nav a .nav-text {
+  color: var(--dark-grey);
+  margin-left: 15px;
+}
+
+nav a .nav-icon {
+  width: 4rem;
+  color: var(--light-green);
+  transition: var(--hover-transition);
+}
+
+nav a:hover .nav-icon {
+  color: var(--dark-green);
+}

@@ -1,0 +1,7 @@
+input {
+  border: 1px solid var(--light-grey);
+  color: var(--dark-grey);
+  padding: 0.5rem;
+  margin: 1rem 0;
+  font-size: inherit;
+}

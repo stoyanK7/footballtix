@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +15,7 @@ import java.util.function.Function;
 
 @Service
 public class JwtUtil {
-    private static final String SECRET_KEY = "fontys";
+    private static final String SECRET_KEY = "footballtix";
 
     public String extractUsername(String JwtToken) {
         return extractClaim(JwtToken, Claims::getSubject);
@@ -39,6 +40,7 @@ public class JwtUtil {
 
     public String generateJwtToken(UserDetails user) {
         Map<String, Object> claims = new HashMap<>();
+        claims.put("role", user.getAuthorities().toArray()[0]);
         return createJwtToken(claims, user.getUsername());
     }
 

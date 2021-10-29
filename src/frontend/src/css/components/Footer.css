@@ -1,0 +1,32 @@
+footer {
+  background-color: var(--dark-grey);
+  color: var(--white);
+  width: 100%;
+  height: var(--footer-height);
+  position: absolute;
+  bottom: 0;
+  padding-top: 10px;
+  z-index: 0;
+}
+
+footer .footer-links {
+  padding: 25px;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 10px;
+}
+
+footer a {
+  transition: var(--hover-transition);
+}
+
+footer a:hover {
+  color: var(--light-green);
+}
+
+footer .all-rights-reserved {
+  background-color: var(--dark-green);
+  text-align: center;
+  width: 100%;
+  padding: 15px;
+}

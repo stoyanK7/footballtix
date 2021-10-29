@@ -1,6 +1,8 @@
 package bg.stoyank.footballtix.footballmatch;
 
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,9 +34,10 @@ public class FootballMatchController {
     }
 
     @PutMapping(path = "/{footballMatchId}")
-    public void updateFootballMatch(@PathVariable("footballMatchId") int footballMatchId,
-                                    @RequestBody FootballMatch footballMatch) {
+    public ResponseEntity<Object> updateFootballMatch(@PathVariable("footballMatchId") int footballMatchId,
+                                                      @RequestBody FootballMatch footballMatch) {
         footballMatchService.updateFootballMatch(footballMatchId, footballMatch);
+        return ResponseEntity.ok("Football match with id " + footballMatchId + " updated successfully!");
     }
 
     @DeleteMapping(path = "/{footballMatchId}")
