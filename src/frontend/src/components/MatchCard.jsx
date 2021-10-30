@@ -1,24 +1,28 @@
 import '../css/components/MatchCard.css';
 
-const MatchCard = ({id, homeTeam, awayTeam, startingDateTime, stadium, location, league}) => {
+import pad from '../util/pad';
+
+const MatchCard = ({ homeTeam, awayTeam, startingDateTime, stadium, location, league }) => {
+  startingDateTime = new Date(startingDateTime);
+
   return (
-    <div key={id} className="MatchCard">
-      <div className="MatchCardDate MatchCardPart">
-        <span className="MatchCardDateMonth">{new Date(startingDateTime).toLocaleString('default', { month: 'short' })}</span>
-        <span className="MatchCardDateDay">{new Date(startingDateTime).getDate().toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})}</span>
-        <span className="MatchCardDateYear">{new Date(startingDateTime).getFullYear()}</span>
+    <div className='match-card'>
+      <div className='date'>
+        <span className='month'>{startingDateTime.toLocaleString('default', { month: 'short' })}</span>
+        <span className='day'>{pad(startingDateTime.getDate(), 2)}</span>
+        <span className='year'>{startingDateTime.getFullYear()}</span>
       </div>
-      <div className="MatchCardMatch MatchCardPart">
-        <span className="MatchCardMatchLeague">{league}</span>
+      <div className='match'>
+        <span className='league'>{league}</span>
         <div>
-          <span className="MatchCardMatchRivals">{homeTeam}</span>
+          <span className='rival'>{homeTeam}</span>
           <span>&nbsp;v&nbsp;</span>
-          <span className="MatchCardMatchRivals">{awayTeam}</span>
+          <span className='rival'>{awayTeam}</span>
         </div>
         <div>
-          <span className="MatchCardMatchDate">{new Date(startingDateTime).getHours().toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})}:{new Date(startingDateTime).getMinutes().toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})}</span>
+          <span className='time'>{pad(startingDateTime.getHours(), 2)}:{pad(startingDateTime.getMinutes(), 2)}</span>
           <span>&nbsp;-&nbsp;</span>
-          <span className="MatchCardMatchPlace">{stadium}, {location}</span>
+          <span>{stadium}, {location}</span>
         </div>
       </div>
     </div>

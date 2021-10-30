@@ -2,6 +2,8 @@ package bg.stoyank.footballtix.user;
 
 import bg.stoyank.footballtix.security.jwt.JwtUtil;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -27,8 +29,9 @@ public class UserController {
 
     @PutMapping("/info")
     @CrossOrigin(origins = "*")
-    public void updateInfo(@RequestBody Map<String, String> json) {
+    public ResponseEntity<String> updateInfo(@RequestBody Map<String, String> json) {
         userService.updateInfo(json.get("oldEmail"), json.get("newEmail"), json.get("newFullName"));
+        return new ResponseEntity<>("Hello World!", HttpStatus.OK);
     }
 
     @PutMapping("/password")

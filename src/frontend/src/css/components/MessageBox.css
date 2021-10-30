@@ -1,17 +1,40 @@
-.MessageBox {
-  width: 100%;
+.message-box {
+  width: 90%;
   min-width: auto;
-  max-width: 600px;
+  max-width: 550px;
   font-weight: bold;
   text-align: center;
-  transition: 1s;
+  transition: .8s;
   padding: 10px;
   border-radius: 3px;
   position: fixed;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  background-color: var(--dark-green);
+  background-color: rgba(137, 223, 143, 0.8);
   color: var(--white);
   opacity: 0;
+  z-index: 1;
+  display: inline-block;
+}
+
+.no-select {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.message-box:hover {
+  cursor: default;
+}
+
+.error {
+  background-color: rgba(255, 83, 83, 0.8) !important;
+}
+
+.success {
+  background-color: rgba(137, 223, 143, 0.8) !important;
 }

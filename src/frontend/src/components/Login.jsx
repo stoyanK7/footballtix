@@ -1,18 +1,20 @@
 import { Link, Redirect } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
+import MessageBox from './MessageBox';
 import axios from 'axios';
-import { useState } from 'react';
+import calcReadTime from '../util/calcReadTime';
+import useMessage from '../hooks/useMessage';
 import useToken from '../hooks/useToken';
 
 const Login = () => {
   const [fields, setFields] = useState({
-    email: null,
-    password: null
+    email: '',
+    password: ''
   });
 
   const { setToken } = useToken();
 
-  const [redirect, setRedirect] = useState(false);
 
   const onChangeHandler = e => {
     setFields({
@@ -21,46 +23,59 @@ const Login = () => {
     });
   };
 
+  const [successfulLogin, setSuccessfulLogin] = useState(false);
+  const [error, setError] = useState();
+
   const onSubmitHandler = async e => {
     e.preventDefault();
 
     await axios.post('/api/authenticate', { ...fields })
       .then(res => {
         setToken(res.data.jwt);
-        setRedirect(true);
+        setSuccessfulLogin(true);
       })
-      .catch(err => {
-        // TODO: implement user-friendly way
-        console.log(err);
-      });
+      .catch(err => { if (err.response) setError(err.response.data.message) });
   };
 
-  if (redirect) return <Redirect to='/' />;
+  useEffect(() => {
+    if (error) {
+      const timeout = calcReadTime(error);
+      setTimeout(() => setError(null), timeout + 500)
+    }
+  }, [error]);
+
+  const message = useMessage();
+
+  if (successfulLogin) return <Redirect to={{ pathname: '/', state: { message: 'Welcome.' } }} />;
 
   return (
-    <div className='form-wrapper'>
-      <img src='/img/ticket.png' alt='Ticket' />
-      <h1>Log in</h1>
-      <form onSubmit={onSubmitHandler}>
-        <input
-          name='email'
-          placeholder='Email'
-          type='email'
-          onChange={onChangeHandler} />
-        <input
-          name='password'
-          placeholder='Password'
-          type='password'
-          onChange={onChangeHandler} />
-        <p>
-          <Link to='/register'>Don't have an account?</Link>
-          <br />
-          <br />
-          <Link to='/forgot-password'>Forgot your password?</Link>
-        </p>
-        <button type='submit'>Log in</button>
-      </form>
-    </div>
+    <>
+      {message && <MessageBox content={message} type='success' />}
+      {error && <MessageBox content={error} type='error' />}
+      <div className='form-wrapper'>
+        <img src='/img/ticket.png' alt='Ticket' />
+        <h1>Log in</h1>
+        <form onSubmit={onSubmitHandler}>
+          <input
+            name='email'
+            placeholder='Email'
+            type='email'
+            onChange={onChangeHandler} />
+          <input
+            name='password'
+            placeholder='Password'
+            type='password'
+            onChange={onChangeHandler} />
+          <p>
+            <Link to='/register'>Don't have an account?</Link>
+            <br />
+            <br />
+            <Link to='/forgot-password'>Forgot your password?</Link>
+          </p>
+          <button type='submit'>Log in</button>
+        </form>
+      </div>
+    </>
   );
 };
 

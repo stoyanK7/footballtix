@@ -1,33 +1,35 @@
 import '../css/components/Profile.css';
 
-import { useEffect, useState } from 'react';
-
+import Loading from './Loading';
 import Logout from './Logout';
+import MessageBox from './MessageBox';
 import { Redirect } from 'react-router';
 import axios from 'axios';
 import jwt from 'jwt-decode';
+import useGET from '../hooks/useGET';
+import { useState } from 'react';
 import useToken from '../hooks/useToken';
 
 const Profile = () => {
-  const [informationFields, setInformationFields] = useState({
-    "newEmail": "",
-    "newFullName": ""
+  const [infoFields, setInfoFields] = useState({
+    newEmail: '',
+    newFullName: ''
   });
 
-  const onChangeInformationFields = (e) => {
-    setInformationFields({
-      ...informationFields,
+  const onChangeInfoFields = e => {
+    setInfoFields({
+      ...infoFields,
       [e.target.name]: e.target.value
     });
   };
 
   const [passwordFields, setPasswordFields] = useState({
-    "currentPassword": "",
-    "newPassword": "",
-    "confirmPassword": ""
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: ''
   });
 
-  const onChangePasswordFields = (e) => {
+  const onChangePasswordFields = e => {
     setPasswordFields({
       ...passwordFields,
       [e.target.name]: e.target.value
@@ -36,107 +38,95 @@ const Profile = () => {
 
   const { token } = useToken();
 
-  // Get user info on load
-  useEffect(() => {
-    axios.get("/api/users/info", {
-      params: {
-        jwt: token
-      }
-    })
-      .then((res) => {
-        setInformationFields({
-          "newEmail": res.data.email,
-          "newFullName": res.data.fullName
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+  const { data: info, isPending, error } = useGET('/api/users/info', { params: { jwt: token } });
 
   const [redirect, setRedirect] = useState(false);
-  const updateInfo = async (e) => {
+
+  const handleSubmitEditInfo = async e => {
     e.preventDefault();
-    await axios.put("/api/users/info", {
+
+    await axios.put('/api/users/info', {
       oldEmail: jwt(token).sub,
-      ...informationFields
+      ...infoFields
     })
-      .then((res) => {
+      .then(res => {
+        console.log(res);
         Logout();
         setRedirect(true);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
       });
   };
-
-  const updatePassword = async (e) => {
+  
+  const handleSubmitUpdatePassword = async e => {
     e.preventDefault();
-    await axios.put("/api/users/password", {
+
+    await axios.put('/api/users/password', {
       jwt: token,
       ...passwordFields
     })
-      .then((res) => {
+      .then(res => {
         Logout();
         setRedirect(true);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
       });
   };
 
-  if (redirect) {
-    return (<Redirect to="/login" />);
-  }
+  if (redirect) return <Redirect to='/login' />;
 
   return (
-    <div className="Profile">
-      <img src="/img/user-settings.png" />
-      <div>
-        <h2>Edit information</h2>
-        <form onSubmit={updateInfo}>
-          <label htmlFor="email">Email:</label>
-          <input
-            id="email"
-            name="newEmail"
-            placeholder="E-mail"
-            type="email"
-            value={informationFields.newEmail}
-            onChange={onChangeInformationFields} />
-          <label htmlFor="fullName">Full name:</label>
-          <input
-            id="fullName"
-            name="newFullName"
-            placeholder="Full name"
-            type="text"
-            value={informationFields.newFullName}
-            onChange={onChangeInformationFields} />
-          <button type="submit">Save info</button>
-        </form>
-      </div>
-      <div>
-        <h2>Edit password</h2>
-        <form onSubmit={updatePassword}>
-          <input
-            name="currentPassword"
-            placeholder="Current password"
-            type="password"
-            onChange={onChangePasswordFields} />
-          <input
-            name="newPassword"
-            placeholder="New password"
-            type="password"
-            onChange={onChangePasswordFields} />
-          <input
-            name="confirmPassword"
-            placeholder="Confirm password"
-            type="password"
-            onChange={onChangePasswordFields} />
-          <button type="submit">Save password</button>
-        </form>
-      </div>
-    </div>
-  )
+    <>
+      {isPending && <Loading />}
+      {error && <MessageBox content={error} type='error' />}
+      {info && <div className='profile'>
+        <img src='/img/user-settings.png' alt='' />
+        <div>
+          <h2>Edit information</h2>
+          <form onSubmit={handleSubmitEditInfo}>
+            <input
+              id='email'
+              name='newEmail'
+              placeholder='E-mail'
+              type='email'
+              defaultValue={info.email}
+              onChange={onChangeInfoFields} />
+            <input
+              id='fullName'
+              name='newFullName'
+              placeholder='Full name'
+              type='text'
+              defaultValue={info.fullName}
+              onChange={onChangeInfoFields} />
+            <button type='submit'>Save information</button>
+          </form>
+        </div>
+        <div>
+          <h2>Edit password</h2>
+          <form onSubmit={handleSubmitUpdatePassword}>
+            <input
+              name='currentPassword'
+              placeholder='Current password'
+              type='password'
+              onChange={onChangePasswordFields} />
+            <input
+              name='newPassword'
+              placeholder='New password'
+              type='password'
+              onChange={onChangePasswordFields} />
+            <input
+              name='confirmPassword'
+              placeholder='Confirm password'
+              type='password'
+              onChange={onChangePasswordFields} />
+            <button type='submit'>Save password</button>
+          </form>
+        </div>
+      </div>}
+    </>
+  );
 };
 
 export default Profile;

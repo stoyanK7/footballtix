@@ -7,17 +7,17 @@ import CreateMatch from './CreateMatch';
 import EditMatch from './EditMatch';
 import Footer from './Footer';
 import Header from './Header';
+import Home from './Home';
 import Login from './Login';
 import Main from './Main';
-import MatchList from './MatchList';
 import MatchOverview from './MatchOverview';
 import NotFound from './NotFound';
 import OrderOverview from './OrderOverview';
-import PrivacyPolicy from './PrivacyPolicy';
+import Privacy from './Privacy';
 import Profile from './Profile';
 import React from 'react';
 import Register from './Register';
-import TermsAndConditions from './TermsAndConditions';
+import Terms from './Terms';
 import useToken from '../hooks/useToken';
 
 const App = () => {
@@ -25,59 +25,59 @@ const App = () => {
 
   // if (!token) {
   //   return (
-  //     <div className="App">
+  //     <div className='App'>
   //       <Switch>
-  //         <Route exact path="/">
-  //           <div className="page-wrapper">
+  //         <Route exact path='/'>
+  //           <div className='page-wrapper'>
   //             <Header />
-  //             <Main content="Upcoming matches" component={MatchList} />
+  //             <Main content='Upcoming matches' component={MatchList} />
   //             <Footer />
   //           </div>
   //         </Route>
-  //         <Route path="/matches/:matchId/order">
+  //         <Route path='/matches/:matchId/order'>
   //           <Login />
   //         </Route>
-  //         <Route path="/matches/:matchId">
-  //           <div className="page-wrapper">
+  //         <Route path='/matches/:matchId'>
+  //           <div className='page-wrapper'>
   //             <Header />
-  //             <Main content="Match overview" component={MatchOverview} />
+  //             <Main content='Match overview' component={MatchOverview} />
   //             <Footer />
   //           </div>
   //         </Route>
-  //         <Route path="/contact">
-  //           <div className="page-wrapper">
+  //         <Route path='/contact'>
+  //           <div className='page-wrapper'>
   //             <Header />
-  //             <Main content="Contact us" component={Contact} />
+  //             <Main content='Contact us' component={Contact} />
   //             <Footer />
   //           </div>
   //         </Route>
-  //         <Route path="/privacy">
-  //           <div className="page-wrapper">
+  //         <Route path='/privacy'>
+  //           <div className='page-wrapper'>
   //             <Header />
-  //             <Main content="Privacy policy" component={PrivacyPolicy} />
+  //             <Main content='Privacy policy' component={Privacy} />
   //             <Footer />
   //           </div>
   //         </Route>
-  //         <Route path="/terms">
-  //           <div className="page-wrapper">
+  //         <Route path='/terms'>
+  //           <div className='page-wrapper'>
   //             <Header />
-  //             <Main content="Terms and conditions" component={TermsAndConditions} />
+  //             <Main content='Terms and conditions' component={Terms} />
   //             <Footer />
   //           </div>
   //         </Route>
-  //         <Route exact path="/login">
+  //         <Route exact path='/login'>
   //           <Login />
   //         </Route>
-  //         <Route path="/register">
+  //         <Route path='/register'>
   //           <Register />
   //         </Route>
-  //         <Route path="/create-match">
+  //         <Route path='/create-match'>
   //           <CreateMatch />
   //         </Route>
-  //         <Route path="*">
-  //           <div className="page-wrapper">
+  //         <Route path='*'>
+  //           <div className='page-wrapper'>
   //             <Header />
-  //             <Main content="Not found" component={NotFound} />
+  //             <Main content='Not found' component={NotFound} />
   //             <Footer />
   //           </div>
   //         </Route>
@@ -87,61 +87,68 @@ const App = () => {
   // };
 
   return (
-    <div className="app">
+    <div className='app'>
       <Switch>
-        <Route exact path="/">
+        {/* Done */}
+        <Route exact path='/'>
           <Header />
-          <Main content="Upcoming matches" component={MatchList} />
+          <Main content='Upcoming matches' component={Home} />
           <Footer />
         </Route>
-        <Route path="/matches/:matchId/order">
+        <Route path='/matches/:matchId/order'>
           <Header />
-          <Main content="Review your order" component={OrderOverview} />
+          <Main content='Review your order' component={OrderOverview} />
           <Footer />
         </Route>
-        <Route path="/matches/:matchId/edit">
+        <Route path='/matches/:matchId/edit'>
           <EditMatch />
         </Route>
-        <Route path="/matches/:matchId">
+        <Route path='/matches/:matchId'>
           <Header />
-          <Main content="Match overview" component={MatchOverview} />
+          <Main content='Match overview' component={MatchOverview} />
           <Footer />
         </Route>
-        <Route path="/contact">
+        {/* Done */}
+        <Route path='/contact'>
           <Header />
-          <Main content="Contact us" component={Contact} />
+          <Main content='Contact us' component={Contact} />
           <Footer />
         </Route>
-        <Route path="/privacy">
+        {/* Done */}
+        <Route exact path='/privacy'>
           <Header />
-          <Main content="Privacy policy" component={PrivacyPolicy} />
+          <Main content='Privacy policy' component={Privacy} />
           <Footer />
         </Route>
-        <Route path="/terms">
+        {/* Done */}
+        <Route exact path='/terms'>
           <Header />
-          <Main content="Terms and conditions" component={TermsAndConditions} />
+          <Main content='Terms and conditions' component={Terms} />
           <Footer />
         </Route>
-        <Route exact path="/login">
+        {/* Done */}
+        <Route exact path='/login'>
           <Login />
         </Route>
-        <Route path="/profile">
-          <Header />
-          <Main content="Profile" component={Profile} />
-          <Footer />
-        </Route>
-        <Route path="/register">
+        {/* Done */}
+        <Route exact path='/register'>
           <Register />
         </Route>
-        <Route path="/create-match">
+        {/* Done */}
+        <Route path='/profile'>
+          <Header />
+          <Main content='Profile' component={Profile} />
+          <Footer />
+        </Route>
+        <Route path='/create-match'>
           <CreateMatch />
         </Route>
-        {/* <Route path="/forgot-password">
+        {/* <Route path='/forgot-password'>
           <CreateMatch />
         </Route> */}
-        <Route path="*">
+        <Route path='*'>
           <Header />
-          <Main content="Not found" component={NotFound} />
+          <Main content='Not found' component={NotFound} />
           <Footer />
         </Route>
       </Switch>

@@ -2,22 +2,27 @@ import '../css/components/MessageBox.css';
 
 import { useEffect, useState } from 'react';
 
-const MessageBox = ({ content }) => {
-  const [display, setDisplay] = useState("0");
-    
+import calcReadTime from '../util/calcReadTime';
+
+const MessageBox = ({ content, type }) => {
+  const hidden = { opacity: '0' };
+  const visible = { opacity: '1' };
+  const [style, setStyle] = useState(hidden);
+
   // no idea how this worked, dont touch it
   useEffect(() => {
-    setDisplay("1");
-    setInterval(() => {
-      setDisplay("0");
-    }, 5000);
-  }, []);
+    setStyle(visible);
+    const timeout = calcReadTime(content);
+    setTimeout(() => { setStyle(hidden) }, timeout);
+  }, [content]);
+
+  const onClickHandler = () => setStyle(hidden);
 
   return (
-    <div className="MessageBox" style={{ opacity: display }}>
+    <div className={`message-box no-select ${type}`} style={style} onClick={onClickHandler}>
       {content}
     </div>
-  )
+  );
 };
 
 export default MessageBox;

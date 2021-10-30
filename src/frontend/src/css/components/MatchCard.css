@@ -1,51 +1,65 @@
-.MatchCard {
+.match-card {
   width: 100%;
   display: grid;
   grid-template-columns: auto 1fr;
   border-bottom: 1px solid var(--light-grey);
   text-align: center;
-  transition: transform var(--hover-transition); /* Animation */
+  transition: transform var(--hover-transition);
 }
 
-.MatchCard:hover {
+.match-card:hover {
   zoom: 1.1;
   -ms-zoom: 1.1;
   -webkit-zoom: 1.1;
+  transform: scale(1.1, 1.1);
   -moz-transform: scale(1.1, 1.1);
-  -moz-transform-origin: 50% 50%;
   transform-origin: 50% 50%;
+  -moz-transform-origin: 50% 50%;
   border: 1px solid var(--light-grey);
+  z-index: 3;
+  position: relative;
 }
 
-.MatchCardPart {
+.match-card>div {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding: min(2vw, 20px);
 }
 
-.MatchCardDate {
-  background-color: #E3E3E3;
+.match-card>.date {
+  background-color: #eeeeee;
 }
 
-.MatchCardDateDay {
-  font-weight: 700;
+.date .day {
   font-size: 1.5rem;
 }
 
-.MatchCardDateMonth {
+.date .month {
   text-transform: uppercase;
 }
 
-.MatchCardMatch {
+.match-card .match {
   justify-items: start !important;
   background-color: var(--white);
 }
 
-.MatchCardMatchRivals {
+.match .league {
+  color: var(--dark-green);
+}
+
+.match .rival, .match .time, .date .day {
   font-weight: 700;
 }
 
-.MatchCardMatchDate {
-  font-weight: 700;
+@media only screen and (max-width: 670px) {
+  .match-card:hover {
+    zoom: none;
+    -ms-zoom: none;
+    -webkit-zoom: none;
+    transform: none;
+    -moz-transform: none;
+    border: none;
+    border-bottom: 1px solid var(--light-grey);
+  }
 }

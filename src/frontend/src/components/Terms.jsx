@@ -1,9 +1,10 @@
-import '../css/components/TermsAndConditions.css';
+import '../css/global/legalese.css';
 
-const TermsAndConditions = () => {
+import { Link } from 'react-router-dom';
+
+const Terms = () => {
   return (
-    <div className="TermsAndConditions">
-      <h1>Terms and Conditions</h1>
+    <div className='legalese'>
       <p>Last updated: October 21, 2021</p>
       <p>Please read these terms and conditions carefully before using Our Service.</p>
       <h1>Interpretation and Definitions</h1>
@@ -28,13 +29,13 @@ const TermsAndConditions = () => {
           <p><strong>Service</strong> refers to the Website.</p>
         </li>
         <li>
-          <p><strong>Terms and Conditions</strong> (also referred as &quot;Terms&quot;) mean these Terms and Conditions that form the entire agreement between You and the Company regarding the use of the Service. This Terms and Conditions agreement has been created with the help of the <a href="https://www.freeprivacypolicy.com/free-terms-and-conditions-generator/" target="_blank">Terms and Conditions Generator</a>.</p>
+          <p><strong>Terms and Conditions</strong> (also referred as &quot;Terms&quot;) mean these Terms and Conditions that form the entire agreement between You and the Company regarding the use of the Service. This Terms and Conditions agreement has been created with the help of the <a href='https://www.freeprivacypolicy.com/free-terms-and-conditions-generator/' target='_blank' rel='noreferrer'>Terms and Conditions Generator</a>.</p>
         </li>
         <li>
           <p><strong>Third-party Social Media Service</strong> means any services or content (including data, information, products or services) provided by a third-party that may be displayed, included or made available by the Service.</p>
         </li>
         <li>
-          <p><strong>Website</strong> refers to FootballTix, accessible from <a href="http://footballtix.com" rel="external nofollow noopener" target="_blank">http://footballtix.com</a></p>
+          <p><strong>Website</strong> refers to FootballTix, accessible from <a href='http://footballtix.com' target='_blank' rel='noreferrer'>http://footballtix.com</a></p>
         </li>
         <li>
           <p><strong>You</strong> means the individual accessing or using the Service, or the company, or other legal entity on behalf of which such individual is accessing or using the Service, as applicable.</p>
@@ -81,12 +82,9 @@ const TermsAndConditions = () => {
       <p>We reserve the right, at Our sole discretion, to modify or replace these Terms at any time. If a revision is material We will make reasonable efforts to provide at least 30 days' notice prior to any new terms taking effect. What constitutes a material change will be determined at Our sole discretion.</p>
       <p>By continuing to access or use Our Service after those revisions become effective, You agree to be bound by the revised terms. If You do not agree to the new terms, in whole or in part, please stop using the website and the Service.</p>
       <h1>Contact Us</h1>
-      <p>If you have any questions about these Terms and Conditions, You can contact us:</p>
-      <ul>
-        <li>By email: office@footballtix.com</li>
-      </ul>
+      <p>If you have any questions about these Terms and Conditions, You can <Link to='/contact'>contact us</Link>.</p>
     </div>
   );
 };
 
-export default TermsAndConditions;
+export default Terms;

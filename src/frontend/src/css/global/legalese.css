@@ -1,0 +1,29 @@
+.legalese {
+  width: 100%;
+  height: 100%;
+  padding: min(2vw, 20px);
+}
+
+.legalese h1 {
+  font-size: 1.8rem;
+}
+
+.legalese h2 {
+  font-size: 1.6rem;
+}
+
+.legalese h3 {
+  font-size: 1.4rem;
+}
+
+.legalese h1, .legalese h2, .legalese h3, .legalese a {
+  color: var(--dark-green);
+}
+
+.legalese a {
+  transition: var(--hover-transition);
+}
+
+.legalese a:hover {
+  color: var(--darker-green);
+}
