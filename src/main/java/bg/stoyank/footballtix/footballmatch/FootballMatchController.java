@@ -25,6 +25,7 @@ public class FootballMatchController {
 
     @GetMapping(path = "/{footballMatchId}")
     public FootballMatch getFootballMatch(@PathVariable("footballMatchId") int footballMatchId) {
+        System.out.println(footballMatchId);
         return footballMatchService.getFootballMatchById(footballMatchId);
     }
 

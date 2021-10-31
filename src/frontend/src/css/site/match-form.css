@@ -1,0 +1,11 @@
+.match-form {
+  display: grid;
+  grid-template-columns: 1fr;
+  padding: min(20px, 2vw);
+}
+
+.match-form img {
+  width: 40%;
+  justify-self: center;
+  margin: 2vh 0;
+}

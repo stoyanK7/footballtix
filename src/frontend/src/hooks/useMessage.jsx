@@ -1,4 +1,4 @@
-import { useLocation } from "react-router";
+import { useLocation } from 'react-router';
 
 const useMessage = () => {
   const location = useLocation();

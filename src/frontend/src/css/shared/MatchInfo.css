@@ -1,0 +1,17 @@
+.match-info {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.match-info>* {
+  margin: 5px;
+}
+
+.match-info .league {
+  color: var(--dark-green);
+}
+
+.match-info .rival, .match-info .date {
+  font-weight: 700;
+}

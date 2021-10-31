@@ -1,0 +1,45 @@
+.order-overview {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.order-overview section {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin: 10px 0;
+}
+
+.order-overview section>span {
+  color: var(--dark-green);
+  font-size: 1.3rem;
+}
+
+.order-overview section>span, .order-overview button {
+  font-weight: 700;
+}
+
+.order-overview a {
+  color: var(--dark-green);
+  transition: var(--hover-transition);
+}
+
+.order-overview a:hover {
+  color: var(--darker-green);
+}
+
+.order-overview button {
+  font-size: 2rem;
+  padding: 20px 40px;
+}
+
+.flex-start {
+  align-self: flex-start;
+}
+
+.order-overview form label {
+  margin-left: 15px;
+}

@@ -1,0 +1,56 @@
+.match-overview {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 20px;
+  justify-items: center;
+  align-items: center;
+  padding: min(2vw, 20px);
+}
+
+.match-overview>img {
+  width: 40%;
+}
+
+.delete-button, .edit-button, .match-overview .ticket-amount-desc, .match-overview .ticket-amount, .match-overview .buy-button {
+  font-weight: 700;
+}
+
+.match-overview .ticket-amount {
+  color: var(--dark-green);
+}
+
+.match-overview .location, .match-overview .date {
+  color: #666666;
+}
+
+.match-overview .ticket-amount-desc, .match-overview .ticket-amount {
+  font-size: 1.4rem;
+}
+
+.match-overview .ticket-amount {
+  display: inline-block;
+  padding: 10px;
+  border-radius: 2px;
+  box-shadow: 0 0 15px 5px rgb(190, 190, 190);
+}
+
+.match-overview .buy-button {
+  font-size: 2rem;
+  padding: 20px 40px;
+}
+
+.delete-button {
+  background-color: var(--red);
+}
+
+.delete-button:hover {
+  background-color: var(--darker-red);
+}
+
+.edit-button {
+  background-color: var(--light-grey);
+}
+
+.edit-button:hover {
+  background-color: var(--dark-grey);
+}

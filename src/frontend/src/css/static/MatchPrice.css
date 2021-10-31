@@ -1,0 +1,17 @@
+.match-price {
+  font-weight: 900;
+  font-size: min(13vw, 60px);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.match-price>img {
+  width: 20vw;
+  max-width: 100px;
+  margin-right: 2vw;
+}
+
+.match-price .price-per-ticket {
+  color: var(--dark-green);
+}
