@@ -3,13 +3,14 @@ import '../../css/site/MatchOverview.css';
 import React, { useState } from 'react';
 
 import { Link } from 'react-router-dom';
-import axios from 'axios';
-import { useParams } from 'react-router';
-import useGET from '../../hooks/useGET';
 import Loading from '../shared/Loading';
-import MessageBox from '../shared/MessageBox';
 import MatchInfo from '../shared/MatchInfo';
 import MatchPrice from '../shared/MatchPrice';
+import MessageBox from '../shared/MessageBox';
+import axios from 'axios';
+import useGET from '../../hooks/useGET';
+import { useParams } from 'react-router';
+import useToken from '../../hooks/useToken';
 
 const MatchOverview = () => {
   const { matchId } = useParams();
@@ -32,6 +33,8 @@ const MatchOverview = () => {
     }
   };
 
+  const { isAdmin } = useToken();
+
   return (
     <>
       {isPending && <Loading />}
@@ -49,10 +52,14 @@ const MatchOverview = () => {
           <Link to={`/matches/${matchId}/order`}>
             <button className='buy-button'>BUY</button>
           </Link>
-          <Link to={`/matches/${matchId}/edit`}>
-            <button className='edit-button'>EDIT MATCH</button>
-          </Link>
-          <button className='delete-button' onClick={onClickHandler}>DELETE MATCH</button>
+          {isAdmin() &&
+            <>
+              <Link to={`/matches/${matchId}/edit`}>
+                <button className='edit-button'>EDIT MATCH</button>
+              </Link>
+              <button className='delete-button' onClick={onClickHandler}>DELETE MATCH</button>
+            </>
+          }
         </div>
       }
     </>

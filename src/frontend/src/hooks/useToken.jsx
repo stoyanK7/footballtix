@@ -1,4 +1,5 @@
-import { useState } from "react";
+import jwt from 'jwt-decode';
+import { useState } from 'react';
 
 const useToken = () => {
   const getToken = () => {
@@ -9,14 +10,22 @@ const useToken = () => {
   const [token, setToken] = useState(getToken());
 
   const saveToken = (userToken) => {
-    const token = (JSON.stringify(userToken));
-    localStorage.setItem('jwtToken', token);
+    localStorage.setItem('jwtToken', userToken);
     setToken(token);
+  };
+
+  const isAdmin = () => jwt(getToken()).role === 'ADMIN';
+
+  const deleteToken = () => {
+    localStorage.removeItem('jwtToken');
+    setToken(null);
   };
 
   return {
     setToken: saveToken,
-    token
+    token,
+    deleteToken,
+    isAdmin
   };
 };
 

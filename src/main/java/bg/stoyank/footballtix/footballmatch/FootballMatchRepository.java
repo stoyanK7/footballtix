@@ -6,5 +6,5 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface FootballMatchRepository extends JpaRepository<FootballMatch, Integer> {
-    List<FootballMatch> getFootballMatchesByStartingDateTimeAfter(LocalDateTime dateTime);
+    List<FootballMatch> getFootballMatchesByStartingDateTimeAfterOrderByStartingDateTimeAsc(LocalDateTime dateTime);
 }

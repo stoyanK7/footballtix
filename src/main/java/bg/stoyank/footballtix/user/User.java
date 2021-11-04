@@ -6,6 +6,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.Collection;
 import java.util.Collections;
 
@@ -28,7 +29,9 @@ public class User implements UserDetails {
             generator = "student_sequence"
     )
     private Integer id;
+    @NotBlank
     private String fullName;
+    @NotBlank
     private String email;
     private String password;
     @Enumerated(EnumType.STRING)

@@ -15,7 +15,6 @@ const Login = () => {
 
   const { setToken } = useToken();
 
-
   const onChangeHandler = e => {
     setFields({
       ...fields,
@@ -60,19 +59,22 @@ const Login = () => {
             name='email'
             placeholder='Email'
             type='email'
-            onChange={onChangeHandler} />
+            onChange={onChangeHandler} 
+            required/>
           <input
             name='password'
             placeholder='Password'
             type='password'
-            onChange={onChangeHandler} />
+            onChange={onChangeHandler} 
+            required
+            minLength='6'/>
           <p>
             <Link to='/register'>Don't have an account?</Link>
             <br />
             <br />
             <Link to='/forgot-password'>Forgot your password?</Link>
           </p>
-          <button type='submit'>Log in</button>
+          <button type='submit' disabled={error}>Log in</button>
         </form>
       </div>
     </>

@@ -18,7 +18,7 @@ public class FootballMatchService {
     }
 
     public List<FootballMatch> getAllUpcomingFootballMatches() {
-        return footballMatchRepository.getFootballMatchesByStartingDateTimeAfter(LocalDateTime.now());
+        return footballMatchRepository.getFootballMatchesByStartingDateTimeAfterOrderByStartingDateTimeAsc(LocalDateTime.now());
     }
 
     public FootballMatch getFootballMatchById(int footballMatchId) throws FootballMatchNotFoundException {
@@ -28,8 +28,10 @@ public class FootballMatchService {
         throw new FootballMatchNotFoundException("Could not find football match with id: " + footballMatchId + ".");
     }
 
-    public void createFootballMatch(FootballMatch footballMatch) {
+    public int createFootballMatch(FootballMatch footballMatch) {
+        // validate input
         footballMatchRepository.save(footballMatch);
+        return footballMatch.getId();
     }
 
     public void deleteFootballMatchById(int footballMatchId) throws FootballMatchNotFoundException {
@@ -41,6 +43,7 @@ public class FootballMatchService {
 
     @Transactional
     public void updateFootballMatch(int footballMatchId, FootballMatch footballMatch) {
+        // validate input
         FootballMatch oldFootballMatch = footballMatchRepository.getById(footballMatchId);
         oldFootballMatch.setHomeTeam(footballMatch.getHomeTeam());
         oldFootballMatch.setAwayTeam(footballMatch.getAwayTeam());

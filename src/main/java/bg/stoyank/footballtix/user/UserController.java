@@ -18,7 +18,6 @@ public class UserController {
 
     @GetMapping("/info")
     public Map<String, String> getInfo(String jwt) {
-        jwt = jwt.substring(1, jwt.length() - 1);
         HashMap<String, String> map = new HashMap<>();
         String email = jwtUtil.extractUsername(jwt);
         String fullName = userService.getFullNameByEmail(email);
@@ -31,14 +30,13 @@ public class UserController {
     @CrossOrigin(origins = "*")
     public ResponseEntity<String> updateInfo(@RequestBody Map<String, String> json) {
         userService.updateInfo(json.get("oldEmail"), json.get("newEmail"), json.get("newFullName"));
-        return new ResponseEntity<>("Hello World!", HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PutMapping("/password")
     public void updatePassword(@RequestBody Map<String, String> json) {
-        String jwt = json.get("jwt").substring(1, json.get("jwt").length() - 1);
         HashMap<String, String> map = new HashMap<>();
-        String email = jwtUtil.extractUsername(jwt);
+        String email = jwtUtil.extractUsername(json.get("jwt"));
         String currentPassword = json.get("currentPassword");
         String newPassword = json.get("newPassword");
         String confirmPassword = json.get("confirmPassword");

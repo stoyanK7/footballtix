@@ -8,12 +8,6 @@
   padding: min(20px, 2vw);
 }
 
-.contact a {
-  display: block;
-  width: 100%;
-  margin: 10px;
-}
-
 .contact img {
   width: 40%;
   margin-top: 10px;
@@ -21,6 +15,7 @@
 
 .contact div {
   display: flex;
+  margin: 10px;
   flex-direction: column;
   justify-items: center;
   align-items: center;
@@ -37,6 +32,7 @@
   -moz-transform: scale(1.1, 1.1);
   transform-origin: 50% 50%;
   -moz-transform-origin: 50% 50%;
+  cursor: pointer;
 }
 
 .contact div:hover span {

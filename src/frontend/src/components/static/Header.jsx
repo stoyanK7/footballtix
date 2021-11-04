@@ -20,7 +20,7 @@ const Header = () => {
     <header>
       <FontAwesomeIcon icon={faBars} className='burger' onClick={toggleNavbar} />
       <Link to='/' className='footballTix-link'><FootballTix /></Link>
-      <Navbar style={navbarStyle} />
+      <Navbar style={navbarStyle} toggleNavbar={toggleNavbar}/>
     </header>
   );
 };

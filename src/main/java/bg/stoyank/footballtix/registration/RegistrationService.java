@@ -29,6 +29,7 @@ public class RegistrationService {
         if (!isValidEmail) {
             throw new InvalidEmailException("Invalid email: " + registrationRequest.getEmail());
         }
+        // if fields are empty - 400
 
         String token = userService.createUser(new User(
                 registrationRequest.getFullName(),

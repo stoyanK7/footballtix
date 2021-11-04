@@ -1,20 +1,27 @@
 import '../../css/account/Profile.css';
 
+import { useEffect, useState } from 'react';
+
 import Loading from '../shared/Loading';
-import Logout from './Logout';
 import MessageBox from '../shared/MessageBox';
 import { Redirect } from 'react-router';
 import axios from 'axios';
 import jwt from 'jwt-decode';
 import useGET from '../../hooks/useGET';
-import { useState } from 'react';
 import useToken from '../../hooks/useToken';
 
 const Profile = () => {
+  const { token, deleteToken } = useToken();
+  const { data: info, isPending, error } = useGET('/api/users/info', { params: { jwt: token } });
+
   const [infoFields, setInfoFields] = useState({
     newEmail: '',
     newFullName: ''
   });
+
+  useEffect(() => {
+    if (info) setInfoFields({ newEmail: info.email, newFullName: info.fullName })
+  }, [info]);
 
   const onChangeInfoFields = e => {
     setInfoFields({
@@ -36,11 +43,7 @@ const Profile = () => {
     });
   };
 
-  const { token } = useToken();
-
-  const { data: info, isPending, error } = useGET('/api/users/info', { params: { jwt: token } });
-
-  const [redirect, setRedirect] = useState(false);
+  const [redirectTo, setRedirectTo] = useState();
 
   const handleSubmitEditInfo = async e => {
     e.preventDefault();
@@ -50,15 +53,14 @@ const Profile = () => {
       ...infoFields
     })
       .then(res => {
-        console.log(res);
-        Logout();
-        setRedirect(true);
+        deleteToken();
+        setRedirectTo({ pathname: '/login', state: { message: 'Info successfully changed. You can now log in again.' } });
       })
       .catch(err => {
         console.log(err);
       });
   };
-  
+
   const handleSubmitUpdatePassword = async e => {
     e.preventDefault();
 
@@ -67,15 +69,15 @@ const Profile = () => {
       ...passwordFields
     })
       .then(res => {
-        Logout();
-        setRedirect(true);
+        deleteToken();
+        setRedirectTo({ pathname: '/login', state: { message: 'Password successfully changed. You can now log in with your new credentials.' } });
       })
       .catch(err => {
         console.log(err);
       });
   };
 
-  if (redirect) return <Redirect to='/login' />;
+  if (redirectTo) return <Redirect to={redirectTo} />;
 
   return (
     <>
@@ -91,15 +93,17 @@ const Profile = () => {
               name='newEmail'
               placeholder='E-mail'
               type='email'
-              defaultValue={info.email}
-              onChange={onChangeInfoFields} />
+              defaultValue={infoFields.newEmail}
+              onChange={onChangeInfoFields}
+              required />
             <input
               id='fullName'
               name='newFullName'
               placeholder='Full name'
               type='text'
-              defaultValue={info.fullName}
-              onChange={onChangeInfoFields} />
+              defaultValue={infoFields.newFullName}
+              onChange={onChangeInfoFields}
+              required />
             <button type='submit'>Save information</button>
           </form>
         </div>
@@ -110,17 +114,26 @@ const Profile = () => {
               name='currentPassword'
               placeholder='Current password'
               type='password'
-              onChange={onChangePasswordFields} />
+              onChange={onChangePasswordFields}
+              required />
             <input
               name='newPassword'
               placeholder='New password'
               type='password'
-              onChange={onChangePasswordFields} />
+              onChange={onChangePasswordFields}
+              reqired
+              minLength='6'
+              pattern='^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@_$!%*?&])[A-Za-z\d@_$!%*?&]{6,}$'
+              title='Minimum six characters, at least one uppercase letter, one lowercase letter, one number and one special character:' />
             <input
               name='confirmPassword'
               placeholder='Confirm password'
               type='password'
-              onChange={onChangePasswordFields} />
+              onChange={onChangePasswordFields}
+              required
+              minLength='6'
+              pattern='^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@_$!%*?&])[A-Za-z\d@_$!%*?&]{6,}$'
+              title='Minimum six characters, at least one uppercase letter, one lowercase letter, one number and one special character:' />
             <button type='submit'>Save password</button>
           </form>
         </div>
