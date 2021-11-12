@@ -14,6 +14,7 @@ import Main from '../static/Main';
 import MatchOverview from '../site/MatchOverview';
 import NotFound from '../static/NotFound';
 import OrderOverview from '../site/OrderOverview';
+import Orders from './Orders';
 import Privacy from '../static/Privacy';
 import Profile from '../account/Profile';
 import ProtectedAdminRoute from './ProtectedAdminRoute';
@@ -49,6 +50,12 @@ const App = () => {
           <Main content='Terms and conditions' component={Terms} />
           <Footer />
         </Route>
+
+        <ProtectedRoute exact path='/orders'>
+          <Header />
+          <Main content='Orders' component={Orders} />
+          <Footer />
+        </ProtectedRoute>
 
         <ProtectedRoute exact path='/profile'>
           <Header />

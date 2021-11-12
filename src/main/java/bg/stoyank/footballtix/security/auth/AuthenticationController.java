@@ -1,6 +1,6 @@
 package bg.stoyank.footballtix.security.auth;
 
-import bg.stoyank.footballtix.security.jwt.JwtUtil;
+import bg.stoyank.footballtix.jwt.JwtService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,7 +18,7 @@ import javax.validation.Valid;
 @RequestMapping("/api/authenticate")
 @AllArgsConstructor
 public class AuthenticationController {
-    private JwtUtil jwtUtil;
+    private JwtService jwtService;
     private UserDetailsService userService;
     private AuthenticationManager authenticationManager;
 
@@ -29,7 +29,7 @@ public class AuthenticationController {
                         authenticationRequest.getPassword())
         );
         UserDetails user = userService.loadUserByUsername(authenticationRequest.getEmail());
-        String jwt = jwtUtil.generateJwtToken(user);
+        String jwt = jwtService.generateJwtToken(user);
         return ResponseEntity.ok(new AuthenticationResponse(jwt));
     }
 }

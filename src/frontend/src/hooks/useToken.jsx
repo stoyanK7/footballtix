@@ -16,6 +16,8 @@ const useToken = () => {
 
   const isAdmin = () => jwt(getToken()).role === 'ADMIN';
 
+  const email = () => jwt(getToken()).sub;
+
   const deleteToken = () => {
     localStorage.removeItem('jwtToken');
     setToken(null);
@@ -25,7 +27,8 @@ const useToken = () => {
     setToken: saveToken,
     token,
     deleteToken,
-    isAdmin
+    isAdmin,
+    email
   };
 };
 

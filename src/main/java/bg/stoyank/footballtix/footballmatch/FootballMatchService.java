@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -18,7 +19,7 @@ public class FootballMatchService {
     }
 
     public List<FootballMatch> getAllUpcomingFootballMatches() {
-        return footballMatchRepository.getFootballMatchesByStartingDateTimeAfterOrderByStartingDateTimeAsc(LocalDateTime.now());
+        return footballMatchRepository.getFootballMatchesByStartingDateTimeAfterOrderByStartingDateTimeAsc(new Date());
     }
 
     public FootballMatch getFootballMatchById(int footballMatchId) throws FootballMatchNotFoundException {

@@ -40,6 +40,12 @@
   align-self: flex-start;
 }
 
+.order-overview form fieldset {
+  display: flex;
+  flex-direction: column;
+  border: none;
+}
+
 .order-overview form label {
   margin-left: 15px;
 }

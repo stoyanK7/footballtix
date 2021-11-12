@@ -29,9 +29,9 @@ const Nav = ({ style, toggleNavbar }) => {
             <FontAwesomeIcon className='nav-icon fa-fw' icon={faUserCog} />
             <span className='nav-text'>Profile</span>
           </Link>
-          <Link to='/tickets' onClick={toggleNavbar}>
+          <Link to='/orders' onClick={toggleNavbar}>
             <FontAwesomeIcon className='nav-icon fa-fw' icon={faTicketAlt} />
-            <span className='nav-text'>Tickets</span>
+            <span className='nav-text'>Orders</span>
           </Link>
           {isAdmin() &&
             <Link to='/matches/create' onClick={toggleNavbar}>

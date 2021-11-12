@@ -28,7 +28,7 @@ public class FootballMatchController {
         return footballMatchService.getAllUpcomingFootballMatches();
     }
 
-    @GetMapping(path = "/{footballMatchId}")
+    @GetMapping("/{footballMatchId}")
     public FootballMatch getFootballMatch(@PathVariable("footballMatchId") @PositiveOrZero int footballMatchId) {
         return footballMatchService.getFootballMatchById(footballMatchId);
     }
@@ -39,14 +39,14 @@ public class FootballMatchController {
         return new ResponseEntity<>(footballMatchId, CREATED);
     }
 
-    @PutMapping(path = "/{footballMatchId}")
+    @PutMapping("/{footballMatchId}")
     public ResponseEntity<Object> updateFootballMatch(@PathVariable("footballMatchId") @PositiveOrZero int footballMatchId,
                                                       @Valid @RequestBody FootballMatch footballMatch) {
         footballMatchService.updateFootballMatch(footballMatchId, footballMatch);
         return new ResponseEntity<>(NO_CONTENT);
     }
 
-    @DeleteMapping(path = "/{footballMatchId}")
+    @DeleteMapping("/{footballMatchId}")
     public ResponseEntity<Object> deleteFootballMatch(@PathVariable("footballMatchId") @PositiveOrZero int footballMatchId) {
         footballMatchService.deleteFootballMatchById(footballMatchId);
         return new ResponseEntity<>(NO_CONTENT);

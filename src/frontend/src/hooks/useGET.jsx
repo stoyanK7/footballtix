@@ -10,7 +10,6 @@ const useGET = (url, config = null) => {
   useEffect(() => {
     const abortController = new AbortController();
 
-    setTimeout(() => {
       axios.get(url, { ...config, signal: abortController.signal })
         .then(res => {
           if (res.status !== 200) throw Error(res.message);
@@ -24,11 +23,11 @@ const useGET = (url, config = null) => {
         .catch(err => {
           if (err.name === 'AbortError') console.log('fetch aborted')
           else {
-            setError(err.message);
+            if(err.response.data) setError(err.response.data.message);
+            else setError(err.message);
             setIsPending(false);
           }
         });
-    }, 1000);
 
     return () => abortController.abort();
   }, [url]);

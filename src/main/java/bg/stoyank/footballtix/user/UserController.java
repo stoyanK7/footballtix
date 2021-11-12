@@ -1,6 +1,6 @@
 package bg.stoyank.footballtix.user;
 
-import bg.stoyank.footballtix.security.jwt.JwtUtil;
+import bg.stoyank.footballtix.jwt.JwtService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,12 +14,12 @@ import java.util.Map;
 @RequestMapping("/api/users")
 public class UserController {
     private final UserService userService;
-    private final JwtUtil jwtUtil;
+    private final JwtService jwtService;
 
     @GetMapping("/info")
     public Map<String, String> getInfo(String jwt) {
         HashMap<String, String> map = new HashMap<>();
-        String email = jwtUtil.extractUsername(jwt);
+        String email = jwtService.extractUsername(jwt);
         String fullName = userService.getFullNameByEmail(email);
         map.put("email", email);
         map.put("fullName", fullName);
@@ -36,7 +36,7 @@ public class UserController {
     @PutMapping("/password")
     public void updatePassword(@RequestBody Map<String, String> json) {
         HashMap<String, String> map = new HashMap<>();
-        String email = jwtUtil.extractUsername(json.get("jwt"));
+        String email = jwtService.extractUsername(json.get("jwt"));
         String currentPassword = json.get("currentPassword");
         String newPassword = json.get("newPassword");
         String confirmPassword = json.get("confirmPassword");
