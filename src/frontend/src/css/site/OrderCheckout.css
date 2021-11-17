@@ -1,0 +1,51 @@
+.order-checkout {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.order-checkout section {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  margin: 10px 0;
+}
+
+.order-checkout section>span {
+  color: var(--dark-green);
+  font-size: 1.3rem;
+}
+
+.order-checkout section>span, .order-checkout button {
+  font-weight: 700;
+}
+
+.order-checkout a {
+  color: var(--dark-green);
+  transition: var(--hover-transition);
+}
+
+.order-checkout a:hover {
+  color: var(--darker-green);
+}
+
+.order-checkout button {
+  font-size: 2rem;
+  padding: 20px 40px;
+}
+
+.flex-start {
+  align-self: flex-start;
+}
+
+.order-checkout form fieldset {
+  display: flex;
+  flex-direction: column;
+  border: none;
+}
+
+.order-checkout form label {
+  margin-left: 15px;
+}

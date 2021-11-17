@@ -13,12 +13,13 @@ import Logout from '../account/Logout';
 import Main from '../static/Main';
 import MatchOverview from '../site/MatchOverview';
 import NotFound from '../static/NotFound';
-import OrderOverview from '../site/OrderOverview';
+import OrderCheckout from './OrderCheckout';
+import OrderOverview from './OrderOverview';
 import Orders from './Orders';
 import Privacy from '../static/Privacy';
 import Profile from '../account/Profile';
-import ProtectedAdminRoute from './ProtectedAdminRoute';
-import ProtectedRoute from './ProtectedRoute';
+import ProtectedAdminRoute from '../route/ProtectedAdminRoute';
+import ProtectedRoute from '../route/ProtectedRoute';
 import React from 'react';
 import Register from '../account/Register';
 import Terms from '../static/Terms';
@@ -51,6 +52,12 @@ const App = () => {
           <Footer />
         </Route>
 
+        <ProtectedRoute exact path='/orders/:orderId'>
+          <Header />
+          <Main content='Order overview' component={OrderOverview} />
+          <Footer />
+        </ProtectedRoute>
+
         <ProtectedRoute exact path='/orders'>
           <Header />
           <Main content='Orders' component={Orders} />
@@ -65,7 +72,7 @@ const App = () => {
 
         <ProtectedRoute exact path='/matches/:matchId/order'>
           <Header />
-          <Main content='Review your order' component={OrderOverview} />
+          <Main content='Review your order' component={OrderCheckout} />
           <Footer />
         </ProtectedRoute>
 
