@@ -23,7 +23,7 @@ const useGET = (url, config = null) => {
         .catch(err => {
           if (err.name === 'AbortError') console.log('fetch aborted')
           else {
-            if(err.response.data) setError(err.response.data.message);
+            if(err.response) setError(err.response.data.message);
             else setError(err.message);
             setIsPending(false);
           }

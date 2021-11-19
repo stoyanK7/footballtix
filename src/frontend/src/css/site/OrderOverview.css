@@ -15,3 +15,9 @@
   color: var(--dark-green);
   font-size: 1.3rem;
 }
+
+.order-overview .order-details {
+  width: 100%;
+  text-align: left;
+  padding: 10px 30px;
+}
