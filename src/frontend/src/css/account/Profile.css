@@ -24,3 +24,8 @@
   flex-direction: column;
   justify-items: center;
 }
+
+.profile .delete-button {
+  display: block;
+  margin: 20px auto;
+}

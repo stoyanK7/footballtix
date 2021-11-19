@@ -6,10 +6,9 @@ plugins {
     id 'jacoco'
 }
 
-
 sonarqube {
     properties {
-        property "sonar.projectKey", "FootballTix"
+        property "sonar.projectKey", "footballtix"
         property "sonar.qualitygate.wait", true
     }
 }

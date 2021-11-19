@@ -22,12 +22,20 @@ public class ConfirmationTokenService {
         return confirmationTokenRepository.getByToken(token);
     }
 
-    public void setConfirmedAt(String token){
+    public void setConfirmedAt(String token) {
         ConfirmationToken confirmationToken = getConfirmationToken(token);
         confirmationToken.setConfirmedAt(LocalDateTime.now());
     }
 
     private boolean tokenExists(String token) {
         return confirmationTokenRepository.existsByToken(token);
+    }
+
+    public void deleteToken(String token) {
+        confirmationTokenRepository.deleteByToken(token);
+    }
+
+    public void deleteTokenByEmail(String email) {
+        confirmationTokenRepository.deleteAllByUser_Email(email);
     }
 }

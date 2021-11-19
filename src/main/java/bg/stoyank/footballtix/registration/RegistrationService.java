@@ -37,7 +37,7 @@ public class RegistrationService {
                 registrationRequest.getPassword(),
                 UserRole.USER
         ));
-        String link = "http://localhost:8080/api/register/confirm?token=" + token;
+        String link = "http://localhost:3000/confirm-token/" + token;
 
         emailSender.send(registrationRequest.getEmail(), "Confirm your email", buildEmail(registrationRequest.getFullName(),
                 link));

@@ -1,11 +1,12 @@
 import '../../css/site/match-form.css';
 
-import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
-import useGET from '../../hooks/useGET';
+
 import Loading from '../shared/Loading';
 import MessageBox from '../shared/MessageBox';
+import axios from 'axios';
+import useGET from '../../hooks/useGET';
+import { useParams } from 'react-router';
 
 const EditMatch = () => {
   const { matchId } = useParams();
@@ -22,13 +23,14 @@ const EditMatch = () => {
       [e.target.name]: e.target.value
     });
   };
+  const [message, setMessage] = useState('');
 
   const onSubmitHandler = e => {
     e.preventDefault();
 
     axios.put(`/api/matches/${matchId}`, { ...match })
       .then(res => {
-        // TODO: response
+        setMessage('Update successfully.');
       })
       .catch(err => {
         // TODO: display err
@@ -37,6 +39,7 @@ const EditMatch = () => {
 
   return (
     <>
+      {message && <MessageBox content={message} type='success' />}
       {isPending && <Loading />}
       {error && <MessageBox content={error} type='error' />}
       {match &&
@@ -81,7 +84,7 @@ const EditMatch = () => {
               type='text'
               value={match.league}
               onChange={onChangeHandler} />
-            <input
+            {/* <input
               name='ticketsAvailable'
               placeholder='Tickets available'
               type='number'
@@ -95,7 +98,7 @@ const EditMatch = () => {
               value={match.pricePerTicket}
               onChange={onChangeHandler}
               min='0'
-              max='10000' />
+              max='10000' /> */}
             <button type='submit'>Confirm</button>
           </form>
         </div>

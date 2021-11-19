@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.springframework.http.HttpStatus.NO_CONTENT;
+
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/users")
@@ -41,5 +43,12 @@ public class UserController {
         String newPassword = json.get("newPassword");
         String confirmPassword = json.get("confirmPassword");
         userService.updatePassword(email, currentPassword, newPassword, confirmPassword);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<Object> deleteUser(@RequestParam("jwt") String jwt) {
+        String email = jwtService.extractUsername(jwt);
+        userService.deleteUser(email);
+        return new ResponseEntity<>(NO_CONTENT);
     }
 }

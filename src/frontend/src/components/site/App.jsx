@@ -2,6 +2,7 @@ import '../../css/site/App.css';
 
 import { Route, Switch } from 'react-router';
 
+import ConfirmToken from '../account/ConfirmToken';
 import Contact from '../static/Contact';
 import CreateMatch from '../site/CreateMatch';
 import EditMatch from '../site/EditMatch';
@@ -50,6 +51,10 @@ const App = () => {
 
         <Route exact path='/forgot-password'>
           <ForgotPassword />
+        </Route>
+
+        <Route exact path='/confirm-token/:confirmationToken'>
+          <ConfirmToken />
         </Route>
 
         <Route exact path='/reset-password'>

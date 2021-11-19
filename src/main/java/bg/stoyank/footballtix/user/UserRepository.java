@@ -10,4 +10,6 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     UserFullName getFullNameByEmail(String email);
 
     UserPassword getPasswordByEmail(String email);
+
+    Integer deleteByEmail(String email);
 }

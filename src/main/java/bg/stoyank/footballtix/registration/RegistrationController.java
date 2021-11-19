@@ -25,7 +25,7 @@ public class RegistrationController {
     }
 
     @GetMapping("/confirm")
-    public String confirm(@RequestParam("token") @Pattern(regexp = "[0-9a-fA-F]{8}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{4}\\-[0-9a-fA-F]{12}") String token) {
+    public String confirm(@RequestParam("token") String token) {
         return registrationService.confirmToken(token);
     }
 }

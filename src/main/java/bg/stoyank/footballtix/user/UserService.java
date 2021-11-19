@@ -1,5 +1,6 @@
 package bg.stoyank.footballtix.user;
 
+import bg.stoyank.footballtix.footballmatch.exception.FootballMatchNotFoundException;
 import bg.stoyank.footballtix.user.exception.InvalidCredentialsException;
 import bg.stoyank.footballtix.user.exception.PasswordsDoNotMatchException;
 import bg.stoyank.footballtix.user.exception.UserAlreadyExistsException;
@@ -15,6 +16,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -116,5 +118,14 @@ public class UserService implements UserDetailsService {
         String encodedNewPassword = bCryptPasswordEncoder.encode(newPassword);
         user.setPassword(encodedNewPassword);
         userRepository.save(user);
+    }
+
+    @Transactional
+    public void deleteUser(String email) {
+        if (!userExistsByEmail(email)) {
+            throw new UserNotFoundException("Could not find user with email: " + email + ".");
+        }
+        confirmationTokenService.deleteTokenByEmail(email);
+        userRepository.deleteByEmail(email);
     }
 }

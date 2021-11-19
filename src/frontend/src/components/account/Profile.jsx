@@ -77,6 +77,18 @@ const Profile = () => {
       });
   };
 
+  const handleDeleteAccount = e => {
+    let result = window.confirm('Are you sure?');
+
+    if (result) {
+      axios.delete('/api/users?jwt=' + token)
+        .then(res => {
+          deleteToken();
+          setRedirectTo({ pathname: '/login', state: { message: 'Account deleted successfully!' } });
+        })
+    }
+  };
+
   if (redirectTo) return <Redirect to={redirectTo} />;
 
   return (
@@ -136,6 +148,7 @@ const Profile = () => {
               title='Minimum six characters, at least one uppercase letter, one lowercase letter, one number and one special character:' />
             <button type='submit'>Save password</button>
           </form>
+          <button className='delete-button' onClick={handleDeleteAccount}>Delete account</button>
         </div>
       </div>}
     </>
