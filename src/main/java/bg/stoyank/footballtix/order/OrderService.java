@@ -7,6 +7,7 @@ import bg.stoyank.footballtix.order.exception.OrderNotFoundException;
 import bg.stoyank.footballtix.pdf.PdfService;
 import bg.stoyank.footballtix.qr.QrService;
 import bg.stoyank.footballtix.jwt.JwtService;
+import bg.stoyank.footballtix.ticket.TicketService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,7 @@ public class OrderService {
     private EmailService emailService;
     private QrService qrService;
     private JwtService jwtService;
+    private TicketService ticketService;
 
     public void createOrder(Order order) {
         orderRepository.save(order);
@@ -32,18 +34,7 @@ public class OrderService {
         if (receipt.delete()) log.info("Deleted file: " + receipt.getName());
         else log.error("Failed to delete file: " + receipt.getName());
 
-        try {
-            String jwt = jwtService.generateTicketJwtToken(order);
-            String address = "http://localhost:8080/api/tickets/confirm?token=" + jwt + "&fullName=" + order.getFullName().replace(" ", "%20");
-            qrService.createQRCode(address);
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        pdfService.createTicket(order);
-        emailService.sendTicket(order.getEmail(), "FootballTix order ticket.", order.getId());
-        File ticket = new File("/media/stoyank/Elements/University/Semester 3/footballtix/tmp/ticket/Ticket #" + order.getId() + ".pdf");
-        if (ticket.delete()) log.info("Deleted file: " + ticket.getName());
-        else log.error("Failed to delete file: " + ticket.getName());
+        ticketService.sendTicket(order.getEmail(), order);
     }
 
     public List<Order> getAllOrdersByAccountEmail(String email) {
@@ -52,7 +43,7 @@ public class OrderService {
 
     public Order getOrderById(int orderId) {
         if (orderExistsById(orderId)) {
-            return orderRepository.getById((long)orderId);
+            return orderRepository.getById((long) orderId);
         }
         throw new OrderNotFoundException("Could not find order with id: " + orderId + ".");
     }

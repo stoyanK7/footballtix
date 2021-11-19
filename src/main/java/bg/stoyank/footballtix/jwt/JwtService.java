@@ -40,7 +40,7 @@ public class JwtService {
     public String generateJwtToken(UserDetails user) {
         Map<String, Object> claims = new HashMap<>();
         claims.put("role", user.getAuthorities().toArray()[0].toString());
-        return createJwtToken(claims, user.getUsername(), new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 6));
+        return createJwtToken(claims, user.getUsername(), new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24));
     }
 
     public String generateTicketJwtToken(Order order) {

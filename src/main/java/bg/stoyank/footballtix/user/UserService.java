@@ -99,14 +99,20 @@ public class UserService implements UserDetailsService {
     }
 
     public void updatePassword(String email, String currentPassword, String newPassword, String confirmPassword) {
-        if (!newPassword.equals(confirmPassword)) {
-            throw new PasswordsDoNotMatchException("Passwords do not match.");
-        }
+        if (!newPassword.equals(confirmPassword)) throw new PasswordsDoNotMatchException("Passwords do not match.");
         String encodedCurrentPassword = bCryptPasswordEncoder.encode(currentPassword);
         User user = getUserByEmail(email);
         if (!bCryptPasswordEncoder.matches(currentPassword, user.getPassword())) {
             throw new InvalidCredentialsException("Provided current password is invalid.");
         }
+        String encodedNewPassword = bCryptPasswordEncoder.encode(newPassword);
+        user.setPassword(encodedNewPassword);
+        userRepository.save(user);
+    }
+
+    public void updatePassword(String email, String newPassword, String confirmPassword) {
+        if (!newPassword.equals(confirmPassword)) throw new PasswordsDoNotMatchException("Passwords do not match.");
+        User user = getUserByEmail(email);
         String encodedNewPassword = bCryptPasswordEncoder.encode(newPassword);
         user.setPassword(encodedNewPassword);
         userRepository.save(user);

@@ -5,6 +5,7 @@ import bg.stoyank.footballtix.user.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -27,21 +28,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-//        http.cors().configurationSource(request -> new CorsConfiguration().applyPermitDefaultValues());
         http
-                // send post requests without being rejected
-                // enable once using form based authentication
                 .cors().and()
                 .csrf().disable()
                 .authorizeRequests()
+                .antMatchers(HttpMethod.PUT, "/api/matches/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, "/api/matches/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/api/matches/**").hasRole("ADMIN")
+                .antMatchers("/api/tickets/**").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/api/orders").hasAnyRole("USER", "ADMIN")
+                .antMatchers("/api/matches/**").permitAll()
                 .antMatchers("/api/register/**").permitAll()
                 .antMatchers("/api/authenticate/**").permitAll()
-                .antMatchers("/**").permitAll()
-                .antMatchers("/hello").hasRole("USER")
-                // any other request must be authenticated
                 .anyRequest().authenticated()
                 .and().sessionManagement()
-                // do not manage sessions
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);

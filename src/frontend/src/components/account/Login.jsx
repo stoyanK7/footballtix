@@ -68,13 +68,13 @@ const Login = () => {
             onChange={onChangeHandler} 
             required
             minLength='6'/>
+          <button type='submit' disabled={error}>Log in</button>
           <p>
             <Link to='/register'>Don't have an account?</Link>
             <br />
             <br />
             <Link to='/forgot-password'>Forgot your password?</Link>
           </p>
-          <button type='submit' disabled={error}>Log in</button>
         </form>
       </div>
     </>

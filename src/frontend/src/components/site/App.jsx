@@ -6,6 +6,7 @@ import Contact from '../static/Contact';
 import CreateMatch from '../site/CreateMatch';
 import EditMatch from '../site/EditMatch';
 import Footer from '../static/Footer';
+import ForgotPassword from '../account/ForgotPassword';
 import Header from '../static/Header';
 import Home from '../site/Home';
 import Login from '../account/Login';
@@ -22,6 +23,7 @@ import ProtectedAdminRoute from '../route/ProtectedAdminRoute';
 import ProtectedRoute from '../route/ProtectedRoute';
 import React from 'react';
 import Register from '../account/Register';
+import ResetPassword from '../account/ResetPassword';
 import Terms from '../static/Terms';
 
 const App = () => {
@@ -44,6 +46,14 @@ const App = () => {
           <Header />
           <Main content='Privacy policy' component={Privacy} />
           <Footer />
+        </Route>
+
+        <Route exact path='/forgot-password'>
+          <ForgotPassword />
+        </Route>
+
+        <Route exact path='/reset-password'>
+          <ResetPassword />
         </Route>
 
         <Route exact path='/terms'>
