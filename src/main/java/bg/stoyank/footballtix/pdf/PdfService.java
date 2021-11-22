@@ -62,7 +62,7 @@ public class PdfService {
 
             PDImageXObject pdImage = PDImageXObject.createFromFile("/media/stoyank/Elements/University/Semester 3/footballtix/tmp/qr/QR.png", pDDocument);
             PDPage page = pDDocument.getPage(0);
-            PDPageContentStream contentStream = new PDPageContentStream(pDDocument, page, true, true);
+            PDPageContentStream contentStream = new PDPageContentStream(pDDocument, page, PDPageContentStream.AppendMode.APPEND,true, true);
             contentStream.drawImage(pdImage, 0, 30);
             contentStream.close();
 
