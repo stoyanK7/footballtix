@@ -57,15 +57,4 @@ class RegistrationServiceTest {
         assertThatThrownBy(() -> componentUnderTest.register(mock(RegistrationRequest.class)))
                 .isInstanceOf(InvalidEmailException.class);
     }
-
-    @Test
-    @Disabled
-    @DisplayName("Ensure EmailConfirmedException is thrown in confirmToken().")
-    void testConfirmTokenEmailConfirmedException() {
-        given(confirmationTokenService.getConfirmationToken(anyString()).getConfirmedAt())
-                .willReturn(null);
-
-        assertThatThrownBy(() -> componentUnderTest.confirmToken(anyString()))
-                .isInstanceOf(EmailConfirmedException.class);
-    }
 }

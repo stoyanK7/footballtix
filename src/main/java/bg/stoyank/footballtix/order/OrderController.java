@@ -1,6 +1,5 @@
 package bg.stoyank.footballtix.order;
 
-import bg.stoyank.footballtix.footballmatch.FootballMatch;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;

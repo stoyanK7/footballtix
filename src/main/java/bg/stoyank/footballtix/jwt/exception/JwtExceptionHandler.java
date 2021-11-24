@@ -1,7 +1,7 @@
 package bg.stoyank.footballtix.jwt.exception;
 
 
-import bg.stoyank.footballtix.exception.ApiException;
+import bg.stoyank.footballtix.exception.ApiResponse;
 import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,11 +18,11 @@ public class JwtExceptionHandler {
     @ExceptionHandler(ExpiredJwtException.class)
     public ResponseEntity<Object> handleExpiredJwtException(ExpiredJwtException e) {
         HttpStatus status = UNAUTHORIZED;
-        ApiException apiException = new ApiException(
+        ApiResponse apiResponse = new ApiResponse(
                 "Provided token has expired.",
                 status,
                 ZonedDateTime.now(ZoneId.of("Z"))
         );
-        return new ResponseEntity<>(apiException, status);
+        return new ResponseEntity<>(apiResponse, status);
     }
 }

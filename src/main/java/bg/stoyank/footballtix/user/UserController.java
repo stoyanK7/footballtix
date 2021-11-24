@@ -37,7 +37,6 @@ public class UserController {
 
     @PutMapping("/password")
     public void updatePassword(@RequestBody Map<String, String> json) {
-        HashMap<String, String> map = new HashMap<>();
         String email = jwtService.extractUsername(json.get("jwt"));
         String currentPassword = json.get("currentPassword");
         String newPassword = json.get("newPassword");

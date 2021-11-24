@@ -1,6 +1,6 @@
 package bg.stoyank.footballtix.footballmatch.exception;
 
-import bg.stoyank.footballtix.exception.ApiException;
+import bg.stoyank.footballtix.exception.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -16,11 +16,11 @@ public class FootballMatchExceptionHandler {
     @ExceptionHandler(FootballMatchNotFoundException.class)
     public ResponseEntity<Object> handleFootballMatchNotFoundException(FootballMatchNotFoundException e) {
         HttpStatus status = NOT_FOUND;
-        ApiException apiException = new ApiException(
+        ApiResponse apiResponse = new ApiResponse(
                 e.getMessage(),
                 status,
                 ZonedDateTime.now(ZoneId.of("Z"))
         );
-        return new ResponseEntity<>(apiException, status);
+        return new ResponseEntity<>(apiResponse, status);
     }
 }

@@ -9,7 +9,8 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 @Service
 @AllArgsConstructor
@@ -29,15 +30,18 @@ public class TicketService {
         try {
             String jwt = jwtService.generateTicketJwtToken(order);
             String address = "http://localhost:8080/api/tickets/confirm?token=" + jwt + "&fullName=" + order.getFullName().replace(" ", "%20");
-            qrService.createQRCode(address);
+            qrService.createQrCode(address);
         } catch (Exception e) {
-            System.out.println(e);
+            log.error(e.toString());
         }
         pdfService.createTicket(order);
         emailService.sendTicket(email, "FootballTix order ticket.", order.getId());
-        File ticket = new File("/media/stoyank/Elements/University/Semester 3/footballtix/tmp/ticket/Ticket #" + order.getId() + ".pdf");
-        if (ticket.delete()) log.info("Deleted file: " + ticket.getName());
-        else log.error("Failed to delete file: " + ticket.getName());
+        String ticketPath = "/media/stoyank/Elements/University/Semester 3/footballtix/tmp/ticket/Ticket #" + order.getId() + ".pdf";
+        try {
+            Files.delete(Paths.get(ticketPath));
+        } catch (Exception e) {
+            log.error(e.toString());
+        }
         return "Order sent";
     }
 }

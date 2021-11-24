@@ -1,8 +1,6 @@
 package bg.stoyank.footballtix.order;
 
 import bg.stoyank.footballtix.email.EmailService;
-import bg.stoyank.footballtix.footballmatch.FootballMatch;
-import bg.stoyank.footballtix.footballmatch.exception.FootballMatchNotFoundException;
 import bg.stoyank.footballtix.order.exception.OrderNotFoundException;
 import bg.stoyank.footballtix.pdf.PdfService;
 import bg.stoyank.footballtix.qr.QrService;
@@ -12,7 +10,8 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 
 @Service
@@ -30,9 +29,12 @@ public class OrderService {
         orderRepository.save(order);
         pdfService.createReceipt(order);
         emailService.sendReceipt(order.getEmail(), "FootballTix order receipt.", order.getId());
-        File receipt = new File("/media/stoyank/Elements/University/Semester 3/footballtix/tmp/receipt/Order #" + order.getId() + ".pdf");
-        if (receipt.delete()) log.info("Deleted file: " + receipt.getName());
-        else log.error("Failed to delete file: " + receipt.getName());
+        String receiptPath = "/media/stoyank/Elements/University/Semester 3/footballtix/tmp/receipt/Order #" + order.getId() + ".pdf";
+        try {
+            Files.delete(Paths.get(receiptPath));
+        } catch(Exception e) {
+            log.error(e.toString());
+        }
 
         ticketService.sendTicket(order.getEmail(), order);
     }

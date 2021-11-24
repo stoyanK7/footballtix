@@ -1,6 +1,5 @@
 package bg.stoyank.footballtix.footballmatch;
 
-import bg.stoyank.footballtix.email.EmailSender;
 import bg.stoyank.footballtix.email.EmailService;
 import bg.stoyank.footballtix.footballmatch.exception.FootballMatchNotFoundException;
 import bg.stoyank.footballtix.order.Order;
@@ -9,7 +8,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 

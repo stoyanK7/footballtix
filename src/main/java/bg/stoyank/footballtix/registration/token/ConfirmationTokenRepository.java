@@ -9,5 +9,5 @@ public interface ConfirmationTokenRepository extends JpaRepository<ConfirmationT
 
     void deleteByToken(String token);
 
-    void deleteAllByUser_Email(String email);
+    void deleteAllByUserEmail(String email);
 }

@@ -1,6 +1,5 @@
 package bg.stoyank.footballtix.user;
 
-import bg.stoyank.footballtix.footballmatch.exception.FootballMatchNotFoundException;
 import bg.stoyank.footballtix.user.exception.InvalidCredentialsException;
 import bg.stoyank.footballtix.user.exception.PasswordsDoNotMatchException;
 import bg.stoyank.footballtix.user.exception.UserAlreadyExistsException;
@@ -8,11 +7,8 @@ import bg.stoyank.footballtix.user.exception.UserNotFoundException;
 import lombok.AllArgsConstructor;
 import bg.stoyank.footballtix.registration.token.ConfirmationToken;
 import bg.stoyank.footballtix.registration.token.ConfirmationTokenService;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +23,7 @@ public class UserService implements UserDetailsService {
     private UserRepository userRepository;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     private ConfirmationTokenService confirmationTokenService;
+    private static final String USER_NOT_FOUND_EXCEPTION_MESSAGE = "Could not find user with id: ";
 
     public String createUser(User user) throws UserAlreadyExistsException {
         if (userExistsByEmail(user.getEmail())) {
@@ -45,8 +42,6 @@ public class UserService implements UserDetailsService {
                 user);
         confirmationTokenService.saveConfirmationToken(confirmationToken);
 
-        // TODO: send email
-
         return token;
     }
 
@@ -54,7 +49,7 @@ public class UserService implements UserDetailsService {
         if (userExistsById(userId)) {
             return userRepository.getById(userId);
         }
-        throw new UserNotFoundException("Could not find user with id: " + userId);
+        throw new UserNotFoundException(USER_NOT_FOUND_EXCEPTION_MESSAGE + userId);
     }
 
     public User getUserByEmail(String email) throws UserNotFoundException {
@@ -68,7 +63,7 @@ public class UserService implements UserDetailsService {
         if (userExistsByEmail(email)) {
             return userRepository.getFullNameByEmail(email).getFullName();
         }
-        throw new UserNotFoundException("Could not find user with email: " + email);
+        throw new UserNotFoundException(USER_NOT_FOUND_EXCEPTION_MESSAGE + email);
     }
 
     public List<User> getAllUsers() {
@@ -101,8 +96,8 @@ public class UserService implements UserDetailsService {
     }
 
     public void updatePassword(String email, String currentPassword, String newPassword, String confirmPassword) {
-        if (!newPassword.equals(confirmPassword)) throw new PasswordsDoNotMatchException("Passwords do not match.");
-        String encodedCurrentPassword = bCryptPasswordEncoder.encode(currentPassword);
+        if (!newPassword.equals(confirmPassword))
+            throw new PasswordsDoNotMatchException("Passwords do not match.");
         User user = getUserByEmail(email);
         if (!bCryptPasswordEncoder.matches(currentPassword, user.getPassword())) {
             throw new InvalidCredentialsException("Provided current password is invalid.");
@@ -113,7 +108,8 @@ public class UserService implements UserDetailsService {
     }
 
     public void updatePassword(String email, String newPassword, String confirmPassword) {
-        if (!newPassword.equals(confirmPassword)) throw new PasswordsDoNotMatchException("Passwords do not match.");
+        if (!newPassword.equals(confirmPassword))
+            throw new PasswordsDoNotMatchException("Passwords do not match.");
         User user = getUserByEmail(email);
         String encodedNewPassword = bCryptPasswordEncoder.encode(newPassword);
         user.setPassword(encodedNewPassword);
@@ -123,7 +119,7 @@ public class UserService implements UserDetailsService {
     @Transactional
     public void deleteUser(String email) {
         if (!userExistsByEmail(email)) {
-            throw new UserNotFoundException("Could not find user with email: " + email + ".");
+            throw new UserNotFoundException(USER_NOT_FOUND_EXCEPTION_MESSAGE + email);
         }
         confirmationTokenService.deleteTokenByEmail(email);
         userRepository.deleteByEmail(email);
