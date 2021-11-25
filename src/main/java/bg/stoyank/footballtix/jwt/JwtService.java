@@ -63,8 +63,8 @@ public class JwtService {
         return (username.equals(user.getUsername()) && !isJwtTokenExpired(jwtToken));
     }
 
-    public boolean validateJwtToken(String JwtToken, String fullName) {
-        final String username = extractUsername(JwtToken);
-        return (username.equals(fullName) && !isJwtTokenExpired(JwtToken));
+    public boolean validateJwtToken(String jwtToken, String fullName) {
+        final String username = extractUsername(jwtToken);
+        return (username.equals(fullName) && !isJwtTokenExpired(jwtToken));
     }
 }
