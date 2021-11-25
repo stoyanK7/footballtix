@@ -10,6 +10,7 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.EnumMap;
@@ -18,6 +19,9 @@ import java.util.Map;
 @Service
 @Slf4j
 public class QrService {
+    private final static String QR_CODE_PATH =
+            new File("").getAbsolutePath() + "/tmp/qr/QR.png";
+
     //static function that creates QR Code
     public void generateQrCode(String data, String path, String charset,
                                Map<EncodeHintType, ErrorCorrectionLevel> map,
@@ -32,9 +36,6 @@ public class QrService {
     }
 
     public void createQrCode(String data) throws IOException, WriterException {
-        //data that we want to store in the QR code
-        //path where we want to get QR Code
-        String path = "/media/stoyank/Elements/University/Semester 3/footballtix/tmp/qr/QR.png";
         //Encoding charset to be used
         String charset = "UTF-8";
         EnumMap<EncodeHintType, ErrorCorrectionLevel> hashMap =
@@ -42,7 +43,7 @@ public class QrService {
         //generates QR code with Low level(L) error correction capability
         hashMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L);
         //invoking the user-defined method that creates the QR code
-        generateQrCode(data, path, charset, hashMap, 330, 330);
+        generateQrCode(data, QR_CODE_PATH, charset, hashMap, 330, 330);
         //prints if the QR code is generated
         log.info("Created QR code with data: " + data);
     }

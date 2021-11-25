@@ -1,10 +1,6 @@
 package bg.stoyank.footballtix.footballmatch;
 
-import bg.stoyank.footballtix.email.EmailService;
-import bg.stoyank.footballtix.email.EmailTemplateService;
 import bg.stoyank.footballtix.footballmatch.exception.FootballMatchNotFoundException;
-import bg.stoyank.footballtix.order.Order;
-import bg.stoyank.footballtix.order.OrderRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,9 +12,6 @@ import java.util.List;
 @AllArgsConstructor
 public class FootballMatchService {
     private FootballMatchRepository footballMatchRepository;
-    private OrderRepository orderRepository;
-    private EmailService emailService;
-    private EmailTemplateService emailTemplateService;
 
     public List<FootballMatch> getAllFootballMatches() {
         return footballMatchRepository.findAll();
@@ -63,21 +56,6 @@ public class FootballMatchService {
         oldFootballMatch.setTicketsAvailable(footballMatch.getTicketsAvailable());
         oldFootballMatch.setPricePerTicket(footballMatch.getPricePerTicket());
         footballMatchRepository.save(oldFootballMatch);
-
-        List<Order> orders = orderRepository.getAllByFootballMatch(footballMatch);
-        for (Order order : orders) {
-            String email = order.getEmail();
-            String accountEmail = order.getAccountEmail();
-            String subject = "Match: " + footballMatch.getHomeTeam() + " vs " + footballMatch.getAwayTeam();
-//            emailService.send(email, subject,
-//                    emailTemplateService.buildEmail
-//                            (subject, email, footballMatch.getStartingDateTime()));
-//            if (!email.equals(accountEmail))
-//                emailService.send(accountEmail, subject,
-//                        emailTemplateService.buildEmail
-//                                (subject, accountEmail, footballMatch.getStartingDateTime()));
-
-        }
     }
 
     private boolean footballMatchExistsById(int footballMatchId) {

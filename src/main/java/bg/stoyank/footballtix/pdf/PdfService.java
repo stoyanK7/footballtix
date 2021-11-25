@@ -1,5 +1,6 @@
 package bg.stoyank.footballtix.pdf;
 
+import bg.stoyank.footballtix.footballmatch.FootballMatch;
 import bg.stoyank.footballtix.order.Order;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -10,81 +11,113 @@ import org.apache.pdfbox.pdmodel.interactive.form.PDAcroForm;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
-import java.io.IOException;
 
 @Service
 @Slf4j
 public class PdfService {
+    private final static String PROJECT_PATH =
+            new File("").getAbsolutePath();
+    private final static File RECEIPT_TEMPLATE =
+            new File(PROJECT_PATH + "/src/main/resources/templates/Receipt.pdf");
+    private final static String RECEIPT_SAVE_PATH =
+            PROJECT_PATH + "/tmp/receipt/";
+    private final static File TICKET_TEMPLATE =
+            new File(PROJECT_PATH + "/src/main/resources/templates/Ticket.pdf");
+    private final static String QR_CODE_PATH =
+            PROJECT_PATH + "/tmp/qr/QR.png";
+    private final static String TICKET_SAVE_PATH =
+            PROJECT_PATH + "/tmp/ticket/";
+
     public void createReceipt(Order order) {
         try {
-            // TODO: make relative path
-            PDDocument pDDocument = PDDocument.load(new File("/media/stoyank/Elements/University/Semester 3/footballtix/src/main/resources/templates/Receipt.pdf"));
+            PDDocument pDDocument = PDDocument.load(RECEIPT_TEMPLATE);
             PDAcroForm pDAcroForm = pDDocument.getDocumentCatalog().getAcroForm();
 
             pDAcroForm.refreshAppearances();
 
-            pDAcroForm.getField("tbxOrderId").setValue(order.getId().toString());
-            pDAcroForm.getField("tbxFullName").setValue(order.getFullName());
-            pDAcroForm.getField("tbxEmail").setValue(order.getEmail());
-            pDAcroForm.getField("tbxPhoneNumber").setValue(order.getMobilePhone());
-            pDAcroForm.getField("tbxAddress").setValue(order.getAddress());
-            pDAcroForm.getField("tbxCity").setValue(order.getCity());
-            pDAcroForm.getField("tbxCountry").setValue(order.getCountry());
-            pDAcroForm.getField("tbxPostcode").setValue(order.getPostcode());
-            pDAcroForm.getField("tbxTransactionId").setValue(order.getTransactionId());
-            // TODO: parse date
-            pDAcroForm.getField("tbxTransactionTime").setValue(order.getTransactionDateTime().toString());
+            pDAcroForm.getField("tbxOrderId")
+                    .setValue(order.getId().toString());
+            pDAcroForm.getField("tbxFullName")
+                    .setValue(order.getFullName());
+            pDAcroForm.getField("tbxEmail")
+                    .setValue(order.getEmail());
+            pDAcroForm.getField("tbxPhoneNumber")
+                    .setValue(order.getMobilePhone());
+            pDAcroForm.getField("tbxAddress")
+                    .setValue(order.getAddress());
+            pDAcroForm.getField("tbxCity")
+                    .setValue(order.getCity());
+            pDAcroForm.getField("tbxCountry")
+                    .setValue(order.getCountry());
+            pDAcroForm.getField("tbxPostcode")
+                    .setValue(order.getPostcode());
+            pDAcroForm.getField("tbxTransactionId")
+                    .setValue(order.getTransactionId());
+            pDAcroForm.getField("tbxTransactionTime")
+                    .setValue(order.getTransactionDateTime().toString());
 
-            pDAcroForm.getField("tbxMatch").setValue(order.getFootballMatch().getHomeTeam() + " vs " + order.getFootballMatch().getAwayTeam());
-            // TODO: parse date
-            pDAcroForm.getField("tbxDate").setValue(order.getFootballMatch().getStartingDateTime().toString());
-            pDAcroForm.getField("tbxPlace").setValue(order.getFootballMatch().getStadium() + ", " + order.getFootballMatch().getLocation());
+            FootballMatch orderFootballMatch = order.getFootballMatch();
+            pDAcroForm.getField("tbxMatch")
+                    .setValue(orderFootballMatch.getHomeTeam() + " vs " + orderFootballMatch.getAwayTeam());
+            pDAcroForm.getField("tbxDate")
+                    .setValue(orderFootballMatch.getStartingDateTime().toString());
+            pDAcroForm.getField("tbxPlace")
+                    .setValue(orderFootballMatch.getStadium() + ", " + orderFootballMatch.getLocation());
 
-            pDAcroForm.getField("tbxTotal").setValue("Total: €" + String.format("%.2f", order.getFootballMatch().getPricePerTicket()));
+            pDAcroForm.getField("tbxTotal")
+                    .setValue("Total: €" +
+                            String.format("%.2f", order.getFootballMatch().getPricePerTicket()));
 
             pDAcroForm.flatten();
             String fileName = "Order #" + order.getId() + ".pdf";
-            // TODO: make relative path
-            pDDocument.save("/media/stoyank/Elements/University/Semester 3/footballtix/tmp/receipt/" + fileName);
+            pDDocument.save(RECEIPT_SAVE_PATH + fileName);
             pDDocument.close();
             log.info("Created PDF file: " + fileName);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            log.error(e.toString());
         }
     }
 
     public void createTicket(Order order) {
         try {
-            // TODO: make relative path
-            PDDocument pDDocument = PDDocument.load(new File("/media/stoyank/Elements/University/Semester 3/footballtix/src/main/resources/templates/Ticket.pdf"));
+            PDDocument pDDocument = PDDocument.load(TICKET_TEMPLATE);
             PDAcroForm pDAcroForm = pDDocument.getDocumentCatalog().getAcroForm();
             pDAcroForm.refreshAppearances();
 
-            PDImageXObject pdImage = PDImageXObject.createFromFile("/media/stoyank/Elements/University/Semester 3/footballtix/tmp/qr/QR.png", pDDocument);
+            PDImageXObject pdImage = PDImageXObject.createFromFile(QR_CODE_PATH,
+                    pDDocument);
             PDPage page = pDDocument.getPage(0);
-            PDPageContentStream contentStream = new PDPageContentStream(pDDocument, page, PDPageContentStream.AppendMode.APPEND,true, true);
+            PDPageContentStream contentStream = new PDPageContentStream(pDDocument,
+                    page, PDPageContentStream.AppendMode.APPEND, true, true);
             contentStream.drawImage(pdImage, 0, 30);
             contentStream.close();
 
-            pDAcroForm.getField("tbxHomeTeam").setValue(order.getFootballMatch().getHomeTeam().toUpperCase());
-            pDAcroForm.getField("tbxAwayTeam").setValue(order.getFootballMatch().getAwayTeam().toUpperCase());
-            pDAcroForm.getField("tbxTicketNumber").setValue("TICKET NUMBER: " + order.getId().toString());
-            pDAcroForm.getField("tbxSeat").setValue("Seat: " + order.getId().toString());
+            FootballMatch orderFootballMatch = order.getFootballMatch();
+            pDAcroForm.getField("tbxHomeTeam")
+                    .setValue(orderFootballMatch.getHomeTeam().toUpperCase());
+            pDAcroForm.getField("tbxAwayTeam")
+                    .setValue(orderFootballMatch.getAwayTeam().toUpperCase());
+            pDAcroForm.getField("tbxTicketNumber")
+                    .setValue("TICKET NUMBER: " + order.getId().toString());
+            pDAcroForm.getField("tbxSeat")
+                    .setValue("Seat: " + order.getId().toString());
 
             // TODO: parse date
-            pDAcroForm.getField("tbxDate").setValue(order.getFootballMatch().getStartingDateTime().toString());
-            pDAcroForm.getField("tbxStadium").setValue(order.getFootballMatch().getStadium().toUpperCase());
+            pDAcroForm.getField("tbxDate")
+                    .setValue(orderFootballMatch.getStartingDateTime().toString());
+            pDAcroForm.getField("tbxStadium")
+                    .setValue(orderFootballMatch.getStadium().toUpperCase());
 
-            pDAcroForm.getField("tbxPrice").setValue("Price: €" + String.format("%.2f", order.getFootballMatch().getPricePerTicket()));
+            pDAcroForm.getField("tbxPrice")
+                    .setValue("Price: €" + String.format("%.2f", order.getFootballMatch().getPricePerTicket()));
 
             pDAcroForm.flatten();
-            // TODO: make relative path
             String fileName = "Ticket #" + order.getId() + ".pdf";
-            pDDocument.save("/media/stoyank/Elements/University/Semester 3/footballtix/tmp/ticket/" + fileName);
+            pDDocument.save(TICKET_SAVE_PATH + fileName);
             pDDocument.close();
             log.info("Created PDF file: " + fileName);
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            log.error(e.toString());
         }
     }
 }

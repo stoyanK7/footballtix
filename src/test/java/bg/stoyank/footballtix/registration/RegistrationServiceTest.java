@@ -1,6 +1,5 @@
 package bg.stoyank.footballtix.registration;
 
-import bg.stoyank.footballtix.email.EmailSender;
 import bg.stoyank.footballtix.registration.token.ConfirmationTokenService;
 import bg.stoyank.footballtix.user.User;
 import bg.stoyank.footballtix.user.UserService;
@@ -21,8 +20,6 @@ class RegistrationServiceTest {
     private RegistrationService componentUnderTest;
     @Mock
     private UserService userService;
-    @Mock
-    private EmailSender emailSender;
     @Mock
     private ConfirmationTokenService confirmationTokenService;
 

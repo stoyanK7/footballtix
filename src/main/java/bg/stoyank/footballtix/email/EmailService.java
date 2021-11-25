@@ -15,12 +15,11 @@ import java.io.File;
 @Service
 @AllArgsConstructor
 @Slf4j
-public class EmailService implements EmailSender {
+public class EmailService  {
     private final JavaMailSender mailSender;
     private static final String EMAIL_ENCODING = "utf-8";
     private static final String EMAIL_FROM = "noreply@footballtix.com";
 
-    @Override
     @Async
     public void send(String to, String subject, String email) {
         try {
