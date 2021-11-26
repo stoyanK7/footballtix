@@ -1,7 +1,10 @@
 package bg.stoyank.footballtix.pdf;
 
+import bg.stoyank.footballtix.commonpaths.CommonPathsService;
 import bg.stoyank.footballtix.footballmatch.FootballMatch;
+import bg.stoyank.footballtix.jwt.JwtService;
 import bg.stoyank.footballtix.order.Order;
+import bg.stoyank.footballtix.qr.QrService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
@@ -10,27 +13,16 @@ import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 import org.apache.pdfbox.pdmodel.interactive.form.PDAcroForm;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
-
 @Service
 @Slf4j
 public class PdfService {
-    private final static String PROJECT_PATH =
-            new File("").getAbsolutePath();
-    private final static File RECEIPT_TEMPLATE =
-            new File(PROJECT_PATH + "/src/main/resources/templates/Receipt.pdf");
-    private final static String RECEIPT_SAVE_PATH =
-            PROJECT_PATH + "/tmp/receipt/";
-    private final static File TICKET_TEMPLATE =
-            new File(PROJECT_PATH + "/src/main/resources/templates/Ticket.pdf");
-    private final static String QR_CODE_PATH =
-            PROJECT_PATH + "/tmp/qr/QR.png";
-    private final static String TICKET_SAVE_PATH =
-            PROJECT_PATH + "/tmp/ticket/";
+    private QrService qrService;
+    private JwtService jwtService;
+    private CommonPathsService commonPathsService;
 
     public void createReceipt(Order order) {
         try {
-            PDDocument pDDocument = PDDocument.load(RECEIPT_TEMPLATE);
+            PDDocument pDDocument = PDDocument.load(CommonPathsService.RECEIPT_TEMPLATE);
             PDAcroForm pDAcroForm = pDDocument.getDocumentCatalog().getAcroForm();
 
             pDAcroForm.refreshAppearances();
@@ -69,10 +61,9 @@ public class PdfService {
                             String.format("%.2f", order.getFootballMatch().getPricePerTicket()));
 
             pDAcroForm.flatten();
-            String fileName = "Order #" + order.getId() + ".pdf";
-            pDDocument.save(RECEIPT_SAVE_PATH + fileName);
+            pDDocument.save(commonPathsService.generateReceiptPath(order.getId()));
             pDDocument.close();
-            log.info("Created PDF file: " + fileName);
+            log.info("Created receipt PDF for order #" + order.getId());
         } catch (Exception e) {
             log.error(e.toString());
         }
@@ -80,11 +71,20 @@ public class PdfService {
 
     public void createTicket(Order order) {
         try {
-            PDDocument pDDocument = PDDocument.load(TICKET_TEMPLATE);
+            PDDocument pDDocument = PDDocument.load(CommonPathsService.TICKET_TEMPLATE);
             PDAcroForm pDAcroForm = pDDocument.getDocumentCatalog().getAcroForm();
             pDAcroForm.refreshAppearances();
 
-            PDImageXObject pdImage = PDImageXObject.createFromFile(QR_CODE_PATH,
+            try {
+                String jwt = jwtService.generateTicketJwtToken(order);
+                String address = "http://localhost:8080/api/tickets/confirm?token=" + jwt + "&fullName=" + order.getFullName().replace(" ", "%20");
+                qrService.createQrCode(address);
+            } catch (Exception e) {
+                log.error(e.toString());
+            }
+
+            PDImageXObject pdImage = PDImageXObject.createFromFile(
+                    CommonPathsService.QR_CODE_PATH,
                     pDDocument);
             PDPage page = pDDocument.getPage(0);
             PDPageContentStream contentStream = new PDPageContentStream(pDDocument,
@@ -102,7 +102,6 @@ public class PdfService {
             pDAcroForm.getField("tbxSeat")
                     .setValue("Seat: " + order.getId().toString());
 
-            // TODO: parse date
             pDAcroForm.getField("tbxDate")
                     .setValue(orderFootballMatch.getStartingDateTime().toString());
             pDAcroForm.getField("tbxStadium")
@@ -112,10 +111,9 @@ public class PdfService {
                     .setValue("Price: €" + String.format("%.2f", order.getFootballMatch().getPricePerTicket()));
 
             pDAcroForm.flatten();
-            String fileName = "Ticket #" + order.getId() + ".pdf";
-            pDDocument.save(TICKET_SAVE_PATH + fileName);
+            pDDocument.save(commonPathsService.generateTicketPath(order.getId()));
             pDDocument.close();
-            log.info("Created PDF file: " + fileName);
+            log.info("Created ticket PDF for order #" + order.getId());
         } catch (Exception e) {
             log.error(e.toString());
         }

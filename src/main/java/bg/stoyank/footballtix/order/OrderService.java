@@ -3,8 +3,6 @@ package bg.stoyank.footballtix.order;
 import bg.stoyank.footballtix.email.EmailService;
 import bg.stoyank.footballtix.order.exception.OrderNotFoundException;
 import bg.stoyank.footballtix.pdf.PdfService;
-import bg.stoyank.footballtix.qr.QrService;
-import bg.stoyank.footballtix.jwt.JwtService;
 import bg.stoyank.footballtix.ticket.TicketService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,8 +19,6 @@ public class OrderService {
     private OrderRepository orderRepository;
     private PdfService pdfService;
     private EmailService emailService;
-    private QrService qrService;
-    private JwtService jwtService;
     private TicketService ticketService;
 
     public void createOrder(Order order) {
