@@ -16,7 +16,6 @@
   transform-origin: 50% 50%;
   -moz-transform-origin: 50% 50%;
   border: 1px solid var(--light-grey);
-  z-index: 3;
   position: relative;
 }
 

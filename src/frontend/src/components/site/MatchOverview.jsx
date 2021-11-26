@@ -8,38 +8,35 @@ import MatchInfo from '../shared/MatchInfo';
 import MatchPrice from '../shared/MatchPrice';
 import MessageBox from '../shared/MessageBox';
 import axios from 'axios';
-import useGET from '../../hooks/useGET';
-import { useParams } from 'react-router';
+import useFetch from '../../hooks/useFetch';
+import { Redirect, useParams } from 'react-router';
 import useToken from '../../hooks/useToken';
 
 const MatchOverview = () => {
   const { matchId } = useParams();
-
-  const { data: match, isPending, error } = useGET(`/api/matches/${matchId}`);
-
-  const [message, setMessage] = useState();
+  const { fetchData: match, isFetching, fetchError: error } = useFetch(`/api/matches/${matchId}`);
+  const [redirect, setRedirect] = useState();
+  const [responseError, setResponseError] = useState();
+  const { isAdmin } = useToken();
 
   const onClickHandler = () => {
     const confirmation = window.confirm('Are you sure you want to delete this match?');
-
     if (confirmation) {
       axios.delete(`/api/matches/${matchId}`)
-        .then(res => {
-          // TODO: add response
-        })
-        .catch(err => {
-          // TODO:add error catch
-        });
+        .then(res => setRedirect({ pathname: `/`, state: { message: 'Match deleted successfully.' } }))
+        .catch(err => setResponseError('Something went wrong. Please try again later.'));
     }
   };
 
-  const { isAdmin } = useToken();
+
+  if (redirect) return <Redirect to={redirect} />;
+
 
   return (
     <>
-      {isPending && <Loading />}
+      {responseError && <MessageBox content={responseError} setContent={setResponseError} type='error' />}
+      {isFetching && <Loading />}
       {error && <MessageBox content={error} type='error' />}
-      {message && <MessageBox content={message} type='success' />}
       {match &&
         <div className='match-overview'>
           <img src='/img/stadium.png' alt='' />

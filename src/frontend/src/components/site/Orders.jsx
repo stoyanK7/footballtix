@@ -3,13 +3,16 @@ import '../../css/site/Orders.css';
 import Loading from '../shared/Loading';
 import MessageBox from '../shared/MessageBox';
 import OrderList from '../shared/OrderList';
-import useGET from '../../hooks/useGET';
+import useFetch from '../../hooks/useFetch';
 import useToken from '../../hooks/useToken';
+import { useState } from 'react';
+import { faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Orders = () => {
   const { email } = useToken();
-
-  const { data: orders, isPending, error } = useGET('/api/orders', { params: { email: email() } });
+  const { fetchData: orders, isFetching, fetchError} = useFetch('/api/orders', { params: { email: email() } });
+  const [showMore, setShowMore] = useState(5);
 
   const total = (orders) => {
     let total = 0;
@@ -21,16 +24,21 @@ const Orders = () => {
 
   return (
     <>
-      {isPending && <Loading />}
-      {error && <MessageBox content={error} type='error' />}
+      {isFetching && <Loading />}
+      {fetchError && <MessageBox content={fetchError} type='error' />}
       {orders &&
         <div className='orders'>
-          <OrderList orders={orders} />
           <h2 className='total'>Total spent: €{total(orders)}</h2>
+          <OrderList orders={orders.slice(0, showMore)} />
+          {showMore >= orders.length ?
+            <button className='show-more' onClick={() => setShowMore(5)}>Collapse <FontAwesomeIcon className='nav-icon fa-fw' icon={faArrowUp} /></button>
+            :
+            <button className='show-more' onClick={() => setShowMore(showMore + 5)}>Show more <FontAwesomeIcon className='nav-icon fa-fw' icon={faArrowDown} /></button>
+          }
         </div>
       }
     </>
   );
-}
+};
 
 export default Orders;

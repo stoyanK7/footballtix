@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {
-    List<Order> getAllByAccountEmailEquals(String email);
+    List<Order> getAllByAccountEmailEqualsOrderByTransactionDateTimeDesc(String email);
 
     List<Order> getAllByFootballMatch(FootballMatch footballMatch);
 }

@@ -1,22 +1,34 @@
 import Loading from '../shared/Loading';
 import MatchList from '../shared/MatchList';
 import MessageBox from '../shared/MessageBox';
-import useGET from '../../hooks/useGET';
-import useMessage from '../../hooks/useMessage';
+import useFetch from '../../hooks/useFetch';
+import { faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useState } from 'react';
 
 const Home = () => {
-  const { data: upcomingMatches, isPending, error } = useGET('/api/matches/upcoming');
-
-  const message = useMessage();
-
+  const { fetchData: upcomingMatches, isFetching, fetchError } = useFetch('/api/matches/upcoming');
+  const [showMore, setShowMore] = useState(5);
   return (
     <>
-      {isPending && <Loading />}
-      {error && <MessageBox content={error} type='error' />}
+      {isFetching && <Loading />}
+      {fetchError && <MessageBox content={fetchError} type='error' />}
       {upcomingMatches &&
         <>
-          <MatchList matches={upcomingMatches} />
-          {message && <MessageBox content={message} type='success' />}
+          <MatchList matches={upcomingMatches.slice(0, showMore)} />
+          {showMore >= upcomingMatches.length ?
+            <button
+              className='show-more'
+              onClick={() => setShowMore(5)}>
+              Collapse <FontAwesomeIcon className='nav-icon fa-fw' icon={faArrowUp} />
+            </button>
+            :
+            <button
+              className='show-more'
+              onClick={() => setShowMore(showMore + 5)}>
+              Show more <FontAwesomeIcon className='nav-icon fa-fw' icon={faArrowDown} />
+            </button>
+          }
         </>
       }
     </>

@@ -5,15 +5,15 @@ import { useEffect, useState } from 'react';
 import Loading from '../shared/Loading';
 import MessageBox from '../shared/MessageBox';
 import axios from 'axios';
-import useGET from '../../hooks/useGET';
-import { useParams } from 'react-router';
+import useFetch from '../../hooks/useFetch';
+import { Redirect, useParams } from 'react-router';
 
 const EditMatch = () => {
   const { matchId } = useParams();
-
-  const { data, isPending, error } = useGET(`/api/matches/${matchId}`);
-
+  const { fetchData: data, isFetching, fetchError: error } = useFetch(`/api/matches/${matchId}`);
   const [match, setMatch] = useState();
+  const [redirect, setRedirect] = useState();
+  const [responseError, setResponseError] = useState();
 
   useEffect(() => { if (data) setMatch(data) }, [data]);
 
@@ -23,24 +23,20 @@ const EditMatch = () => {
       [e.target.name]: e.target.value
     });
   };
-  const [message, setMessage] = useState('');
 
   const onSubmitHandler = e => {
     e.preventDefault();
-
     axios.put(`/api/matches/${matchId}`, { ...match })
-      .then(res => {
-        setMessage('Update successfully.');
-      })
-      .catch(err => {
-        // TODO: display err
-      });
+      .then(res => setRedirect({ pathname: `/matches/${matchId}`, state: { message: 'Match edited successfully.' } }))
+      .catch(err => setResponseError('Something went wrong. Please try again later.'));
   };
+
+  if (redirect) return <Redirect to={redirect} />;
 
   return (
     <>
-      {message && <MessageBox content={message} type='success' />}
-      {isPending && <Loading />}
+      {responseError && <MessageBox content={responseError} setContent={setResponseError} type='error' />}
+      {isFetching && <Loading />}
       {error && <MessageBox content={error} type='error' />}
       {match &&
         <div className='match-form'>

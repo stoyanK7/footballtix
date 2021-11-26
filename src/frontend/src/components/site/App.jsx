@@ -26,12 +26,18 @@ import React from 'react';
 import Register from '../account/Register';
 import ResetPassword from '../account/ResetPassword';
 import Terms from '../static/Terms';
+import UserStatistics from './UserStatistics';
+import MessageBox from '../shared/MessageBox';
+import useRedirectMessage from '../../hooks/useRedirectMessage';
 
 const App = () => {
+  const redirectMessage = useRedirectMessage();
+
   return (
     <div className='app'>
       <Switch>
         <Route exact path='/'>
+          {redirectMessage && <MessageBox content={redirectMessage} type='success' />}
           <Header />
           <Main content='Upcoming matches' component={Home} />
           <Footer />
@@ -101,7 +107,14 @@ const App = () => {
           <Footer />
         </ProtectedAdminRoute>
 
+        <ProtectedAdminRoute exact path='/stats'>
+          <Header />
+          <Main content='User statistics' component={UserStatistics} />
+          <Footer />
+        </ProtectedAdminRoute>
+
         <Route exact path='/matches/:matchId'>
+          {redirectMessage && <MessageBox content={redirectMessage} type='success' />}
           <Header />
           <Main content='Match overview' component={MatchOverview} />
           <Footer />
@@ -114,9 +127,11 @@ const App = () => {
         </ProtectedAdminRoute>
 
         <Route exact path='/login'>
+          {redirectMessage && <MessageBox content={redirectMessage} type='success' />}
           <Login />
         </Route>
         <Route exact path='/register'>
+          {redirectMessage && <MessageBox content={redirectMessage} type='success' />}
           <Register />
         </Route>
 
@@ -125,6 +140,7 @@ const App = () => {
           <Main content='Not found' component={NotFound} />
           <Footer />
         </Route>
+
       </Switch>
     </div>
   );

@@ -1,6 +1,6 @@
 import '../../css/static/Nav.css';
 
-import { faPlusCircle, faSignInAlt, faSignOutAlt, faTicketAlt, faUserCog, faUserPlus } from '@fortawesome/free-solid-svg-icons';
+import { faChartLine, faPlusCircle, faSignInAlt, faSignOutAlt, faTicketAlt, faUserCog, faUserPlus } from '@fortawesome/free-solid-svg-icons';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
@@ -38,6 +38,12 @@ const Nav = ({ style, toggleNavbar }) => {
               <FontAwesomeIcon className='nav-icon fa-fw' icon={faPlusCircle} />
               <span className='nav-text'>Create match</span>
             </Link>
+          }
+          {isAdmin() &&
+            <Link to='/stats' onClick={toggleNavbar}>
+            <FontAwesomeIcon className='nav-icon fa-fw' icon={faChartLine} />
+            <span className='nav-text'>User statistics</span>
+          </Link>
           }
           <Link to='/logout' onClick={toggleNavbar}>
             <FontAwesomeIcon className='nav-icon fa-fw' icon={faSignOutAlt} />

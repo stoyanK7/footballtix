@@ -26,3 +26,8 @@ body {
   color: var(--dark-grey);
   margin: 0;
 }
+
+.show-more {
+  border-radius: 0;
+  width: 100%;
+}

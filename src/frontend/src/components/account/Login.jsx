@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import MessageBox from '../shared/MessageBox';
 import axios from 'axios';
 import calcReadTime from '../../util/calcReadTime';
-import useMessage from '../../hooks/useMessage';
 import useToken from '../../hooks/useToken';
 
 const Login = () => {
@@ -43,13 +42,11 @@ const Login = () => {
     }
   }, [error]);
 
-  const message = useMessage();
 
   if (successfulLogin) return <Redirect to={{ pathname: '/', state: { message: 'Welcome.' } }} />;
 
   return (
     <>
-      {message && <MessageBox content={message} type='success' />}
       {error && <MessageBox content={error} type='error' />}
       <div className='form-wrapper'>
         <img src='/img/ticket.png' alt='Ticket' />
@@ -59,15 +56,15 @@ const Login = () => {
             name='email'
             placeholder='Email'
             type='email'
-            onChange={onChangeHandler} 
-            required/>
+            onChange={onChangeHandler}
+            required />
           <input
             name='password'
             placeholder='Password'
             type='password'
-            onChange={onChangeHandler} 
+            onChange={onChangeHandler}
             required
-            minLength='6'/>
+            minLength='6' />
           <button type='submit' disabled={error}>Log in</button>
           <p>
             <Link to='/register'>Don't have an account?</Link>

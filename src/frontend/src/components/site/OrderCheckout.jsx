@@ -8,7 +8,7 @@ import MatchPrice from '../shared/MatchPrice';
 import MessageBox from '../shared/MessageBox';
 import PayPal from '../payment/PayPal';
 import axios from 'axios';
-import useGET from '../../hooks/useGET';
+import useFetch from '../../hooks/useFetch';
 import { useParams } from 'react-router';
 import { useState } from 'react';
 import useToken from '../../hooks/useToken';
@@ -17,7 +17,7 @@ import useWindowSize from '../../hooks/useWindowSize';
 const OrderCheckout = () => {
   const { matchId } = useParams();
 
-  const { data: match, isPending, error } = useGET(`/api/matches/${matchId}`);
+  const { fetchData: match, isFetching, fetchError: error } = useFetch(`/api/matches/${matchId}`);
 
   const [fields, setFields] = useState({
     fullName: 'Stoyan Kostadinov',
@@ -79,7 +79,7 @@ const OrderCheckout = () => {
         height={windowSize.height}
         style={{ position: 'fixed' }}
         numberOfPieces={numberOfPieces} />
-      {isPending && <Loading />}
+      {isFetching && <Loading />}
       {message && <MessageBox content={message} type='success' />}
       {error && <MessageBox content={error} type='error' />}
       {match &&

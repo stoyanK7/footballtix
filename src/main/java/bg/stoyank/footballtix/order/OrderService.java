@@ -36,7 +36,7 @@ public class OrderService {
     }
 
     public List<Order> getAllOrdersByAccountEmail(String email) {
-        return orderRepository.getAllByAccountEmailEquals(email);
+        return orderRepository.getAllByAccountEmailEqualsOrderByTransactionDateTimeDesc(email);
     }
 
     public Order getOrderById(int orderId) {

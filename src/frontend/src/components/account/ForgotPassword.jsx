@@ -1,10 +1,8 @@
-import { Link, Redirect } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 import MessageBox from '../shared/MessageBox';
 import axios from 'axios';
 import calcReadTime from '../../util/calcReadTime';
-import useMessage from '../../hooks/useMessage';
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');

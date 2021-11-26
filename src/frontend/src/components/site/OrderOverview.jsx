@@ -5,33 +5,30 @@ import MatchInfo from '../shared/MatchInfo';
 import MatchPrice from '../shared/MatchPrice';
 import MessageBox from '../shared/MessageBox';
 import axios from 'axios';
-import formatDate from '../../util/formatDate';
-import useGET from '../../hooks/useGET';
+import useFetch from '../../hooks/useFetch';
 import { useParams } from 'react-router';
 import { useState } from 'react';
 
 const OrderOverview = () => {
   const { orderId } = useParams();
-
-  const { data: order, isPending, error } = useGET(`/api/orders/${orderId}`);
-
+  const { fetchData: order, isFetching, fetchError } = useFetch(`/api/orders/${orderId}`);
   const [email, setEmail] = useState('');
+  const [response, setResponse] = useState();
+  const [responseError, setResponseError] = useState();
   const onChangeHandler = e => setEmail(e.target.value);
   const onSubmitHandler = e => {
     e.preventDefault();
-    axios.post('/api/tickets/send', {email: email, order: order})
-      .then(res => {
-        console.log(res);
-      })
-      .catch(err => {
-
-      });
+    axios.post('/api/tickets/send', { email: email, order: order })
+      .then(res => setResponse('Ticket sent. Check your email.'))
+      .catch(err => setResponseError('Something went wrong. Please try again later.'));
   };
 
   return (
     <>
-      {isPending && <Loading />}
-      {error && <MessageBox content={error} type='error' />}
+      {isFetching && <Loading />}
+      {fetchError && <MessageBox content={fetchError} type='error' />}
+      {response && <MessageBox content={response} setContent={setResponse} type='success' />}
+      {responseError && <MessageBox content={responseError} setContent={setResponseError} type='error' />}
       {order &&
         <div className='order-overview'>
           <img src='/img/stadium.png' alt='' />
@@ -48,18 +45,15 @@ const OrderOverview = () => {
             <p><b>Town/City: </b>{order.city}</p>
             <p><b>Country: </b>{order.country}</p>
             <p><b>Postcode: </b>{order.postcode}</p>
-            <p><b>Transaction time: </b>{order.transactionTime}</p>
+            <p><b>Transaction time: </b>{order.transactionDateTime}</p>
             <p><b>Transaction ID: </b>{order.transactionId}</p>
-            <p><b>Match: </b>{order.footballMatch.homeTeam} vs {order.footballMatch.awayTeam}</p>
-            <p><b>Match date: </b>{formatDate(order.footballMatch.startingDateTime)}</p>
           </div>
           <span><b>Request ticket to email</b></span>
           <div className="request-ticket">
             <form onSubmit={onSubmitHandler}>
-              <input type="email" placeholder='Email' name='email' required  onChange={onChangeHandler}/>
+              <input type="email" placeholder='Email' name='email' required onChange={onChangeHandler} />
               <button><b>Request</b></button>
             </form>
-
           </div>
         </div>
       }

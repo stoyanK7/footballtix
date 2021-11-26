@@ -7,12 +7,12 @@ import MessageBox from '../shared/MessageBox';
 import { Redirect } from 'react-router';
 import axios from 'axios';
 import jwt from 'jwt-decode';
-import useGET from '../../hooks/useGET';
+import useFetch from '../../hooks/useFetch';
 import useToken from '../../hooks/useToken';
 
 const Profile = () => {
   const { token, deleteToken } = useToken();
-  const { data: info, isPending, error } = useGET('/api/users/info', { params: { jwt: token } });
+  const { fetchData: info, isFetching, fetchError } = useFetch('/api/users/info', { params: { jwt: token } });
 
   const [infoFields, setInfoFields] = useState({
     newEmail: '',
@@ -93,8 +93,8 @@ const Profile = () => {
 
   return (
     <>
-      {isPending && <Loading />}
-      {error && <MessageBox content={error} type='error' />}
+      {isFetching && <Loading />}
+      {fetchError && <MessageBox content={fetchError} type='error' />}
       {info && <div className='profile'>
         <img src='/img/user-settings.png' alt='' />
         <div>
