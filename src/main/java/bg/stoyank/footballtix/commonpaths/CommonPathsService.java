@@ -6,17 +6,17 @@ import java.io.File;
 
 @Service
 public class CommonPathsService {
-    public final static String PROJECT_PATH =
+    public static final String PROJECT_PATH =
             new File("").getAbsolutePath();
-    public final static File RECEIPT_TEMPLATE =
+    public static final File RECEIPT_TEMPLATE =
             new File(PROJECT_PATH + "/src/main/resources/templates/Receipt.pdf");
-    public final static String RECEIPT_SAVE_PATH =
+    public static final String RECEIPT_SAVE_PATH =
             PROJECT_PATH + "/tmp/receipt/";
-    public final static File TICKET_TEMPLATE =
+    public static final File TICKET_TEMPLATE =
             new File(PROJECT_PATH + "/src/main/resources/templates/Ticket.pdf");
-    public final static String QR_CODE_PATH =
+    public static final String QR_CODE_PATH =
             PROJECT_PATH + "/tmp/qr/QR.png";
-    public final static String TICKET_SAVE_PATH =
+    public static final String TICKET_SAVE_PATH =
             PROJECT_PATH + "/tmp/ticket/";
 
     public String generateTicketPath(Long orderId) {

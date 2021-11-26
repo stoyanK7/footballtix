@@ -75,13 +75,9 @@ public class PdfService {
             PDAcroForm pDAcroForm = pDDocument.getDocumentCatalog().getAcroForm();
             pDAcroForm.refreshAppearances();
 
-            try {
-                String jwt = jwtService.generateTicketJwtToken(order);
-                String address = "http://localhost:8080/api/tickets/confirm?token=" + jwt + "&fullName=" + order.getFullName().replace(" ", "%20");
-                qrService.createQrCode(address);
-            } catch (Exception e) {
-                log.error(e.toString());
-            }
+            String jwt = jwtService.generateTicketJwtToken(order);
+            String address = "http://localhost:8080/api/tickets/confirm?token=" + jwt + "&fullName=" + order.getFullName().replace(" ", "%20");
+            qrService.createQrCode(address);
 
             PDImageXObject pdImage = PDImageXObject.createFromFile(
                     CommonPathsService.QR_CODE_PATH,

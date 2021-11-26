@@ -40,7 +40,7 @@ public class EmailTemplateService {
     private String buildBody(String[] listOfItems) {
         StringBuilder body = new StringBuilder();
         for (String paragraph : listOfItems) {
-            body.append("<p>").append(paragraph).append("</p>");
+            body.append(buildParagraph(paragraph));
         }
         return body.toString();
     }
