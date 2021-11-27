@@ -23,7 +23,7 @@ public class UserService implements UserDetailsService {
     private UserRepository userRepository;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     private ConfirmationTokenService confirmationTokenService;
-    private static final String USER_NOT_FOUND_EXCEPTION_MESSAGE = "Could not find user with id: ";
+    private static final String USER_NOT_FOUND_EXCEPTION_MESSAGE = "Could not find user: ";
 
     public String createUser(User user) throws UserAlreadyExistsException {
         if (userExistsByEmail(user.getEmail())) {

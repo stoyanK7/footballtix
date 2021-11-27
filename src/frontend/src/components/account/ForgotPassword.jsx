@@ -1,39 +1,27 @@
-import { useEffect, useState } from 'react';
-
+import { Link } from 'react-router-dom';
 import MessageBox from '../shared/MessageBox';
+import { Redirect } from 'react-router';
 import axios from 'axios';
-import calcReadTime from '../../util/calcReadTime';
+import { useState } from 'react';
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
+  const [redirect, setRedirect] = useState();
+  const [responseError, setResponseError] = useState();
 
-  const onChangeHandler = e => setEmail(e.target.value)
-
-  const [error, setError] = useState();
-  const [message, setMessage] = useState();
-
+  const onChangeHandler = e => setEmail(e.target.value);
   const onSubmitHandler = async e => {
     e.preventDefault();
-
     await axios.post('/api/authenticate/forgot-password', { email })
-      .then(res => {
-        setMessage(res.data);
-      })
-      .catch(err => { if (err.response) setError(err.response.data.message) });
+      .then(res => setRedirect({ pathname: '/login', state: { message: 'Password reset link sent. Check your email.' } }))
+      .catch(err => { if (err.response) setResponseError(err.response.data.message) });
   };
 
-  useEffect(() => {
-    if (error) {
-      const timeout = calcReadTime(error);
-      setTimeout(() => setError(null), timeout + 500)
-    }
-  }, [error]);
-
+  if (redirect) return <Redirect to={redirect} />;
 
   return (
     <>
-      {message && <MessageBox content={message} type='success' />}
-      {error && <MessageBox content={error} type='error' />}
+      {responseError && <MessageBox content={responseError} setContent={setResponseError} type='error' />}
       <div className='form-wrapper'>
         <img src='/img/ticket.png' alt='Ticket' />
         <h1>Forgot password</h1>
@@ -44,7 +32,8 @@ const ForgotPassword = () => {
             type='email'
             onChange={onChangeHandler}
             required />
-          <button type='submit' disabled={error}>Send me an email</button>
+          <button type='submit' disabled={responseError}>Send me an email</button>
+          <Link to='/login'>Back to login</Link>
         </form>
       </div>
     </>

@@ -21,6 +21,7 @@ public class AuthenticationService {
     private EmailTemplateService emailTemplateService;
 
     public void sendRecoveryEmail(String email) {
+        userService.getUserByEmail(email);
         String token = UUID.randomUUID().toString();
         ResetToken resetToken = new ResetToken(
                 token,
