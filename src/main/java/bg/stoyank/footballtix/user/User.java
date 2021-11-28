@@ -1,11 +1,23 @@
 package bg.stoyank.footballtix.user;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotBlank;
 import java.util.Collection;
 import java.util.Collections;
@@ -13,10 +25,10 @@ import java.util.Collections;
 @Entity
 @Getter
 @Setter
-@EqualsAndHashCode
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@OnDelete(action = OnDeleteAction.CASCADE)
 public class User implements UserDetails {
     @Id
     @SequenceGenerator(

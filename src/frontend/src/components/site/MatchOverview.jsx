@@ -1,15 +1,16 @@
 import '../../css/site/MatchOverview.css';
 
 import React, { useState } from 'react';
+import { Redirect, useParams } from 'react-router';
 
 import { Link } from 'react-router-dom';
 import Loading from '../shared/Loading';
 import MatchInfo from '../shared/MatchInfo';
-import MatchPrice from '../shared/MatchPrice';
 import MessageBox from '../shared/MessageBox';
+import TicketInfo from '../shared/TicketInfo';
+import TicketsLeft from '../shared/TicketsLeft';
 import axios from 'axios';
 import useFetch from '../../hooks/useFetch';
-import { Redirect, useParams } from 'react-router';
 import useToken from '../../hooks/useToken';
 
 const MatchOverview = () => {
@@ -41,13 +42,12 @@ const MatchOverview = () => {
         <div className='match-overview'>
           <img src='/img/stadium.png' alt='' />
           <MatchInfo {...match} />
-          <div>
-            <span className='ticket-amount'>{match.ticketsAvailable}</span>
-            <span className='ticket-amount-desc'>&nbsp; Tickets available</span>
-          </div>
-          <MatchPrice pricePerTicket={match.pricePerTicket} />
+          <TicketsLeft ticketsAvailable={match.ticketsAvailable} />
+          <TicketInfo pricePerTicket={match.pricePerTicket} />
           <Link to={`/matches/${matchId}/order`}>
-            <button className='buy-button'>BUY</button>
+            <button
+              className='buy-button'
+              disabled={match.ticketsAvailable === 0}>BUY</button>
           </Link>
           {isAdmin() &&
             <>

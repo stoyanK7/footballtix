@@ -18,6 +18,10 @@
   font-size: 1.3rem;
 }
 
+.order-checkout section:last-child, .order-checkout section:last-child>* {
+  width: 100%;
+}
+
 .order-checkout section>span, .order-checkout button {
   font-weight: 700;
 }

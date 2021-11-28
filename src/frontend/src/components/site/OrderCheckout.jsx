@@ -4,9 +4,10 @@ import Confetti from 'react-confetti'
 import { Link } from 'react-router-dom';
 import Loading from '../shared/Loading';
 import MatchInfo from '../shared/MatchInfo';
-import MatchPrice from '../shared/MatchPrice';
 import MessageBox from '../shared/MessageBox';
 import PayPal from '../payment/PayPal';
+import TicketInfo from '../shared/TicketInfo';
+import TicketsLeft from '../shared/TicketsLeft';
 import axios from 'axios';
 import useFetch from '../../hooks/useFetch';
 import { useParams } from 'react-router';
@@ -16,9 +17,7 @@ import useWindowSize from '../../hooks/useWindowSize';
 
 const OrderCheckout = () => {
   const { matchId } = useParams();
-
-  const { fetchData: match, isFetching, fetchError: error } = useFetch(`/api/matches/${matchId}`);
-
+  const { fetchData: match, isFetching, fetchError } = useFetch(`/api/matches/${matchId}`);
   const [fields, setFields] = useState({
     fullName: 'Stoyan Kostadinov',
     email: 'stoyank127@gmail.com',
@@ -28,6 +27,12 @@ const OrderCheckout = () => {
     country: 'Netherlands',
     postcode: '5631JZ'
   });
+  const [responseError, setResponseError] = useState();
+  const [checkout, setCheckout] = useState(false);
+  const [numberOfPieces, setNumberOfPieces] = useState(0);
+  const { email } = useToken();
+  const [response, setReponse] = useState();
+  const windowSize = useWindowSize();
 
   const onChangeHandler = e => {
     setFields({
@@ -36,22 +41,22 @@ const OrderCheckout = () => {
     });
   };
 
-  const [checkout, setCheckout] = useState(false);
-
-  const onSubmitHandler = e => {
+  const onSubmitHandler = async e => {
     e.preventDefault();
-    setCheckout(true);
+    await axios.post('/api/orders/check', {
+      matchId: match.id,
+      email: email(),
+      fullName: fields.fullName
+    })
+      .then(res => setCheckout(true))
+      .catch(err => { if (err.response) setResponseError(err.response.data.message) });
   };
 
-  const [numberOfPieces, setNumberOfPieces] = useState(0);
+  const onErrorHandler = () => setCheckout(false);
 
-  const { email } = useToken();
-
-  const [message, setMessage] = useState();
-
-  const onSuccessHandler = order => {
+  const onSuccessHandler = async order => {
     setNumberOfPieces(200);
-    axios.post('/api/orders', {
+    await axios.post('/api/orders', {
       ...fields,
       footballMatch: match,
       transactionId: order.id,
@@ -59,18 +64,11 @@ const OrderCheckout = () => {
       accountEmail: email()
     })
       .then(res => {
-        setMessage('Your order has been processed successfully. Check your email.');
+        setReponse('Your order has been processed successfully. Check your email.');
         setTimeout(() => setNumberOfPieces(0), 6000);
       })
-      .catch(err => {
-        setNumberOfPieces(0);
-        console.log(err);
-      });
+      .catch(err => setResponseError(`Something went wrong with our system, but the payment has been processed. This is your transaction id for future references: ${order.id}. Please write it down.`));
   };
-
-  const onErrorHandler = () => setCheckout(false);
-
-  const windowSize = useWindowSize();
 
   return (
     <>
@@ -79,9 +77,10 @@ const OrderCheckout = () => {
         height={windowSize.height}
         style={{ position: 'fixed' }}
         numberOfPieces={numberOfPieces} />
+      {responseError && <MessageBox content={responseError} setContent={setResponseError} type='error' />}
       {isFetching && <Loading />}
-      {message && <MessageBox content={message} type='success' />}
-      {error && <MessageBox content={error} type='error' />}
+      {response && <MessageBox content={response} setContent={setReponse} type='success' />}
+      {fetchError && <MessageBox content={fetchError} type='error' />}
       {match &&
         <div className='order-checkout'>
           <section>
@@ -94,7 +93,10 @@ const OrderCheckout = () => {
           </section>
           <section >
             <span>Price</span>
-            <MatchPrice pricePerTicket={match.pricePerTicket} />
+            <TicketInfo pricePerTicket={match.pricePerTicket} />
+          </section>
+          <section>
+            <TicketsLeft ticketsAvailable={match.ticketsAvailable} />
           </section>
           <section>
             <form onSubmit={onSubmitHandler}>
@@ -165,7 +167,10 @@ const OrderCheckout = () => {
                       onError={onErrorHandler} />
                   </div>
                   :
-                  <button type='submit'>MAKE PAYMENT</button>
+                  <button 
+                  type='submit'
+                  disabled={match.ticketsAvailable === 0}
+                  >MAKE PAYMENT</button>
                 }
               </fieldset>
             </form>

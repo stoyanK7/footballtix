@@ -1,6 +1,6 @@
 package bg.stoyank.footballtix.registration;
 
-import bg.stoyank.footballtix.registration.token.ConfirmationTokenService;
+import bg.stoyank.footballtix.registration.confirmationtoken.ConfirmationTokenService;
 import bg.stoyank.footballtix.user.User;
 import bg.stoyank.footballtix.user.UserService;
 import org.junit.jupiter.api.Disabled;

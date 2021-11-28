@@ -15,12 +15,13 @@ public class TicketController {
     private TicketService ticketService;
 
     @GetMapping("/confirm")
-    public String confirm(@RequestParam("token") String token, @RequestParam("fullName") String fullName) {
+    public String confirm(@RequestParam("token") String token,
+                          @RequestParam("fullName") String fullName) {
         return ticketService.confirmToken(token, fullName);
     }
 
     @PostMapping("/send")
-    public String send(@RequestBody SendTicketRequest request) {
+    public String send(@RequestBody TicketSendRequest request) {
         return ticketService.sendTicket(request.getEmail(), request.getOrder());
     }
 }

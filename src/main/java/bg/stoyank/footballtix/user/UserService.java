@@ -2,11 +2,11 @@ package bg.stoyank.footballtix.user;
 
 import bg.stoyank.footballtix.user.exception.InvalidCredentialsException;
 import bg.stoyank.footballtix.user.exception.PasswordsDoNotMatchException;
-import bg.stoyank.footballtix.user.exception.UserAlreadyExistsException;
+import bg.stoyank.footballtix.user.exception.EmailAlreadyTakenException;
 import bg.stoyank.footballtix.user.exception.UserNotFoundException;
 import lombok.AllArgsConstructor;
-import bg.stoyank.footballtix.registration.token.ConfirmationToken;
-import bg.stoyank.footballtix.registration.token.ConfirmationTokenService;
+import bg.stoyank.footballtix.registration.confirmationtoken.ConfirmationToken;
+import bg.stoyank.footballtix.registration.confirmationtoken.ConfirmationTokenService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -23,12 +23,10 @@ public class UserService implements UserDetailsService {
     private UserRepository userRepository;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     private ConfirmationTokenService confirmationTokenService;
-    private static final String USER_NOT_FOUND_EXCEPTION_MESSAGE = "Could not find user: ";
 
-    public String createUser(User user) throws UserAlreadyExistsException {
-        if (userExistsByEmail(user.getEmail())) {
-            throw new UserAlreadyExistsException("User with such email already exists: " + user.getEmail());
-        }
+    public String createUser(User user) throws EmailAlreadyTakenException {
+        if (userExistsByEmail(user.getEmail()))
+            throw new EmailAlreadyTakenException(user.getEmail());
 
         String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
@@ -46,24 +44,24 @@ public class UserService implements UserDetailsService {
     }
 
     public User getUserById(int userId) throws UserNotFoundException {
-        if (userExistsById(userId)) {
-            return userRepository.getById(userId);
-        }
-        throw new UserNotFoundException(USER_NOT_FOUND_EXCEPTION_MESSAGE + userId);
+        if (!userExistsById(userId))
+            throw new UserNotFoundException(Integer.toString(userId));
+
+        return userRepository.getById(userId);
     }
 
     public User getUserByEmail(String email) throws UserNotFoundException {
-        if (userExistsByEmail(email)) {
-            return userRepository.getByEmail(email);
-        }
-        throw new UserNotFoundException("Could not find user with email: " + email);
+        if (!userExistsByEmail(email))
+            throw new UserNotFoundException(email);
+
+        return userRepository.getByEmail(email);
     }
 
     public String getFullNameByEmail(String email) throws UserNotFoundException {
-        if (userExistsByEmail(email)) {
-            return userRepository.getFullNameByEmail(email).getFullName();
-        }
-        throw new UserNotFoundException(USER_NOT_FOUND_EXCEPTION_MESSAGE + email);
+        if (!userExistsByEmail(email))
+            throw new UserNotFoundException(email);
+
+        return userRepository.getFullNameByEmail(email).getFullName();
     }
 
     public List<User> getAllUsers() {
@@ -89,6 +87,9 @@ public class UserService implements UserDetailsService {
     }
 
     public void updateInfo(String oldEmail, String newEmail, String newFullName) {
+        if (oldEmail.equals(newEmail) || userExistsByEmail(newEmail))
+            throw new EmailAlreadyTakenException(newEmail);
+
         User user = getUserByEmail(oldEmail);
         user.setEmail(newEmail);
         user.setFullName(newFullName);
@@ -98,10 +99,11 @@ public class UserService implements UserDetailsService {
     public void updatePassword(String email, String currentPassword, String newPassword, String confirmPassword) {
         if (!newPassword.equals(confirmPassword))
             throw new PasswordsDoNotMatchException("Passwords do not match.");
+
         User user = getUserByEmail(email);
-        if (!bCryptPasswordEncoder.matches(currentPassword, user.getPassword())) {
+        if (!bCryptPasswordEncoder.matches(currentPassword, user.getPassword()))
             throw new InvalidCredentialsException("Provided current password is invalid.");
-        }
+
         String encodedNewPassword = bCryptPasswordEncoder.encode(newPassword);
         user.setPassword(encodedNewPassword);
         userRepository.save(user);
@@ -110,6 +112,7 @@ public class UserService implements UserDetailsService {
     public void updatePassword(String email, String newPassword, String confirmPassword) {
         if (!newPassword.equals(confirmPassword))
             throw new PasswordsDoNotMatchException("Passwords do not match.");
+
         User user = getUserByEmail(email);
         String encodedNewPassword = bCryptPasswordEncoder.encode(newPassword);
         user.setPassword(encodedNewPassword);
@@ -118,9 +121,9 @@ public class UserService implements UserDetailsService {
 
     @Transactional
     public void deleteUser(String email) {
-        if (!userExistsByEmail(email)) {
-            throw new UserNotFoundException(USER_NOT_FOUND_EXCEPTION_MESSAGE + email);
-        }
+        if (!userExistsByEmail(email))
+            throw new UserNotFoundException(email);
+
         confirmationTokenService.deleteTokenByEmail(email);
         userRepository.deleteByEmail(email);
     }

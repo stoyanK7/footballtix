@@ -1,4 +1,4 @@
-package bg.stoyank.footballtix.commonpaths;
+package bg.stoyank.footballtix.file;
 
 import org.springframework.stereotype.Service;
 

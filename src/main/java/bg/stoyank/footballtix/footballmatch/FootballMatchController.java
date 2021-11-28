@@ -29,25 +29,29 @@ public class FootballMatchController {
     }
 
     @GetMapping("/{footballMatchId}")
-    public FootballMatch getFootballMatch(@PathVariable("footballMatchId") @PositiveOrZero int footballMatchId) {
+    public FootballMatch getFootballMatch(
+            @PathVariable("footballMatchId") @PositiveOrZero long footballMatchId) {
         return footballMatchService.getFootballMatchById(footballMatchId);
     }
 
     @PostMapping
-    public ResponseEntity<Object> createFootballMatch(@Valid @RequestBody FootballMatch footballMatch) {
-        int footballMatchId = footballMatchService.createFootballMatch(footballMatch);
+    public ResponseEntity<Object> createFootballMatch(
+            @Valid @RequestBody FootballMatch footballMatch) {
+        long footballMatchId = footballMatchService.createFootballMatch(footballMatch);
         return new ResponseEntity<>(footballMatchId, CREATED);
     }
 
     @PutMapping("/{footballMatchId}")
-    public ResponseEntity<Object> updateFootballMatch(@PathVariable("footballMatchId") @PositiveOrZero int footballMatchId,
-                                                      @Valid @RequestBody FootballMatch footballMatch) {
+    public ResponseEntity<Object> updateFootballMatch(
+            @PathVariable("footballMatchId") @PositiveOrZero long footballMatchId,
+            @Valid @RequestBody FootballMatch footballMatch) {
         footballMatchService.updateFootballMatch(footballMatchId, footballMatch);
         return new ResponseEntity<>(NO_CONTENT);
     }
 
     @DeleteMapping("/{footballMatchId}")
-    public ResponseEntity<Object> deleteFootballMatch(@PathVariable("footballMatchId") @PositiveOrZero int footballMatchId) {
+    public ResponseEntity<Object> deleteFootballMatch(
+            @PathVariable("footballMatchId") @PositiveOrZero long footballMatchId) {
         footballMatchService.deleteFootballMatchById(footballMatchId);
         return new ResponseEntity<>(NO_CONTENT);
     }

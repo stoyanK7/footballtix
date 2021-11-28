@@ -1,12 +1,12 @@
-import '../../css/static/MatchPrice.css';
+import '../../css/shared/TicketInfo.css';
 
-const MatchPrice = ({ pricePerTicket }) => {
+const TicketInfo = ({ pricePerTicket }) => {
   return (
-    <div className='match-price'>
+    <div className='ticket-info'>
       <img src='/img/ticket.png' alt='Ticket' />
       <span className='price-per-ticket'>€{pricePerTicket}</span>
     </div>
   );
 }
 
-export default MatchPrice;
+export default TicketInfo;

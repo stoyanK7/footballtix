@@ -14,7 +14,10 @@ const ForgotPassword = () => {
     e.preventDefault();
     await axios.post('/api/authenticate/forgot-password', { email })
       .then(res => setRedirect({ pathname: '/login', state: { message: 'Password reset link sent. Check your email.' } }))
-      .catch(err => { if (err.response) setResponseError(err.response.data.message) });
+      .catch(err => {
+        if (err.response) setResponseError(err.response.data.message);
+        else setResponseError('Something went wrong. Please try again later.');
+      });
   };
 
   if (redirect) return <Redirect to={redirect} />;

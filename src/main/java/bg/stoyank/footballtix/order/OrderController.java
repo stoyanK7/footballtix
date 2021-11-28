@@ -12,10 +12,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import javax.validation.constraints.PositiveOrZero;
-
 import java.util.List;
+import java.util.Map;
 
 import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
 
 @RestController
 @AllArgsConstructor
@@ -27,7 +28,17 @@ public class OrderController {
     @PostMapping
     public ResponseEntity<Object> createOrder(@Valid @RequestBody Order order) {
         orderService.createOrder(order);
-        return new ResponseEntity<>(CREATED);
+        return new ResponseEntity<Object>(CREATED);
+    }
+
+    @PostMapping("/check")
+    public ResponseEntity<Object> checkIfOrderIsAlreadyMadeOnName(@RequestBody  Map<String, String> body) {
+        String matchId = body.get("matchId");
+        String email = body.get("email");
+        String fullName = body.get("fullName");
+        System.out.println(body.keySet());
+        orderService.checkIfOrderExistsForNameAndEmail(matchId, email, fullName);
+        return new ResponseEntity<Object>(NO_CONTENT);
     }
 
     @GetMapping

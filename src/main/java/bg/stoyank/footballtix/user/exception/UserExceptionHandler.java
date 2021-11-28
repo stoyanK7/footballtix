@@ -16,8 +16,8 @@ import static org.springframework.http.HttpStatus.*;
 
 @ControllerAdvice
 public class UserExceptionHandler {
-    @ExceptionHandler(UserAlreadyExistsException.class)
-    public ResponseEntity<Object> handleUserAlreadyExistsException(UserAlreadyExistsException e) {
+    @ExceptionHandler(EmailAlreadyTakenException.class)
+    public ResponseEntity<Object> handleUserAlreadyExistsException(EmailAlreadyTakenException e) {
         HttpStatus status = UNPROCESSABLE_ENTITY;
         ApiResponse apiResponse = new ApiResponse(
                 e.getMessage(),

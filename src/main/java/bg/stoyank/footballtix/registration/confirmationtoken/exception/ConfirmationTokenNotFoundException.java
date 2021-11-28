@@ -1,4 +1,4 @@
-package bg.stoyank.footballtix.registration.token.exception;
+package bg.stoyank.footballtix.registration.confirmationtoken.exception;
 
 public class ConfirmationTokenNotFoundException extends RuntimeException{
     public ConfirmationTokenNotFoundException() {

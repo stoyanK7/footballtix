@@ -1,7 +1,7 @@
 package bg.stoyank.footballtix.user;
 
-import bg.stoyank.footballtix.registration.token.ConfirmationTokenService;
-import bg.stoyank.footballtix.user.exception.UserAlreadyExistsException;
+import bg.stoyank.footballtix.registration.confirmationtoken.ConfirmationTokenService;
+import bg.stoyank.footballtix.user.exception.EmailAlreadyTakenException;
 import bg.stoyank.footballtix.user.exception.UserNotFoundException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -54,7 +54,7 @@ class UserServiceTest {
                 .willReturn(true);
 
         assertThatThrownBy(() -> componentUnderTest.createUser(mock(User.class)))
-                .isInstanceOf(UserAlreadyExistsException.class);
+                .isInstanceOf(EmailAlreadyTakenException.class);
     }
 
     @Test

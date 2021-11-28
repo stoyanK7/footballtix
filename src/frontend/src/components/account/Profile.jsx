@@ -13,15 +13,22 @@ import useToken from '../../hooks/useToken';
 const Profile = () => {
   const { token, deleteToken } = useToken();
   const { fetchData: info, isFetching, fetchError } = useFetch('/api/users/info', { params: { jwt: token } });
-
+  const [redirect, setRedirect] = useState();
+  const [responseError, setResponseError] = useState();
   const [infoFields, setInfoFields] = useState({
     newEmail: '',
     newFullName: ''
+  });
+  const [passwordFields, setPasswordFields] = useState({
+    currentPassword: '',
+    newPassword: '',
+    confirmPassword: ''
   });
 
   useEffect(() => {
     if (info) setInfoFields({ newEmail: info.email, newFullName: info.fullName })
   }, [info]);
+
 
   const onChangeInfoFields = e => {
     setInfoFields({
@@ -30,12 +37,6 @@ const Profile = () => {
     });
   };
 
-  const [passwordFields, setPasswordFields] = useState({
-    currentPassword: '',
-    newPassword: '',
-    confirmPassword: ''
-  });
-
   const onChangePasswordFields = e => {
     setPasswordFields({
       ...passwordFields,
@@ -43,56 +44,51 @@ const Profile = () => {
     });
   };
 
-  const [redirectTo, setRedirectTo] = useState();
-
   const handleSubmitEditInfo = async e => {
     e.preventDefault();
-
-    await axios.put('/api/users/info', {
-      oldEmail: jwt(token).sub,
-      ...infoFields
-    })
+    await axios.put('/api/users/info', { oldEmail: jwt(token).sub, ...infoFields })
       .then(res => {
         deleteToken();
-        setRedirectTo({ pathname: '/login', state: { message: 'Info successfully changed. You can now log in again.' } });
+        setRedirect({ pathname: '/login', state: { message: 'Info successfully changed. You can now log in again.' } });
       })
       .catch(err => {
-        console.log(err);
+        if (err.response) setResponseError(err.response.data.message);
+        else setResponseError('Something went wrong. Please try again later.');
       });
   };
 
   const handleSubmitUpdatePassword = async e => {
     e.preventDefault();
-
-    await axios.put('/api/users/password', {
-      jwt: token,
-      ...passwordFields
-    })
+    await axios.put('/api/users/password', { jwt: token, ...passwordFields })
       .then(res => {
         deleteToken();
-        setRedirectTo({ pathname: '/login', state: { message: 'Password successfully changed. You can now log in with your new credentials.' } });
+        setRedirect({ pathname: '/login', state: { message: 'Password successfully changed. You can now log in again.' } });
       })
       .catch(err => {
-        console.log(err);
+        if (err.response) setResponseError(err.response.data.message);
+        else setResponseError('Something went wrong. Please try again later.');
       });
   };
 
-  const handleDeleteAccount = e => {
-    let result = window.confirm('Are you sure?');
-
-    if (result) {
-      axios.delete('/api/users?jwt=' + token)
+  const handleDeleteAccount = async e => {
+    if (window.confirm('Are you sure?')) {
+      await axios.delete('/api/users?jwt=' + token)
         .then(res => {
           deleteToken();
-          setRedirectTo({ pathname: '/login', state: { message: 'Account deleted successfully!' } });
+          setRedirect({ pathname: '/login', state: { message: 'Account deleted successfully.' } });
         })
+        .catch(err => {
+          if (err.response) setResponseError(err.response.data.message);
+          else setResponseError('Something went wrong. Please try again later.');
+        });
     }
   };
 
-  if (redirectTo) return <Redirect to={redirectTo} />;
+  if (redirect) return <Redirect to={redirect} />;
 
   return (
     <>
+      {responseError && <MessageBox content={responseError} setContent={setResponseError} type='error' />}
       {isFetching && <Loading />}
       {fetchError && <MessageBox content={fetchError} type='error' />}
       {info && <div className='profile'>

@@ -1,0 +1,23 @@
+.tickets-left {
+  font-weight: 700;
+  font-size: 1.4rem;
+}
+
+.ticket-amount {
+  display: inline-block;
+  padding: 10px;
+  border-radius: 2px;
+  box-shadow: 0 0 15px 5px rgb(190, 190, 190);
+}
+
+.ticket-amount-red {
+  color: var(--red);
+}
+
+.ticket-amount-orange {
+  color: orange;
+}
+
+.ticket-amount-green {
+  color: var(--dark-green);
+}

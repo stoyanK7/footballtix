@@ -23,7 +23,7 @@ import java.util.Date;
 public class FootballMatch {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Long id;
     @NotBlank
     private String homeTeam;
     @NotBlank
@@ -37,8 +37,8 @@ public class FootballMatch {
     @NotBlank
     private String league;
     @Min(0)
-    private Integer ticketsAvailable;
+    private int ticketsAvailable;
     @Min(0)
     @Max(10000)
-    private Double pricePerTicket;
+    private double pricePerTicket;
 }

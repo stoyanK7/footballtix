@@ -26,7 +26,7 @@ const PayPal = ({ onSuccess, onError, amount, description }) => {
         },
         onApprove: async (data, actions) => {
           const order = await actions.order.capture();
-          setPaid(true);
+          setPaid(order);
           onSuccess(order);
         },
         onError: (err) => {
@@ -37,7 +37,7 @@ const PayPal = ({ onSuccess, onError, amount, description }) => {
       .render(paypalRef.current);
   }, []);
 
-  if (paid) return <h2>Payment successful.</h2>;
+  if (paid) return <h2>Payment successful. <br /> Transaction id: {paid.id}</h2>;
 
   return (
     <>

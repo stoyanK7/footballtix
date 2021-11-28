@@ -2,7 +2,6 @@ package bg.stoyank.footballtix.email;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
@@ -15,7 +14,7 @@ import java.io.File;
 @Service
 @AllArgsConstructor
 @Slf4j
-public class EmailService  {
+public class EmailService {
     private final JavaMailSender mailSender;
     private static final String EMAIL_ENCODING = "utf-8";
     private static final String EMAIL_FROM = "noreply@footballtix.com";
@@ -24,7 +23,8 @@ public class EmailService  {
     public void send(String to, String subject, String email) {
         try {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, EMAIL_ENCODING);
+            MimeMessageHelper helper =
+                    new MimeMessageHelper(mimeMessage, EMAIL_ENCODING);
 
             helper.setText(email, true);
             helper.setTo(to);
@@ -32,53 +32,31 @@ public class EmailService  {
             helper.setFrom(EMAIL_FROM);
 
             mailSender.send(mimeMessage);
+            log.info(String.format("Email \"%s\" sent to %s", subject, to));
         } catch (MessagingException e) {
-            log.error("failed to send email ", e);
-            throw new IllegalStateException("Failed to send email");
+            log.error(String.format("Failed sending \"%s\" to %s", subject, to), e);
         }
     }
 
-    public void sendReceipt(String to, String subject, Long orderId) {
+    @Async
+    public void sendWithAttachment(String to, String subject,
+                                   String email, File attachment) {
         try {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED);
+            MimeMessageHelper helper =
+                    new MimeMessageHelper(mimeMessage,
+                            MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED);
 
-            FileSystemResource file = new FileSystemResource(new File("/media/stoyank/Elements/University/Semester 3/footballtix/tmp/receipt/Order #" + orderId + ".pdf"));
-
-            helper.setText("", true);
+            helper.setText(email, true);
             helper.setTo(to);
             helper.setSubject(subject);
             helper.setFrom(EMAIL_FROM);
-            helper.addAttachment("Receipt.pdf", file);
+            helper.addAttachment(attachment.getName(), attachment);
 
             mailSender.send(mimeMessage);
             log.info(String.format("Email \"%s\" sent to %s", subject, to));
-        } catch (MessagingException e) {
-            log.error("Failed to send email ", e);
-            throw new IllegalStateException("Failed to send email.");
+        } catch (Exception e) {
+            log.error(String.format("Failed sending \"%s\" to %s", subject, to), e);
         }
     }
-
-    public void sendTicket(String to, String subject, Long orderId) {
-        try {
-            MimeMessage mimeMessage = mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED);
-
-            FileSystemResource file = new FileSystemResource(new File("/media/stoyank/Elements/University/Semester 3/footballtix/tmp/ticket/Ticket #" + orderId + ".pdf"));
-
-            helper.setText("", true);
-            helper.setTo(to);
-            helper.setSubject(subject);
-            helper.setFrom(EMAIL_FROM);
-            helper.addAttachment("Ticket.pdf", file);
-
-            mailSender.send(mimeMessage);
-            log.info(String.format("Email \"%s\" sent to %s", subject, to));
-        } catch (MessagingException e) {
-            log.error("Failed to send email ", e);
-            throw new IllegalStateException("Failed to send email.");
-        }
-    }
-
-
 }

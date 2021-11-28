@@ -2,10 +2,10 @@ package bg.stoyank.footballtix.registration;
 
 import bg.stoyank.footballtix.email.EmailService;
 import bg.stoyank.footballtix.email.EmailTemplateService;
-import bg.stoyank.footballtix.registration.token.ConfirmationToken;
-import bg.stoyank.footballtix.registration.token.ConfirmationTokenService;
-import bg.stoyank.footballtix.registration.token.exception.ConfirmationTokenExpiredException;
-import bg.stoyank.footballtix.registration.token.exception.EmailConfirmedException;
+import bg.stoyank.footballtix.registration.confirmationtoken.ConfirmationToken;
+import bg.stoyank.footballtix.registration.confirmationtoken.ConfirmationTokenService;
+import bg.stoyank.footballtix.registration.confirmationtoken.exception.ConfirmationTokenExpiredException;
+import bg.stoyank.footballtix.registration.confirmationtoken.exception.EmailConfirmedException;
 import bg.stoyank.footballtix.user.User;
 import bg.stoyank.footballtix.user.UserRole;
 import bg.stoyank.footballtix.user.UserService;
@@ -41,20 +41,16 @@ public class RegistrationService {
     }
 
     @Transactional
-    public String confirmToken(String token) throws EmailConfirmedException, ConfirmationTokenExpiredException {
+    public String confirmToken(String token)
+            throws EmailConfirmedException, ConfirmationTokenExpiredException {
         ConfirmationToken confirmationToken = confirmationTokenService.getConfirmationToken(token);
 
-        if (confirmationToken.getConfirmedAt() != null) {
-            throw new EmailConfirmedException("Email " + confirmationToken.getUser().getEmail() + " is already confirmed on " + confirmationToken.getConfirmedAt() + ".");
-        }
-
         LocalDateTime expiredAt = confirmationToken.getExpiresAt();
-        if (expiredAt.isBefore(LocalDateTime.now())) {
+        if (expiredAt.isBefore(LocalDateTime.now()))
             throw new ConfirmationTokenExpiredException("Token {" + token + "} has expired.");
-        }
 
-        confirmationTokenService.setConfirmedAt(token);
         userService.enableUser(confirmationToken.getUser().getEmail());
+        confirmationTokenService.deleteToken(token);
         return "Token is confirmed";
     }
 }

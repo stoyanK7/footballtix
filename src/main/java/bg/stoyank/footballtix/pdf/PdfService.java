@@ -1,10 +1,11 @@
 package bg.stoyank.footballtix.pdf;
 
-import bg.stoyank.footballtix.commonpaths.CommonPathsService;
+import bg.stoyank.footballtix.file.CommonPathsService;
 import bg.stoyank.footballtix.footballmatch.FootballMatch;
 import bg.stoyank.footballtix.jwt.JwtService;
 import bg.stoyank.footballtix.order.Order;
 import bg.stoyank.footballtix.qr.QrService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
+@AllArgsConstructor
 public class PdfService {
     private QrService qrService;
     private JwtService jwtService;

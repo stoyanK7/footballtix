@@ -10,7 +10,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @EqualsAndHashCode
 @ToString
-public class SendTicketRequest {
+public class TicketSendRequest {
     private Order order;
     private String email;
 }

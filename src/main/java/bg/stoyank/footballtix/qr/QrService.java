@@ -1,5 +1,6 @@
 package bg.stoyank.footballtix.qr;
 
+import bg.stoyank.footballtix.file.CommonPathsService;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.MultiFormatWriter;
 import com.google.zxing.WriterException;
@@ -8,16 +9,12 @@ import com.google.zxing.common.BitMatrix;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 
 @Service
 @Slf4j
 public class QrService {
-    private static final String QR_CODE_PATH =
-            new File("").getAbsolutePath() + "/tmp/qr/QR.png";
-
     //static function that creates QR Code
     public void generateQrCode(String data, String path, String charset,
                                int h, int w) throws WriterException, IOException {
@@ -35,7 +32,7 @@ public class QrService {
             //Encoding charset to be used
             String charset = "UTF-8";
             //invoking the user-defined method that creates the QR code
-            generateQrCode(data, QR_CODE_PATH, charset, 330, 330);
+            generateQrCode(data, CommonPathsService.QR_CODE_PATH, charset, 330, 330);
             //prints if the QR code is generated
             log.info("Created QR code with data: " + data);
         } catch (Exception e) {

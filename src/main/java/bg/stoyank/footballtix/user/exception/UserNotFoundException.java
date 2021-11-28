@@ -1,7 +1,7 @@
 package bg.stoyank.footballtix.user.exception;
 
 public class UserNotFoundException extends RuntimeException {
-    public UserNotFoundException(String message) {
-        super(message);
+    public UserNotFoundException(String user) {
+        super("User not found: " + user);
     }
 }

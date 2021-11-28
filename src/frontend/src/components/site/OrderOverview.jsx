@@ -2,8 +2,8 @@ import '../../css/site/OrderOverview.css';
 
 import Loading from '../shared/Loading';
 import MatchInfo from '../shared/MatchInfo';
-import MatchPrice from '../shared/MatchPrice';
 import MessageBox from '../shared/MessageBox';
+import TicketInfo from '../shared/TicketInfo';
 import axios from 'axios';
 import useFetch from '../../hooks/useFetch';
 import { useParams } from 'react-router';
@@ -34,7 +34,7 @@ const OrderOverview = () => {
           <img src='/img/stadium.png' alt='' />
           <MatchInfo {...order.footballMatch} />
           <span><b>Price</b></span>
-          <MatchPrice pricePerTicket={order.footballMatch.pricePerTicket} />
+          <TicketInfo pricePerTicket={order.footballMatch.pricePerTicket} />
           <span><b>Order details</b></span>
           <div className="order-details">
             <p><b>Order ID: </b>{order.id}</p>

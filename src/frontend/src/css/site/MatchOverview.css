@@ -11,27 +11,12 @@
   width: 40%;
 }
 
-.delete-button, .edit-button, .match-overview .ticket-amount-desc, .match-overview .ticket-amount, .match-overview .buy-button {
+.delete-button, .edit-button, .match-overview .ticket-amount-desc, .match-overview .buy-button {
   font-weight: 700;
-}
-
-.match-overview .ticket-amount {
-  color: var(--dark-green);
 }
 
 .match-overview .location, .match-overview .date {
   color: #666666;
-}
-
-.match-overview .ticket-amount-desc, .match-overview .ticket-amount {
-  font-size: 1.4rem;
-}
-
-.match-overview .ticket-amount {
-  display: inline-block;
-  padding: 10px;
-  border-radius: 2px;
-  box-shadow: 0 0 15px 5px rgb(190, 190, 190);
 }
 
 .match-overview .buy-button {

@@ -1,10 +1,8 @@
-package bg.stoyank.footballtix.registration.token;
+package bg.stoyank.footballtix.registration.confirmationtoken;
 
-import bg.stoyank.footballtix.registration.token.exception.ConfirmationTokenNotFoundException;
+import bg.stoyank.footballtix.registration.confirmationtoken.exception.ConfirmationTokenNotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
 
 @Service
 @AllArgsConstructor
@@ -16,15 +14,10 @@ public class ConfirmationTokenService {
     }
 
     public ConfirmationToken getConfirmationToken(String token) throws ConfirmationTokenNotFoundException {
-        if (!tokenExists(token)) {
-            throw new ConfirmationTokenNotFoundException("Token {" + token + "} not found.");
-        }
-        return confirmationTokenRepository.getByToken(token);
-    }
+        if (!tokenExists(token))
+            throw new ConfirmationTokenNotFoundException(String.format("Token {%s} not found", token));
 
-    public void setConfirmedAt(String token) {
-        ConfirmationToken confirmationToken = getConfirmationToken(token);
-        confirmationToken.setConfirmedAt(LocalDateTime.now());
+        return confirmationTokenRepository.getByToken(token);
     }
 
     private boolean tokenExists(String token) {

@@ -22,7 +22,7 @@ public class FootballMatchService {
                 .getFootballMatchesByStartingDateTimeAfterOrderByStartingDateTimeAsc(new Date());
     }
 
-    public FootballMatch getFootballMatchById(int footballMatchId)
+    public FootballMatch getFootballMatchById(long footballMatchId)
             throws FootballMatchNotFoundException {
         if (footballMatchExistsById(footballMatchId))
             return footballMatchRepository.getById(footballMatchId);
@@ -30,12 +30,12 @@ public class FootballMatchService {
         throw new FootballMatchNotFoundException("Could not find football match with id: " + footballMatchId + ".");
     }
 
-    public int createFootballMatch(FootballMatch footballMatch) {
+    public long createFootballMatch(FootballMatch footballMatch) {
         footballMatchRepository.save(footballMatch);
         return footballMatch.getId();
     }
 
-    public void deleteFootballMatchById(int footballMatchId)
+    public void deleteFootballMatchById(long footballMatchId)
             throws FootballMatchNotFoundException {
         if (!footballMatchExistsById(footballMatchId))
             throw new FootballMatchNotFoundException
@@ -44,8 +44,14 @@ public class FootballMatchService {
         footballMatchRepository.deleteById(footballMatchId);
     }
 
+    public void subtractTicketsAvailableByOne(long footballMatchId) {
+        FootballMatch footballMatch = getFootballMatchById(footballMatchId);
+        footballMatch.setTicketsAvailable(footballMatch.getTicketsAvailable() - 1);
+        footballMatchRepository.save(footballMatch);
+    }
+
     @Transactional
-    public void updateFootballMatch(int footballMatchId, FootballMatch footballMatch) {
+    public void updateFootballMatch(long footballMatchId, FootballMatch footballMatch) {
         FootballMatch oldFootballMatch = footballMatchRepository.getById(footballMatchId);
         oldFootballMatch.setHomeTeam(footballMatch.getHomeTeam());
         oldFootballMatch.setAwayTeam(footballMatch.getAwayTeam());
@@ -58,7 +64,7 @@ public class FootballMatchService {
         footballMatchRepository.save(oldFootballMatch);
     }
 
-    private boolean footballMatchExistsById(int footballMatchId) {
+    private boolean footballMatchExistsById(long footballMatchId) {
         return footballMatchRepository.existsById(footballMatchId);
     }
 }

@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.Date;
 import java.util.List;
 
-public interface FootballMatchRepository extends JpaRepository<FootballMatch, Integer> {
+public interface FootballMatchRepository extends JpaRepository<FootballMatch, Long> {
     List<FootballMatch> getFootballMatchesByStartingDateTimeAfterOrderByStartingDateTimeAsc(Date dateTime);
 }
