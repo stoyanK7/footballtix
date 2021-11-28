@@ -12,6 +12,7 @@ const Login = () => {
   });
   const { setToken } = useToken();
   const [redirect, setRedirect] = useState();
+  const [response, setResponse] = useState();
   const [responseError, setResponseError] = useState();
 
   const onChangeHandler = e => {
@@ -28,7 +29,15 @@ const Login = () => {
         setToken(res.data.jwt);
         setRedirect({ pathname: '/', state: { message: 'Welcome.' } });
       })
-      .catch(err => { if (err.response) setResponseError(err.response.data.message) });
+      .catch(err => {
+        if (err.response.data.status === 'LOCKED' &&
+          window.confirm(err.response.data.message)) {
+          axios.post('/api/register/send-token', { email: fields.email })
+            .then(response => setResponse('Check your email for confirmation token.'))
+            .catch(error => { if (err.response) setResponseError(err.response.data.message) });
+        }
+        if (err.response && err.response.data.status !== 'LOCKED') setResponseError(err.response.data.message);
+      });
   };
 
   if (redirect) return <Redirect to={redirect} />;
@@ -36,6 +45,7 @@ const Login = () => {
   return (
     <>
       {responseError && <MessageBox content={responseError} setContent={setResponseError} type='error' />}
+      {response && <MessageBox content={response} setContent={setResponse} type='success' />}
       <div className='form-wrapper'>
         <img src='/img/ticket.png' alt='Ticket' />
         <h1>Log in</h1>
