@@ -37,6 +37,7 @@ public class TicketService {
                 emailTemplateService.buildTicketEmail(email),
                 new File(commonPathsService.generateTicketPath(order.getId())));
         fileService.deleteTicket(order.getId());
+        fileService.deleteQr();
         return "Order sent";
     }
 }

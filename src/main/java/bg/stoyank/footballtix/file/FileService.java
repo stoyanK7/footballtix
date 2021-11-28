@@ -29,4 +29,8 @@ public class FileService {
     public void deleteTicket(Long orderId) {
         deleteFile(commonPathsService.generateTicketPath(orderId));
     }
+
+    public void deleteQr() {
+        deleteFile(CommonPathsService.QR_CODE_PATH);
+    }
 }
