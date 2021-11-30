@@ -169,7 +169,7 @@ const OrderCheckout = () => {
                   :
                   <button 
                   type='submit'
-                  disabled={match.ticketsAvailable === 0}
+                  disabled={match.ticketsAvailable === 0 || new Date(match.startingDateTime) < new Date()}
                   >MAKE PAYMENT</button>
                 }
               </fieldset>

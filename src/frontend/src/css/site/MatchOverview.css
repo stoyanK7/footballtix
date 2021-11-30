@@ -36,6 +36,6 @@
   background-color: var(--light-grey);
 }
 
-.edit-button:hover {
+.edit-button:hover, .edit-button:disabled {
   background-color: var(--dark-grey);
 }

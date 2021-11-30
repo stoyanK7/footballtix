@@ -93,4 +93,8 @@ public class FootballMatchService {
                 "Send emails for " + footballMatch.getHomeTeam() + " vs " + footballMatch.getAwayTeam()
         ));
     }
+
+    public List<FootballMatch> getAllPastFootballMatches() {
+        return footballMatchRepository.getFootballMatchesByStartingDateTimeBeforeOrderByStartingDateTimeDesc(new Date());
+    }
 }

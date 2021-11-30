@@ -32,6 +32,7 @@ const MatchOverview = () => {
 
   if (redirect) return <Redirect to={redirect} />;
 
+  const isMatchOver = (matchStartingDateTime) => new Date(matchStartingDateTime) < new Date();
 
   return (
     <>
@@ -47,12 +48,12 @@ const MatchOverview = () => {
           <Link to={`/matches/${matchId}/order`}>
             <button
               className='buy-button'
-              disabled={match.ticketsAvailable === 0}>BUY</button>
+              disabled={match.ticketsAvailable === 0 || isMatchOver(match.startingDateTime)}>BUY</button>
           </Link>
           {isAdmin() &&
             <>
               <Link to={`/matches/${matchId}/edit`}>
-                <button className='edit-button'>EDIT MATCH</button>
+                <button className='edit-button' disabled={isMatchOver(match.startingDateTime)}>EDIT MATCH</button>
               </Link>
               <button className='delete-button' onClick={onClickHandler}>DELETE MATCH</button>
             </>

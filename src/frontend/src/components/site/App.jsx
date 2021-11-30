@@ -14,10 +14,12 @@ import Login from '../account/Login';
 import Logout from '../account/Logout';
 import Main from '../static/Main';
 import MatchOverview from '../site/MatchOverview';
+import MessageBox from '../shared/MessageBox';
 import NotFound from '../static/NotFound';
 import OrderCheckout from './OrderCheckout';
 import OrderOverview from './OrderOverview';
 import Orders from './Orders';
+import PastMatches from './PastMatches';
 import Privacy from '../static/Privacy';
 import Profile from '../account/Profile';
 import ProtectedAdminRoute from '../route/ProtectedAdminRoute';
@@ -27,7 +29,6 @@ import Register from '../account/Register';
 import ResetPassword from '../account/ResetPassword';
 import Terms from '../static/Terms';
 import UserStatistics from './UserStatistics';
-import MessageBox from '../shared/MessageBox';
 import useRedirectMessage from '../../hooks/useRedirectMessage';
 
 const App = () => {
@@ -106,6 +107,12 @@ const App = () => {
           <Main content='Create match' component={CreateMatch} />
           <Footer />
         </ProtectedAdminRoute>
+
+        <ProtectedRoute exact path='/matches/past'>
+          <Header />
+          <Main content='Past matches' component={PastMatches} />
+          <Footer />
+        </ProtectedRoute>
 
         <ProtectedAdminRoute exact path='/stats'>
           <Header />

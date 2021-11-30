@@ -42,6 +42,7 @@ const UserStatistics = () => {
       chart.current.style.removeProperty('left');
       chart.current.style.removeProperty('top');
       chart.current.style.removeProperty('position');
+      chart.current.style.removeProperty('z-index');
     }, 500)
   };
 
@@ -56,6 +57,7 @@ const UserStatistics = () => {
     chart.current.style.setProperty('top', chart.current.offsetTop + 'px');
     chart.current.style.setProperty('width', scrollWidth + 'px');
     chart.current.style.setProperty('height', scrollHeight + 'px');
+    chart.current.style.setProperty('z-index', '20');
 
     // wait for code to run
     setTimeout(() => toggleFullScreen(), 100);

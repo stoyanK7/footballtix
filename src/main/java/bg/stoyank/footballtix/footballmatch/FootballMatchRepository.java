@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface FootballMatchRepository extends JpaRepository<FootballMatch, Long> {
     List<FootballMatch> getFootballMatchesByStartingDateTimeAfterOrderByStartingDateTimeAsc(Date dateTime);
+
+    List<FootballMatch> getFootballMatchesByStartingDateTimeBeforeOrderByStartingDateTimeDesc(Date dateTime);
 }

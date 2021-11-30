@@ -28,6 +28,11 @@ public class FootballMatchController {
         return footballMatchService.getAllUpcomingFootballMatches();
     }
 
+    @GetMapping("/past")
+    public List<FootballMatch> getAllPastFootballMatches() {
+        return footballMatchService.getAllPastFootballMatches();
+    }
+
     @GetMapping("/{footballMatchId}")
     public FootballMatch getFootballMatch(
             @PathVariable("footballMatchId") @PositiveOrZero long footballMatchId) {
