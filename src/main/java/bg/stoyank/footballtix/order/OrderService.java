@@ -29,6 +29,7 @@ public class OrderService {
     private FootballMatchService footballMatchService;
     private CommonPathsService commonPathsService;
 
+
     public void createOrder(Order order) {
         orderRepository.save(order);
         footballMatchService
@@ -55,6 +56,10 @@ public class OrderService {
             throw new OrderNotFoundException(Integer.toString(orderId));
 
         return orderRepository.getById((long) orderId);
+    }
+
+    public List<Order> getAllOrdersByFootballMatchId(Long footballMatchId) {
+        return orderRepository.getAllByFootballMatchId(footballMatchId);
     }
 
     private boolean orderExistsById(int orderId) {

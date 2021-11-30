@@ -51,10 +51,9 @@ const UserStatistics = () => {
     const scrollWidth = chart.current.scrollWidth;
     const scrollHeight = chart.current.scrollHeight;
 
-    // chart.current.style.setProperty('left', chart.current.offsetLeft + 'px');
-    chart.current.style.setProperty('left', 'calc(50vw - 300px)');
-    chart.current.style.setProperty('top', chart.current.offsetTop - 300 + 'px');
     chart.current.style.setProperty('position', 'fixed');
+    chart.current.style.setProperty('left', 'calc(50vw - 300px)');
+    chart.current.style.setProperty('top', chart.current.offsetTop + 'px');
     chart.current.style.setProperty('width', scrollWidth + 'px');
     chart.current.style.setProperty('height', scrollHeight + 'px');
 
@@ -95,7 +94,7 @@ const UserStatistics = () => {
           Full screen
         </div>
       </div>
-      <div style={{ height: 500 }}>
+      <div style={{ height: 300 }}>
         {data &&
           <Chart data={data} ref={chart} fullScreen={fullScreen} disableFullScreen={disableFullScreen} />
         }

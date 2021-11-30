@@ -11,7 +11,7 @@
   -ms-transition: var(--chart-transition);
   transition: var(--chart-transition);
   overflow: hidden;
-  height: 500px;
+  height: 300px;
   background-color: var(--white);
 }
 
@@ -25,13 +25,14 @@
   top: 1%;
   right: 1%;
   font-size: 3rem;
-  color: var(--carnelian);
+  color: var(--red);
   z-index: 1;
 }
 
 .chart-wrapper-1 .fa-circle:hover {
   cursor: pointer;
   opacity: 0.8;
+  color:var(--darker-red);
 }
 
 .chart-wrapper-2 {

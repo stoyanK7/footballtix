@@ -11,7 +11,18 @@ public class EmailTemplateService {
                         "Thank you for registering.",
                         "Please click on the below link to activate your account:",
                         buildLink(link, "Activate now"),
-                        "See you soon"});
+                        "See you soon"
+                });
+    }
+
+    public String buildUpcomingMatchEmail(String recipient, String match) {
+        return buildEmail(match + " is being played soon",
+                recipient,
+                new String[]{
+                        match + " is being played soon!",
+                        "Are you ready?",
+                        "See you there"
+                });
     }
 
     public String buildPasswordRecoveryEmail(String recipient, String link) {
@@ -64,4 +75,6 @@ public class EmailTemplateService {
         }
         return body.toString();
     }
+
+
 }

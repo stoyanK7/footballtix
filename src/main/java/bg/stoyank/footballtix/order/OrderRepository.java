@@ -8,9 +8,9 @@ import java.util.List;
 public interface OrderRepository extends JpaRepository<Order, Long> {
     List<Order> getAllByAccountEmailEqualsOrderByTransactionDateTimeDesc(String email);
 
-    List<Order> getAllByFootballMatch(FootballMatch footballMatch);
-
     boolean existsByFootballMatchIdEqualsAndAccountEmailEqualsAndFullNameEquals(long footballMatchId,
-                                                                              String accountEmail,
-                                                                              String fullName);
+                                                                                String accountEmail,
+                                                                                String fullName);
+
+    List<Order> getAllByFootballMatchId(Long footballMatchId);
 }

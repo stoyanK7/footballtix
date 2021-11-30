@@ -23,26 +23,6 @@ const Chart = forwardRef(({ data, fullScreen, disableFullScreen }, ref) => {
             valueScale={{ type: 'linear' }}
             indexScale={{ type: 'band', round: true }}
             colors={{ scheme: 'accent' }}
-            defs={[
-              {
-                id: 'dots',
-                type: 'patternDots',
-                background: 'inherit',
-                color: '#38bcb2',
-                size: 4,
-                padding: 1,
-                stagger: true
-              },
-              {
-                id: 'lines',
-                type: 'patternLines',
-                background: 'inherit',
-                color: '#eed312',
-                rotation: -45,
-                lineWidth: 6,
-                spacing: 10
-              }
-            ]}
             borderColor={{ from: 'color', modifiers: [['darker', 1.6]] }}
             axisTop={null}
             axisRight={null}
@@ -71,7 +51,7 @@ const Chart = forwardRef(({ data, fullScreen, disableFullScreen }, ref) => {
                 anchor: 'bottom-right',
                 direction: 'column',
                 justify: false,
-                translateX: 120,
+                translateX: 100,
                 translateY: 0,
                 itemsSpacing: 2,
                 itemWidth: 100,

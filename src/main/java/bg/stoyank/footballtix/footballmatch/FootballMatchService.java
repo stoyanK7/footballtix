@@ -1,7 +1,12 @@
 package bg.stoyank.footballtix.footballmatch;
 
 import bg.stoyank.footballtix.footballmatch.exception.FootballMatchNotFoundException;
+import bg.stoyank.footballtix.task.TaskDefinition;
+import bg.stoyank.footballtix.task.TaskSchedulingService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -10,8 +15,10 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class FootballMatchService {
     private FootballMatchRepository footballMatchRepository;
+    private TaskSchedulingService taskSchedulingService;
 
     public List<FootballMatch> getAllFootballMatches() {
         return footballMatchRepository.findAll();
@@ -31,7 +38,9 @@ public class FootballMatchService {
     }
 
     public long createFootballMatch(FootballMatch footballMatch) {
+        log.info("Creating football match: " + footballMatch);
         footballMatchRepository.save(footballMatch);
+        scheduleReminderTask(footballMatch);
         return footballMatch.getId();
     }
 
@@ -41,6 +50,8 @@ public class FootballMatchService {
             throw new FootballMatchNotFoundException
                     ("Could not find football match with id: " + footballMatchId + ".");
 
+        log.info("Delete football match with id: " + footballMatchId);
+        taskSchedulingService.removeScheduledTask(Long.toString(footballMatchId));
         footballMatchRepository.deleteById(footballMatchId);
     }
 
@@ -66,5 +77,20 @@ public class FootballMatchService {
 
     private boolean footballMatchExistsById(long footballMatchId) {
         return footballMatchRepository.existsById(footballMatchId);
+    }
+
+    @EventListener(ApplicationReadyEvent.class)
+    public void scheduleRemindersAfterStartup() {
+        for (FootballMatch footballMatch : getAllUpcomingFootballMatches()) {
+            scheduleReminderTask(footballMatch);
+        }
+    }
+
+    private void scheduleReminderTask(FootballMatch footballMatch) {
+        taskSchedulingService.scheduleATask(new TaskDefinition(
+                footballMatch.getId(),
+                footballMatch.getStartingDateTime(),
+                "Send emails for " + footballMatch.getHomeTeam() + " vs " + footballMatch.getAwayTeam()
+        ));
     }
 }
