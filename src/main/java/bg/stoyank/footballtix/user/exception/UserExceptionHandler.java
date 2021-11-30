@@ -3,6 +3,7 @@ package bg.stoyank.footballtix.user.exception;
 import bg.stoyank.footballtix.exception.ApiResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -54,6 +55,17 @@ public class UserExceptionHandler {
         HttpStatus status = UNAUTHORIZED;
         ApiResponse apiResponse = new ApiResponse(
                 e.getMessage(),
+                status,
+                ZonedDateTime.now(ZoneId.of("Z"))
+        );
+        return new ResponseEntity<>(apiResponse, status);
+    }
+
+    @ExceptionHandler(DisabledException.class)
+    public ResponseEntity<Object> handleDisabledException(DisabledException e) {
+        HttpStatus status = LOCKED;
+        ApiResponse apiResponse = new ApiResponse(
+                "Your account is not enabled. Do you want to receive a confirmation email?",
                 status,
                 ZonedDateTime.now(ZoneId.of("Z"))
         );

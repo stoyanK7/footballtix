@@ -1,21 +1,19 @@
 package bg.stoyank.footballtix.user;
 
+import bg.stoyank.footballtix.registration.confirmationtoken.ConfirmationTokenService;
+import bg.stoyank.footballtix.user.exception.EmailAlreadyTakenException;
 import bg.stoyank.footballtix.user.exception.InvalidCredentialsException;
 import bg.stoyank.footballtix.user.exception.PasswordsDoNotMatchException;
-import bg.stoyank.footballtix.user.exception.EmailAlreadyTakenException;
 import bg.stoyank.footballtix.user.exception.UserNotFoundException;
 import lombok.AllArgsConstructor;
-import bg.stoyank.footballtix.registration.confirmationtoken.ConfirmationToken;
-import bg.stoyank.footballtix.registration.confirmationtoken.ConfirmationTokenService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 @Service
 @AllArgsConstructor
@@ -23,6 +21,7 @@ public class UserService implements UserDetailsService {
     private UserRepository userRepository;
     private BCryptPasswordEncoder bCryptPasswordEncoder;
     private ConfirmationTokenService confirmationTokenService;
+    private UserStatsService userStatsService;
 
     public String createUser(User user) throws EmailAlreadyTakenException {
         if (userExistsByEmail(user.getEmail()))
@@ -31,16 +30,9 @@ public class UserService implements UserDetailsService {
         String encodedPassword = bCryptPasswordEncoder.encode(user.getPassword());
         user.setPassword(encodedPassword);
         userRepository.save(user);
+        userStatsService.increaseCountByOne(new Date());
 
-        String token = UUID.randomUUID().toString();
-        ConfirmationToken confirmationToken = new ConfirmationToken(
-                token,
-                LocalDateTime.now(),
-                LocalDateTime.now().plusMinutes(15),
-                user);
-        confirmationTokenService.saveConfirmationToken(confirmationToken);
-
-        return token;
+        return confirmationTokenService.createConfirmationToken(user);
     }
 
     public User getUserById(int userId) throws UserNotFoundException {

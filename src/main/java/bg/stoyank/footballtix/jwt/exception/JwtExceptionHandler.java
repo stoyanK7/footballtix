@@ -19,7 +19,7 @@ public class JwtExceptionHandler {
     public ResponseEntity<Object> handleExpiredJwtException(ExpiredJwtException e) {
         HttpStatus status = UNAUTHORIZED;
         ApiResponse apiResponse = new ApiResponse(
-                "Provided token has expired.",
+                "Provided token has expired. Please log in again.",
                 status,
                 ZonedDateTime.now(ZoneId.of("Z"))
         );

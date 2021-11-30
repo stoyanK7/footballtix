@@ -4,9 +4,19 @@ import bg.stoyank.footballtix.jwt.JwtService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.springframework.http.HttpStatus.NO_CONTENT;
@@ -15,8 +25,9 @@ import static org.springframework.http.HttpStatus.NO_CONTENT;
 @AllArgsConstructor
 @RequestMapping("/api/users")
 public class UserController {
-    private final UserService userService;
-    private final JwtService jwtService;
+    private UserService userService;
+    private JwtService jwtService;
+    private UserStatsService userStatsService;
 
     @GetMapping("/info")
     public Map<String, String> getInfo(String jwt) {
@@ -49,5 +60,10 @@ public class UserController {
         String email = jwtService.extractUsername(jwt);
         userService.deleteUser(email);
         return new ResponseEntity<>(NO_CONTENT);
+    }
+
+    @PostMapping("/stats")
+    public List<UserStats> getUserStatsForDatSpan(@RequestBody Map<String, Date> body) {
+        return userStatsService.getAllByDateBetween(body.get("from"), body.get("to"));
     }
 }

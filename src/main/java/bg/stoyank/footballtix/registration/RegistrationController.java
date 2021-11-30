@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/register")
@@ -21,6 +22,11 @@ public class RegistrationController {
     @PostMapping
     public String register(@Valid @RequestBody RegistrationRequest registrationRequest) {
         return registrationService.register(registrationRequest);
+    }
+
+    @PostMapping("/send-token")
+    public void sendConfirmationToken(@RequestBody Map<String, String> body) {
+        registrationService.sendConfirmationToken(body.get("email"));
     }
 
     @GetMapping("/confirm")

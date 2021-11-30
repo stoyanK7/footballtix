@@ -31,13 +31,20 @@ public class RegistrationService {
                 UserRole.USER
         ));
 
-        emailService.send(registrationRequest.getEmail(),
-                "Confirm your email",
-                emailTemplateService.buildRegistrationConfirmationEmail(
-                        registrationRequest.getFullName(),
-                        "http://localhost:3000/confirm-token/" + token));
+        sendConfirmationToken(registrationRequest.getEmail());
 
         return token;
+    }
+
+    public void sendConfirmationToken(String email) {
+        User user = userService.getUserByEmail(email);
+        String token = confirmationTokenService.createConfirmationToken(user);
+
+        emailService.send(email,
+                "Confirm your email",
+                emailTemplateService.buildRegistrationConfirmationEmail(
+                        user.getFullName(),
+                        "http://localhost:3000/confirm-token/" + token));
     }
 
     @Transactional
