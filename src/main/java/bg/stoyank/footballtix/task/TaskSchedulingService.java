@@ -18,8 +18,7 @@ import java.util.concurrent.ScheduledFuture;
 public class TaskSchedulingService {
     private TaskScheduler taskScheduler;
     private TaskDefinitionBean taskDefinitionBean;
-
-    Map<String, ScheduledFuture<?>> jobsMap = new HashMap<>();
+    private Map<String, ScheduledFuture<?>> jobsMap = new HashMap<>();
 
     private static String toCron(Date dateTime) {
         return String.format("0 %s %s %s %s ?",

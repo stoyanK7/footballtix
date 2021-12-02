@@ -11,6 +11,7 @@ import bg.stoyank.footballtix.pdf.PdfService;
 import bg.stoyank.footballtix.ticket.TicketService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -19,6 +20,7 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 @Slf4j
+@Lazy
 public class OrderService {
     private OrderRepository orderRepository;
     private PdfService pdfService;
@@ -28,7 +30,6 @@ public class OrderService {
     private FileService fileService;
     private FootballMatchService footballMatchService;
     private CommonPathsService commonPathsService;
-
 
     public void createOrder(Order order) {
         orderRepository.save(order);

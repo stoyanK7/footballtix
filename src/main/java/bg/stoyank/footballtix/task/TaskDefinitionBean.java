@@ -18,12 +18,12 @@ import java.util.List;
 @Service
 @Slf4j
 public class TaskDefinitionBean implements Runnable {
-    private TaskDefinition taskDefinition;
     @Autowired
     private EmailService emailService;
     @Autowired
     private EmailTemplateService emailTemplateService;
     private OrderService orderService;
+    private TaskDefinition taskDefinition;
 
     public TaskDefinitionBean(@Lazy OrderService orderService) {
         this.orderService = orderService;
