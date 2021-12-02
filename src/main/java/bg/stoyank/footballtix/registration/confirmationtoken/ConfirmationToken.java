@@ -49,11 +49,11 @@ public class ConfirmationToken {
 
     public ConfirmationToken(String token,
                              LocalDateTime createdAt,
-                             LocalDateTime expiredAt,
+                             LocalDateTime expiresAt,
                              User user) {
         this.token = token;
         this.createdAt = createdAt;
-        this.expiresAt = expiredAt;
+        this.expiresAt = expiresAt;
         this.user = user;
     }
 }

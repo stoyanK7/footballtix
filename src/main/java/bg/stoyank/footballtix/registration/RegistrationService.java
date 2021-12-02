@@ -50,7 +50,8 @@ public class RegistrationService {
     @Transactional
     public String confirmToken(String token)
             throws EmailConfirmedException, ConfirmationTokenExpiredException {
-        ConfirmationToken confirmationToken = confirmationTokenService.getConfirmationToken(token);
+        ConfirmationToken confirmationToken
+                = confirmationTokenService.getConfirmationToken(token);
 
         LocalDateTime expiredAt = confirmationToken.getExpiresAt();
         if (expiredAt.isBefore(LocalDateTime.now()))
