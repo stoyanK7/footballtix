@@ -88,7 +88,8 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
     }
 
-    public void updatePassword(String email, String currentPassword, String newPassword, String confirmPassword) {
+    public void updatePassword(String email, String currentPassword,
+                               String newPassword, String confirmPassword) {
         if (!newPassword.equals(confirmPassword))
             throw new PasswordsDoNotMatchException("Passwords do not match.");
 
