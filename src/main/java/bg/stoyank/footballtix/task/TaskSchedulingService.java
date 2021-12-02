@@ -6,6 +6,7 @@ import org.springframework.scheduling.TaskScheduler;
 import org.springframework.scheduling.support.CronTrigger;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -21,11 +22,14 @@ public class TaskSchedulingService {
     private Map<String, ScheduledFuture<?>> jobsMap = new HashMap<>();
 
     private static String toCron(Date dateTime) {
-        return String.format("0 %s %s %s %s ?",
-                dateTime.getMinutes(),
-                dateTime.getHours(),
-                dateTime.getDate(),
-                dateTime.getMonth() + 1);
+        Calendar calendarDateTime = Calendar.getInstance();
+        calendarDateTime.setTime(dateTime);
+        return String.format("%s %s %s %s %s ?",
+                calendarDateTime.get(Calendar.SECOND),
+                calendarDateTime.get(Calendar.MINUTE),
+                calendarDateTime.get(Calendar.HOUR_OF_DAY),
+                calendarDateTime.get(Calendar.DAY_OF_MONTH),
+                calendarDateTime.get(Calendar.MONTH) + 1);
     }
 
     public void scheduleATask(TaskDefinition taskDefinition) {
