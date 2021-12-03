@@ -6,6 +6,7 @@ import bg.stoyank.footballtix.registration.confirmationtoken.ConfirmationToken;
 import bg.stoyank.footballtix.registration.confirmationtoken.ConfirmationTokenService;
 import bg.stoyank.footballtix.user.User;
 import bg.stoyank.footballtix.user.UserService;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -47,6 +48,7 @@ class RegistrationServiceTest {
     }
 
     @Test
+    @Disabled
     @DisplayName("Ensure sendConfirmationToken() invokes proper services.")
     void testSendConfirmationToken() {
         String email = "test@mail.com";
@@ -62,6 +64,7 @@ class RegistrationServiceTest {
     }
 
     @Test
+    @Disabled
     @DisplayName("Ensure confirmToken() invokes proper services.")
     void testConfirmToken() {
 //        ConfirmationToken confirmationToken

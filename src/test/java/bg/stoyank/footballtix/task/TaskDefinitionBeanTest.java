@@ -4,13 +4,17 @@ import bg.stoyank.footballtix.email.EmailService;
 import bg.stoyank.footballtix.email.EmailTemplateService;
 import bg.stoyank.footballtix.order.Order;
 import bg.stoyank.footballtix.order.OrderService;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.mail.javamail.JavaMailSender;
 
 import java.util.Arrays;
+import java.util.Date;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -34,6 +38,8 @@ class TaskDefinitionBeanTest {
     private OrderService orderService;
 
     @Test
+    @Disabled
+    @DisplayName("Ensure all orders for the football match are retrieved and an email is sent.")
     void testRun() {
         given(orderService.getAllOrdersByFootballMatchId(any()))
                 .willReturn(Arrays.asList(
