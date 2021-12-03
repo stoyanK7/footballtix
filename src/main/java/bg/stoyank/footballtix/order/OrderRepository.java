@@ -1,6 +1,5 @@
 package bg.stoyank.footballtix.order;
 
-import bg.stoyank.footballtix.footballmatch.FootballMatch;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

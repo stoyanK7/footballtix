@@ -48,7 +48,7 @@ class RegistrationServiceTest {
     }
 
     @Test
-    @Disabled
+    @Disabled("NullPointerException")
     @DisplayName("Ensure sendConfirmationToken() invokes proper services.")
     void testSendConfirmationToken() {
         String email = "test@mail.com";
@@ -64,7 +64,7 @@ class RegistrationServiceTest {
     }
 
     @Test
-    @Disabled
+    @Disabled("NullPointerException")
     @DisplayName("Ensure confirmToken() invokes proper services.")
     void testConfirmToken() {
 //        ConfirmationToken confirmationToken

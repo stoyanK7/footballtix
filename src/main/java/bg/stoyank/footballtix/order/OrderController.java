@@ -28,7 +28,7 @@ public class OrderController {
     @PostMapping
     public ResponseEntity<Object> createOrder(@Valid @RequestBody Order order) {
         orderService.createOrder(order);
-        return new ResponseEntity<Object>(CREATED);
+        return new ResponseEntity<>(CREATED);
     }
 
     @PostMapping("/check")
@@ -36,9 +36,8 @@ public class OrderController {
         String matchId = body.get("matchId");
         String email = body.get("email");
         String fullName = body.get("fullName");
-        System.out.println(body.keySet());
         orderService.checkIfOrderExistsForNameAndEmail(matchId, email, fullName);
-        return new ResponseEntity<Object>(NO_CONTENT);
+        return new ResponseEntity<>(NO_CONTENT);
     }
 
     @GetMapping

@@ -4,6 +4,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class EmailTemplateService {
+    private static final String EMAIL_ENDING = "See you soon";
+
     public String buildRegistrationConfirmationEmail(String recipient, String link) {
         return buildEmail("Confirm your email",
                 recipient,
@@ -11,7 +13,7 @@ public class EmailTemplateService {
                         "Thank you for registering.",
                         "Please click on the below link to activate your account:",
                         buildLink(link, "Activate now"),
-                        "See you soon"
+                        EMAIL_ENDING
                 });
     }
 
@@ -21,7 +23,7 @@ public class EmailTemplateService {
                 new String[]{
                         match + " is being played soon!",
                         "Are you ready?",
-                        "See you there"
+                        EMAIL_ENDING
                 });
     }
 
@@ -32,7 +34,7 @@ public class EmailTemplateService {
                         "Please click the link below to reset your password:",
                         buildLink(link, "Reset now"),
                         "Link will expire in 15 minutes",
-                        "See you soon"
+                        EMAIL_ENDING
                 });
     }
 
@@ -42,7 +44,7 @@ public class EmailTemplateService {
                 new String[]{
                         "Thank you for your order with footballTix",
                         "We have attached the receipt to this email",
-                        "See you soon"
+                        EMAIL_ENDING
                 });
     }
 
@@ -52,7 +54,7 @@ public class EmailTemplateService {
                 new String[]{
                         "Thank you for your order with footballTix",
                         "We have attached your ticket to this email",
-                        "See you soon"
+                        EMAIL_ENDING
                 });
     }
 
@@ -75,6 +77,4 @@ public class EmailTemplateService {
         }
         return body.toString();
     }
-
-
 }
