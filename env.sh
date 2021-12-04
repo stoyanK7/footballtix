@@ -6,7 +6,7 @@ title3="Maildev"
 title4="VSCode"
 
 
-gnome-terminal --tab --title="$title1" -e 'bash -c "cd /media/stoyank/Elements/University/Semester\ 3/footballtix; idea ."' \
-               --tab --title="$title2" -e 'bash -c "cd /media/stoyank/Elements/University/Semester\ 3/footballtix/src/frontend; npm run start"' \
+gnome-terminal --tab --title="$title1" -e 'bash -c "cd /media/stoyank/Elements/University/Semester\ 3/footballtix/API; idea ."' \
+               --tab --title="$title2" -e 'bash -c "cd /media/stoyank/Elements/University/Semester\ 3/footballtix/Frontend; npm run start"' \
                --tab --title="$title3" --command="maildev" \
-               --tab --title="$title4" -e 'bash -c "cd /media/stoyank/Elements/University/Semester\ 3/footballtix/src/frontend; code ."'
+               --tab --title="$title4" -e 'bash -c "cd /media/stoyank/Elements/University/Semester\ 3/footballtix/Frontend; code ."'

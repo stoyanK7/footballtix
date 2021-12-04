@@ -22,6 +22,7 @@ public class TaskDefinitionBean implements Runnable {
     private EmailService emailService;
     @Autowired
     private EmailTemplateService emailTemplateService;
+//    @Autowired
     private OrderService orderService;
     private TaskDefinition taskDefinition;
 

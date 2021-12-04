@@ -1,15 +1,18 @@
 before_script:
+  - cd API/
   - export GRADLE_USER_HOME=`pwd`/.gradle
   - chmod +x ./gradlew
 
 cache:
   paths:
-    - .gradle
+    - ./API/.gradle/wrapper
+    - ./API/.gradle/caches
+
 
 stages:
   - build
   - test
-  - sonarqube-check
+  - sonarqube
 
 build:
   stage: build
@@ -22,11 +25,11 @@ test:
     - ./gradlew test
 
 sonarqube-check:
-  stage: sonarqube-check
+  stage: sonarqube
   image: gradle:jre11-slim
   variables:
-    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  # Defines the location of the analysis task cache
-    GIT_DEPTH: "0"  # Tells git to fetch all the branches of the project, required by the analysis task
+    SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  
+    GIT_DEPTH: "0"  
   cache:
     key: "${CI_JOB_NAME}"
     paths:
@@ -34,4 +37,4 @@ sonarqube-check:
   script: ./gradlew sonarqube
   allow_failure: true
   only:
-    - main # or the name of your main branch
+    - main 
