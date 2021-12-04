@@ -20,13 +20,13 @@ const Contact = () => {
           <p>
             Call us at <span >+359-878-890-852</span>
           </p>
-          <img src='/img/phone-call.png' alt='Phone' />
+          <img src='/img/phone-call.webp' alt='Phone' />
         </div>
         <div onClick={onClickHandler}>
           <p>
             Email us at <span >office@footballtix.com</span>
           </p>
-          <img src='/img/email.png' alt='Mail' />
+          <img src='/img/email.webp' alt='Mail' />
         </div>
       </div>
     </>

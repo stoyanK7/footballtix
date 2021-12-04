@@ -26,7 +26,7 @@ const ForgotPassword = () => {
     <>
       {responseError && <MessageBox content={responseError} setContent={setResponseError} type='error' />}
       <div className='form-wrapper'>
-        <img src='/img/ticket.png' alt='Ticket' />
+        <img src='/img/ticket.webp' alt='Ticket' />
         <h1>Forgot password</h1>
         <form onSubmit={onSubmitHandler}>
           <input

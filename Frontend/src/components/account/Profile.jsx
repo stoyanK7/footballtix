@@ -92,7 +92,7 @@ const Profile = () => {
       {isFetching && <Loading />}
       {fetchError && <MessageBox content={fetchError} type='error' />}
       {info && <div className='profile'>
-        <img src='/img/user-settings.png' alt='' />
+        <img src='/img/user-settings.webp' alt='' />
         <div>
           <h2>Edit information</h2>
           <form onSubmit={handleSubmitEditInfo}>

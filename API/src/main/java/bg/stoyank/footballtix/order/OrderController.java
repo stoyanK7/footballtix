@@ -1,6 +1,7 @@
 package bg.stoyank.footballtix.order;
 
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 import javax.validation.constraints.PositiveOrZero;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +26,7 @@ import static org.springframework.http.HttpStatus.NO_CONTENT;
 @Validated
 public class OrderController {
     private OrderService orderService;
+    private ModelMapper modelMapper;
 
     @PostMapping
     public ResponseEntity<Object> createOrder(@Valid @RequestBody Order order) {
@@ -41,8 +44,20 @@ public class OrderController {
     }
 
     @GetMapping
-    public List<Order> getAllOrdersByAccountEmail(String email) {
-        return orderService.getAllOrdersByAccountEmail(email);
+    public List<OrderCardDto> getAllOrdersByAccountEmail(String email) {
+        return convertToListOfDto(orderService.getAllOrdersByAccountEmail(email));
+    }
+
+    private OrderCardDto convertToDto(Order order) {
+        return modelMapper.map(order, OrderCardDto.class);
+    }
+
+    private List<OrderCardDto> convertToListOfDto(List<Order> orders) {
+        List<OrderCardDto> list = new ArrayList<>();
+        for (Order order : orders) {
+            list.add(convertToDto(order));
+        }
+        return list;
     }
 
     @GetMapping("/{orderId}")

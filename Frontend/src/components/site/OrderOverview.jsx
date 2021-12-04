@@ -31,7 +31,7 @@ const OrderOverview = () => {
       {responseError && <MessageBox content={responseError} setContent={setResponseError} type='error' />}
       {order &&
         <div className='order-overview'>
-          <img src='/img/stadium.png' alt='' />
+          <img src='/img/stadium.webp' alt='' />
           <MatchInfo {...order.footballMatch} />
           <span><b>Price</b></span>
           <TicketInfo pricePerTicket={order.footballMatch.pricePerTicket} />

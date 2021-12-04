@@ -41,7 +41,7 @@ const MatchOverview = () => {
       {error && <MessageBox content={error} type='error' />}
       {match &&
         <div className='match-overview'>
-          <img src='/img/stadium.png' alt='' />
+          <img src='/img/stadium.webp' alt='' />
           <MatchInfo {...match} />
           <TicketsLeft ticketsAvailable={match.ticketsAvailable} />
           <TicketInfo pricePerTicket={match.pricePerTicket} />

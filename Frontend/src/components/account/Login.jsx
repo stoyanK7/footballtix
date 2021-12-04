@@ -47,7 +47,7 @@ const Login = () => {
       {responseError && <MessageBox content={responseError} setContent={setResponseError} type='error' />}
       {response && <MessageBox content={response} setContent={setResponse} type='success' />}
       <div className='form-wrapper'>
-        <img src='/img/ticket.png' alt='Ticket' />
+        <img src='/img/ticket.webp' alt='Ticket' />
         <h1>Log in</h1>
         <form onSubmit={onSubmitHandler}>
           <input

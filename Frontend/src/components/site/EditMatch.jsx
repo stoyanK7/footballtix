@@ -1,12 +1,12 @@
 import '../../css/site/match-form.css';
 
+import { Redirect, useParams } from 'react-router';
 import { useEffect, useState } from 'react';
 
 import Loading from '../shared/Loading';
 import MessageBox from '../shared/MessageBox';
 import axios from 'axios';
 import useFetch from '../../hooks/useFetch';
-import { Redirect, useParams } from 'react-router';
 
 const EditMatch = () => {
   const { matchId } = useParams();
@@ -40,7 +40,7 @@ const EditMatch = () => {
       {error && <MessageBox content={error} type='error' />}
       {match &&
         <div className='match-form'>
-          <img src='/img/edit.png' alt='Pencil' />
+          <img src='/img/edit.webp' alt='Pencil' />
           <form onSubmit={onSubmitHandler}>
             <input
               name='homeTeam'

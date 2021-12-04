@@ -14,7 +14,7 @@ const useToken = () => {
     setToken(token);
   };
 
-  const isAdmin = () => jwt(getToken()).role === 'ADMIN';
+  const isAdmin = () => jwt(getToken()).role === 'ROLE_ADMIN';
 
   const email = () => jwt(getToken()).sub;
 

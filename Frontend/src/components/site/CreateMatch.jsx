@@ -1,8 +1,9 @@
+import '../../css/site/match-form.css';
+
+import MessageBox from '../shared/MessageBox';
+import { Redirect } from 'react-router';
 import axios from 'axios';
 import { useState } from 'react';
-import { Redirect } from 'react-router';
-import '../../css/site/match-form.css';
-import MessageBox from '../shared/MessageBox';
 
 const CreateMatch = () => {
   const [fields, setFields] = useState({
@@ -38,7 +39,7 @@ const CreateMatch = () => {
     <>
       {responseError && <MessageBox content={responseError} setContent={setResponseError} type='error' />}
       <div className='match-form'>
-        <img src='/img/plus.png' alt='Plus' />
+        <img src='/img/plus.webp' alt='Plus' />
         <form onSubmit={onSubmitHandler}>
           <input
             name='homeTeam'
