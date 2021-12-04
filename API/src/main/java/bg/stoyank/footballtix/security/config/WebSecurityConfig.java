@@ -5,6 +5,7 @@ import bg.stoyank.footballtix.user.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -31,16 +32,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors().and()
                 .csrf().disable()
                 .authorizeRequests()
-//                .antMatchers(HttpMethod.PUT, "/api/matches/**").hasRole("ADMIN")
-//                .antMatchers(HttpMethod.POST, "/api/matches/**").hasRole("ADMIN")
-//                .antMatchers(HttpMethod.DELETE, "/api/matches/**").hasRole("ADMIN")
-//                .antMatchers("/api/tickets/**").permitAll()
-//                .antMatchers("/api/orders/**").permitAll()
-//                .antMatchers("/api/matches/**").permitAll()
-//                .antMatchers("/api/register/**").permitAll()
-//                .antMatchers("/api/authenticate/**").permitAll()
-//                .antMatchers("/api/users/**").permitAll()
-                .antMatchers("/**").permitAll()
+                .antMatchers(HttpMethod.PUT, "/api/matches/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.POST, "/api/matches/**").hasRole("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/api/matches/**").hasRole("ADMIN")
+                .antMatchers(
+                        "/api/orders/**",
+                        "/api/users/**").hasAnyRole("USER", "ADMIN")
+                .antMatchers(
+                        "/api/tickets/**",
+                        "/api/matches/**",
+                        "/api/register/**",
+                        "/api/authenticate/**").permitAll()
                 .anyRequest().authenticated()
                 .and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
@@ -53,13 +55,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedMethods("*");
+                registry.addMapping("/**").allowedOrigins("http://localhost:8080");
+                registry.addMapping("/**").allowedOrigins("http://localhost:3000");
             }
         };
     }
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth)  {
+    protected void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(daoAuthenticationProvider());
     }
 

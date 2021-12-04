@@ -60,7 +60,8 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role.name());
+        String ROLE_PREFIX = "ROLE_";
+        SimpleGrantedAuthority authority = new SimpleGrantedAuthority(ROLE_PREFIX + role.name());
         return Collections.singletonList(authority);
     }
 
