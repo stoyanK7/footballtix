@@ -29,10 +29,17 @@ import Register from '../account/Register';
 import ResetPassword from '../account/ResetPassword';
 import Terms from '../static/Terms';
 import UserStatistics from './UserStatistics';
+import axios from 'axios';
 import useRedirectMessage from '../../hooks/useRedirectMessage';
+import useToken from '../../hooks/useToken';
 
 const App = () => {
   const redirectMessage = useRedirectMessage();
+  const { token } = useToken();
+  
+  axios.defaults.baseURL = 'http://localhost:8080/';
+  if(token) 
+    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
   return (
     <div className='app'>
