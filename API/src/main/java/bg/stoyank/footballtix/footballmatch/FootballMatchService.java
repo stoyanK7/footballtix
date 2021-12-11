@@ -1,6 +1,7 @@
 package bg.stoyank.footballtix.footballmatch;
 
 import bg.stoyank.footballtix.footballmatch.exception.FootballMatchNotFoundException;
+import bg.stoyank.footballtix.footballmatch.exception.TicketsSoldOutException;
 import bg.stoyank.footballtix.task.TaskDefinition;
 import bg.stoyank.footballtix.task.TaskSchedulingService;
 import lombok.AllArgsConstructor;
@@ -57,6 +58,8 @@ public class FootballMatchService {
 
     public void subtractTicketsAvailableByOne(long footballMatchId) {
         FootballMatch footballMatch = getFootballMatchById(footballMatchId);
+        if(footballMatch.getTicketsAvailable() == 0)
+            throw new TicketsSoldOutException(footballMatch.getId());
         footballMatch.setTicketsAvailable(footballMatch.getTicketsAvailable() - 1);
         footballMatchRepository.save(footballMatch);
     }
