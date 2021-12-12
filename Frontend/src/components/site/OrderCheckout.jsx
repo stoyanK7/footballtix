@@ -14,6 +14,7 @@ import { useParams } from 'react-router';
 import { useState } from 'react';
 import useToken from '../../hooks/useToken';
 import useWindowSize from '../../hooks/useWindowSize';
+import useScript from '../../hooks/useScript';
 
 const OrderCheckout = () => {
   const { matchId } = useParams();
@@ -33,6 +34,8 @@ const OrderCheckout = () => {
   const { email } = useToken();
   const [response, setReponse] = useState();
   const windowSize = useWindowSize();
+
+  useScript('https://www.paypal.com/sdk/js?client-id=Aa_f6ZzmwG38xbgHjMFDDbRtIXMIsta5rF9oJ0hMvz3l0kalEQH8uSA9NDgZrxqR44eGEAExlyxHG6px&currency=EUR');
 
   const onChangeHandler = e => {
     setFields({
@@ -167,9 +170,9 @@ const OrderCheckout = () => {
                       onError={onErrorHandler} />
                   </div>
                   :
-                  <button 
-                  type='submit'
-                  disabled={match.ticketsAvailable === 0 || new Date(match.startingDateTime) < new Date()}
+                  <button
+                    type='submit'
+                    disabled={match.ticketsAvailable === 0 || new Date(match.startingDateTime) < new Date()}
                   >MAKE PAYMENT</button>
                 }
               </fieldset>
