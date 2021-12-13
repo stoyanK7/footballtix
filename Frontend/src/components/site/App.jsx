@@ -2,6 +2,7 @@ import '../../css/site/App.css';
 
 import { Route, Switch } from 'react-router';
 
+import Chat from './Chat';
 import ConfirmToken from '../account/ConfirmToken';
 import Contact from '../static/Contact';
 import CreateMatch from '../site/CreateMatch';
@@ -80,6 +81,12 @@ const App = () => {
           <Main content='Terms and conditions' component={Terms} />
           <Footer />
         </Route>
+
+        <ProtectedRoute exact path='/chat'>
+          <Header />
+          <Main content='Public chat' component={Chat} />
+          <Footer />
+        </ProtectedRoute>
 
         <ProtectedRoute exact path='/orders/:orderId'>
           <Header />

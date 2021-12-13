@@ -127,6 +127,8 @@ class FootballMatchServiceTest {
                 .willReturn(true);
         given(footballMatchRepository.getById(any()))
                 .willReturn(footballMatch);
+        given(footballMatch.getTicketsAvailable())
+                .willReturn(10);
 
         componentUnderTest.subtractTicketsAvailableByOne(footballMatch.getId());
 

@@ -1,6 +1,6 @@
 import '../../css/static/Nav.css';
 
-import { faChartLine, faHistory, faPlusCircle, faSignInAlt, faSignOutAlt, faTicketAlt, faUserCog, faUserPlus } from '@fortawesome/free-solid-svg-icons';
+import { faChartLine, faComments, faHistory, faPlusCircle, faSignInAlt, faSignOutAlt, faTicketAlt, faUserCog, faUserPlus } from '@fortawesome/free-solid-svg-icons';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
@@ -25,6 +25,10 @@ const Nav = ({ style, toggleNavbar }) => {
       }
       {token &&
         <>
+        <Link to='/chat' onClick={toggleNavbar}>
+            <FontAwesomeIcon className='nav-icon fa-fw' icon={faComments} />
+            <span className='nav-text'>Public chat</span>
+          </Link>
           <Link to='/profile' onClick={toggleNavbar}>
             <FontAwesomeIcon className='nav-icon fa-fw' icon={faUserCog} />
             <span className='nav-text'>Profile</span>
