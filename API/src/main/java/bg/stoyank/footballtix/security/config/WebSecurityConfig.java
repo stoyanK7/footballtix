@@ -37,12 +37,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.DELETE, "/api/matches/**").hasRole("ADMIN")
                 .antMatchers(
                         "/api/orders/**",
-                        "/api/users/**").hasAnyRole("USER", "ADMIN")
+                        "/api/users/**"
+                        ).hasAnyRole("USER", "ADMIN")
                 .antMatchers(
                         "/api/tickets/**",
                         "/api/matches/**",
                         "/api/register/**",
-                        "/api/authenticate/**").permitAll()
+                        "/api/authenticate/**",
+                        "/footballtix/**").permitAll()
                 .anyRequest().authenticated()
                 .and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
