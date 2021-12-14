@@ -1,6 +1,6 @@
 import '../../css/site/MatchOverview.css';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Redirect, useParams } from 'react-router';
 
 import { Link } from 'react-router-dom';
@@ -15,8 +15,8 @@ import useToken from '../../hooks/useToken';
 
 const MatchOverview = () => {
   const { matchId } = useParams();
-  const { fetchData: match, isFetching, fetchError: error } = useFetch(`/api/matches/${matchId}`);
-  const [redirect, setRedirect] = useState();
+  const { fetchData: match, isFetching, fetchError } = useFetch(`/api/matches/${matchId}`);
+  const [redirect, setRedirect] = useState(false);
   const [responseError, setResponseError] = useState();
   const { isAdmin } = useToken();
 
@@ -28,17 +28,16 @@ const MatchOverview = () => {
         .catch(err => setResponseError('Something went wrong. Please try again later.'));
     }
   };
-
+  
+  const isMatchOver = (matchStartingDateTime) => new Date(matchStartingDateTime) < new Date();
 
   if (redirect) return <Redirect to={redirect} />;
-
-  const isMatchOver = (matchStartingDateTime) => new Date(matchStartingDateTime) < new Date();
 
   return (
     <>
       {responseError && <MessageBox content={responseError} setContent={setResponseError} type='error' />}
       {isFetching && <Loading />}
-      {error && <MessageBox content={error} type='error' />}
+      {fetchError && <MessageBox content={fetchError} type='error' />}
       {match &&
         <div className='match-overview'>
           <img src='/img/stadium.webp' alt='' />

@@ -10,6 +10,7 @@ const Chat = () => {
   useScript('https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js');
   useScript('/js/chat.js');
 
+  // Before component unmounts
   useEffect(() => {
     return () => {
       window.disconnect();

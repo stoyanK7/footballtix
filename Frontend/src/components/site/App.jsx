@@ -1,5 +1,6 @@
 import '../../css/site/App.css';
 
+import React, { useEffect } from 'react';
 import { Route, Switch } from 'react-router';
 
 import Chat from './Chat';
@@ -25,7 +26,6 @@ import Privacy from '../static/Privacy';
 import Profile from '../account/Profile';
 import ProtectedAdminRoute from '../route/ProtectedAdminRoute';
 import ProtectedRoute from '../route/ProtectedRoute';
-import React from 'react';
 import Register from '../account/Register';
 import ResetPassword from '../account/ResetPassword';
 import Terms from '../static/Terms';
@@ -37,9 +37,11 @@ import useToken from '../../hooks/useToken';
 const App = () => {
   const redirectMessage = useRedirectMessage();
   const { token } = useToken();
-  
+
+  console.log(token);
+
   axios.defaults.baseURL = 'http://localhost:8080/';
-  if(token) 
+  if (token)
     axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
   return (

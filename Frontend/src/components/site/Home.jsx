@@ -1,11 +1,11 @@
 import { faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons';
+import { useEffect, useState } from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Loading from '../shared/Loading';
 import MatchList from '../shared/MatchList';
 import MessageBox from '../shared/MessageBox';
 import useFetch from '../../hooks/useFetch';
-import { useState } from 'react';
 
 const Home = () => {
   const { fetchData: upcomingMatches, isFetching, fetchError } = useFetch('/api/matches/upcoming');
