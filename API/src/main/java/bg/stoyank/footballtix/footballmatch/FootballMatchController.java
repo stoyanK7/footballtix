@@ -71,6 +71,7 @@ public class FootballMatchController {
     }
 
     @PutMapping("/{footballMatchId}")
+    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<Object> updateFootballMatch(
             @PathVariable("footballMatchId") @PositiveOrZero long footballMatchId,
             @Valid @RequestBody FootballMatch footballMatch) {
@@ -79,7 +80,7 @@ public class FootballMatchController {
     }
 
     @DeleteMapping("/{footballMatchId}")
-    @CrossOrigin(origins = "*")
+    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<Object> deleteFootballMatch(
             @PathVariable("footballMatchId") @PositiveOrZero long footballMatchId) {
         footballMatchService.deleteFootballMatchById(footballMatchId);

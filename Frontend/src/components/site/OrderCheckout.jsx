@@ -20,13 +20,13 @@ const OrderCheckout = () => {
   const { matchId } = useParams();
   const { fetchData: match, isFetching, fetchError } = useFetch(`/api/matches/${matchId}`);
   const [fields, setFields] = useState({
-    fullName: 'Stoyan Kostadinov',
-    email: 'stoyank127@gmail.com',
-    mobilePhone: '+359878890852',
-    address: 'Argostraat 26',
-    city: 'Eindhoven',
-    country: 'Netherlands',
-    postcode: '5631JZ'
+    fullName: '',
+    email: '',
+    mobilePhone: '',
+    address: '',
+    city: '',
+    country: '',
+    postcode: ''
   });
   const [responseError, setResponseError] = useState();
   const [checkout, setCheckout] = useState(false);
