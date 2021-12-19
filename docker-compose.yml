@@ -1,0 +1,50 @@
+version: "3.3"
+services:
+  footballtix-api:
+    build:
+      context: API
+      dockerfile: Dockerfile 
+      args:
+        JAR_FILE: build/libs/footballtix-0.0.2.jar
+    ports:
+      - "8080:8080"
+    restart: always
+    depends_on:
+      - db
+    networks:
+      - backend
+      - frontend
+  
+  footballtix-frontent:
+    build: 
+      context: Frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    restart: always
+    depends_on:
+      - footballtix-api
+    networks:
+      - frontend
+
+  db:
+    image: mysql
+    ports:
+      - "3306:3306"
+    restart: always
+    environment:
+      MYSQL_DATABASE: footballtix
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - dbdata:/var/lib/mysql
+    networks:
+      - backend  
+
+volumes:
+  dbdata:
+
+networks:
+  backend:
+  frontend:  

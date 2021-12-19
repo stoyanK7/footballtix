@@ -10,3 +10,5 @@ JAVA
 ./gradlew build && java -jar build/libs/footballtix-0.0.2.jar
 docker build --build-arg JAR_FILE=build/libs/\footballtix-0.0.2.jar -t footballtix/api .
 docker run -p 8080:8080 --name footballtix-api footballtix/api
+
+docker-compose up
