@@ -1,3 +1,12 @@
+MYSQL
 docker create -v /var/lib/mysql --name mysqldata mysql
 docker run --volumes-from mysqldata -p 3307:3306 -e MYSQL_ROOT_PASSWORD=root -d mysql
-docker run -it -p 3000:3000 --rm --name footballtixreact footballtixreact
+
+REACT
+docker build -t footballtix/frontend .
+docker run -it -p 3000:3000 --rm --name footballtix-frontend footballtix/frontend
+
+JAVA
+./gradlew build && java -jar build/libs/footballtix-0.0.2.jar
+docker build --build-arg JAR_FILE=build/libs/\footballtix-0.0.2.jar -t footballtix/api .
+docker run -p 8080:8080 --name footballtix-api footballtix/api
