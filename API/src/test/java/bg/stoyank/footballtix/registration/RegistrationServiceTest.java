@@ -42,7 +42,7 @@ class RegistrationServiceTest {
         given(userService.getUserByEmail(any()))
                 .willReturn(mock(User.class, RETURNS_DEEP_STUBS));
 
-        componentUnderTest.register(mock(RegistrationRequest.class));
+        componentUnderTest.register(new RegistrationRequest("full name", "test@test.com", "testPassword_28122"));
 
         verify(userService).createUser(any(User.class));
     }
