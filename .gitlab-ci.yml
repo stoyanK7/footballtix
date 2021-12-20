@@ -43,7 +43,7 @@ sonarqube-check:
 run:
   stage: run
   script:
-    - docker rm $(docker ps -aq)
+    - docker rm -f $(docker ps -aq)
     - docker-compose up --build
 
 cypress:
