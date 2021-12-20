@@ -12,6 +12,7 @@ stages:
   - build
   - test
   - sonarqube
+  - run
   - cypress
 
 build:
@@ -39,15 +40,17 @@ sonarqube-check:
   only:
     - main 
 
-stages:
-  - test
+run:
+  stage: run
+  script:
+    - docker-compose up
 
 cypress:
   image: node:latest
   stage: cypress
   script:
     - cd /Frontend
-    - npm run test
+    - npm run cypress
 
 
 #deploy to dockerhub
