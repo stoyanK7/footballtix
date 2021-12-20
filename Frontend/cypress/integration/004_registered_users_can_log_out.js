@@ -1,6 +1,6 @@
 describe('Verify that registered users can log out of their account', function () {
   beforeEach(() => {
-    cy.loginAdmin();
+    cy.loginUser('fOoTbAlLtIx_281202');
   })
 
   it('Log in', function () {

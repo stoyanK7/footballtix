@@ -15,7 +15,7 @@ services:
       - backend
       - frontend
   
-  footballtix-frontent:
+  footballtix-frontend:
     build: 
       context: Frontend
       dockerfile: Dockerfile

@@ -48,7 +48,7 @@ const Chat = () => {
             <div className="form-group">
               <div className="input-group clearfix">
                 <input type="text" id="message" placeholder="Type a message..."
-                  autocomplete="off" className="form-control" />
+                  autoComplete="off" className="form-control" />
                 <button type="submit" className="primary">Send</button>
               </div>
             </div>

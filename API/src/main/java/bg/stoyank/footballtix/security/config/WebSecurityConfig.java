@@ -38,7 +38,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(
                         "/api/orders/**",
                         "/api/users/**"
-                        ).hasAnyRole("USER", "ADMIN")
+                ).hasAnyRole("USER", "ADMIN")
                 .antMatchers(
                         "/api/tickets/**",
                         "/api/matches/**",
@@ -57,8 +57,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("http://localhost:8080");
-                registry.addMapping("/**").allowedOrigins("http://localhost:3000");
+                registry
+                        .addMapping("/**")
+                        .allowedMethods("*")
+                        .allowedOrigins(
+                                "http://localhost:3000",
+                                "http://footballtix-frontend:3000"
+                        );
             }
         };
     }

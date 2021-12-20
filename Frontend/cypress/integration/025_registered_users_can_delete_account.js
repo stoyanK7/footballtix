@@ -1,6 +1,6 @@
 describe('Verify that registered users can delete account', function () {
   beforeEach(() => {
-    cy.loginAdmin();
+    cy.loginUser('fOoTbAlLtIx_2812022', 'test10@gmail.com');
   })
 
   it('Delete account', function () {

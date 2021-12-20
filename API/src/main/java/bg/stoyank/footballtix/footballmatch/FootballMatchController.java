@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -71,7 +70,6 @@ public class FootballMatchController {
     }
 
     @PutMapping("/{footballMatchId}")
-    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<Object> updateFootballMatch(
             @PathVariable("footballMatchId") @PositiveOrZero long footballMatchId,
             @Valid @RequestBody FootballMatch footballMatch) {
@@ -80,7 +78,6 @@ public class FootballMatchController {
     }
 
     @DeleteMapping("/{footballMatchId}")
-    @CrossOrigin(origins = "http://localhost:3000")
     public ResponseEntity<Object> deleteFootballMatch(
             @PathVariable("footballMatchId") @PositiveOrZero long footballMatchId) {
         footballMatchService.deleteFootballMatchById(footballMatchId);

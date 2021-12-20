@@ -16,7 +16,7 @@ describe('Verify that admins can add a match', function () {
     cy.get('input[name=awayTeam]').type('Cypress test away')
     cy.get('input[name=startingDateTime]').click()
       .then(input => {
-        setDate(input[0], '2023-12-12T00:00')
+        setDate(input[0], '2223-12-12T00:00')
       }).click()
     cy.get('input[name=stadium]').type('Cypress test staidum')
     cy.get('input[name=location]').type('Cypress test location')

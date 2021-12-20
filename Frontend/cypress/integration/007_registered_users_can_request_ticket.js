@@ -1,6 +1,6 @@
 describe('Verify that registered users can request ticket', function () {
   beforeEach(() => {
-    cy.loginAdmin();
+    cy.loginUser('fOoTbAlLtIx_281202');
   })
 
   it('Log in', function () {

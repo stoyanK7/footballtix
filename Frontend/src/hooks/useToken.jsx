@@ -33,7 +33,8 @@ const useToken = () => {
     token,
     deleteToken,
     isAdmin,
-    email
+    email,
+    getToken
   };
 };
 

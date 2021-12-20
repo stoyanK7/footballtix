@@ -6,7 +6,7 @@ describe('Verify that admins can edit a match', function () {
   it('Update football match', function () {
     cy.visit('http://localhost:3000')
 
-    cy.get('div.match-card').first().click()
+    cy.get('div.match-card').last().click()
 
     cy.get('button.edit-button').click()
 

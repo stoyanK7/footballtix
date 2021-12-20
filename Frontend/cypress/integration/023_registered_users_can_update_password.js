@@ -1,14 +1,14 @@
 describe('Verify that registered users can update password', function () {
   beforeEach(() => {
-    cy.loginAdmin();
+    cy.loginUser('fOoTbAlLtIx_281202');
   })
 
   it('Update password', function () {
     cy.visit('http://localhost:3000/profile')
 
-    cy.get('input[name=currentPassword]').type('Gogo_281202')
-    cy.get('input[name=newPassword]').type('Gogo_2812022')
-    cy.get('input[name=confirmPassword]').type('Gogo_2812022')
+    cy.get('input[name=currentPassword]').type('fOoTbAlLtIx_281202')
+    cy.get('input[name=newPassword]').type('fOoTbAlLtIx_2812022')
+    cy.get('input[name=confirmPassword]').type('fOoTbAlLtIx_2812022')
 
     cy.get('button[type=submit]').eq(1).click()
 

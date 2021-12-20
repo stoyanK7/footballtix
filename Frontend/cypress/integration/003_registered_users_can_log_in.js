@@ -8,7 +8,7 @@ describe('Verify that registered users can log in their account', function () {
     
     cy.get('input[name=email]').type('test@gmail.com')
 
-    cy.get('input[name=password]').type('Gogo_281202')
+    cy.get('input[name=password]').type('fOoTbAlLtIx_281202')
 
     cy.get('button[type=submit]').click()
 

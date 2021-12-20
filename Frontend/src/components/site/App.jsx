@@ -36,13 +36,11 @@ import useToken from '../../hooks/useToken';
 
 const App = () => {
   const redirectMessage = useRedirectMessage();
-  const { token } = useToken();
-
-  console.log(token);
+  const { getToken } = useToken();
 
   axios.defaults.baseURL = 'http://localhost:8080/';
-  if (token)
-    axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+  if (getToken())
+    axios.defaults.headers.common['Authorization'] = `Bearer ${getToken()}`;
 
   return (
     <div className='app'>
