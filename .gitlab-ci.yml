@@ -9,16 +9,16 @@ cache:
     - ./API/.gradle/caches
 
 stages:
-  # - build
+  - build
   # - test
   # - sonarqube
   - run
   - cypress
 
-# build:
-#   stage: build
-#   script:
-#     - ./gradlew assemble
+build:
+  stage: build
+  script:
+    - ./gradlew build
 
 # test:
 #   stage: test
@@ -43,7 +43,7 @@ stages:
 run:
   stage: run
   script:
-    - ./gradlew build
+    # - ./gradlew build
     - pwd
     - ls
     # - docker rm -f $(docker ps -aq)
