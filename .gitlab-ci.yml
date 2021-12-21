@@ -9,9 +9,9 @@ cache:
     - ./API/.gradle/caches
 
 stages:
-  - build
-  - test
-  - sonarqube
+  # - build
+  # - test
+  # - sonarqube
   - run
   - cypress
 
@@ -43,6 +43,8 @@ sonarqube-check:
 run:
   stage: run
   script:
+    - pwd
+    - ls
     - docker rm -f $(docker ps -aq)
     - docker-compose up --build
 
