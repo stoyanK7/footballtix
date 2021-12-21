@@ -10,15 +10,22 @@ cache:
 
 stages:
   - build
-  - test
   - run-docker-containers
-  - cypress
+  - test
   - stop-docker-containers
 
 build:
   stage: build
   script:
     - ./gradlew assemble
+
+run-docker-containers:
+  stage: run-docker-containers
+  needs: ["build"]
+  script:
+    - ./gradlew build
+    # - docker rm -f $(docker ps -aq)
+    - docker-compose up --build -d    
 
 api-test:
   stage: test
@@ -42,17 +49,9 @@ sonarqube-check:
   only:
     - main 
 
-run-docker-containers:
-  stage: run-docker-containers
-  needs: ["build"]
-  script:
-    - ./gradlew build
-    # - docker rm -f $(docker ps -aq)
-    - docker-compose up --build -d
-
 cypress:
   image: node:latest
-  stage: cypress
+  stage: test
   needs: ["run-docker-containers"]
   before_script:
     - cd Frontend/
