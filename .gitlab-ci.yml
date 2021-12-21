@@ -9,17 +9,17 @@ cache:
     - ./API/.gradle/caches
 
 stages:
-  # - build
+  - build
   # - test
   # - sonarqube
   - run-docker-containers
   - cypress
   - stop-docker-containers
 
-# build:
-#   stage: build
-#   script:
-#     - ./gradlew assemble
+build:
+  stage: build
+  script:
+    - ./gradlew assemble
 
 # test:
 #   stage: test
@@ -43,6 +43,7 @@ stages:
 
 run-docker-containers:
   stage: run-docker-containers
+  needs: ["build"]
   script:
     - ./gradlew build
     - pwd
@@ -53,14 +54,16 @@ run-docker-containers:
 cypress:
   image: node:latest
   stage: cypress
-  script:
+  needs: ["run-docker-containers"]
+  before_script:
     - cd ../Frontend
-    - pwd
     - npm install
+  script:
     - npm run cypress
 
 stop-docker-containers:
   stage: stop-docker-containers
+  needs: ["cypress"]
   script:
     - docker-compose down
 
