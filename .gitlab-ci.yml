@@ -64,6 +64,7 @@ cypress:
 stop-docker-containers:
   stage: stop-docker-containers
   needs: ["run-docker-containers", "cypress"]
+  when: always
   script:
     - docker-compose down
 
