@@ -57,14 +57,15 @@ cypress:
   needs: ["run-docker-containers"]
   before_script:
     - pwd
-    - cd ../Frontend
+    - ls
+    - cd /Frontend
     - npm install
   script:
     - npm run cypress
 
 stop-docker-containers:
   stage: stop-docker-containers
-  needs: ["cypress"]
+  needs: ["run-docker-containers", "cypress"]
   script:
     - docker-compose down
 
