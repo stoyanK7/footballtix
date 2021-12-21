@@ -43,7 +43,7 @@ build:
 run:
   stage: run
   script:
-    # - ./gradlew build
+    - ./gradlew build
     - pwd
     - ls
     # - docker rm -f $(docker ps -aq)
