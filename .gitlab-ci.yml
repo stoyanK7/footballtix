@@ -47,7 +47,7 @@ run:
     - pwd
     - ls
     # - docker rm -f $(docker ps -aq)
-    - docker-compose up --build
+    - docker-compose up --build -d
 
 cypress:
   image: node:latest
