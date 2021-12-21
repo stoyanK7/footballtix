@@ -45,6 +45,7 @@ run:
   script:
     - pwd
     - ls
+    - ./gradlew build
     - docker rm -f $(docker ps -aq)
     - docker-compose up --build
 
