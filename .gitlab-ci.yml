@@ -55,7 +55,8 @@ cypress:
   needs: ["run-docker-containers"]
   before_script:
     - cd Frontend/
-    - docker exec footballtix_db_1 /bin/sh -c 'mysql -u root -p root footballtix < cypress/testdb.sql'
+    - pwd
+    - docker exec footballtix_db_1 /bin/sh -c 'mysql -u root -p root footballtix < $(pwd)/cypress/testdb.sql'
     - npm install
   script:
     - npm run cypress
