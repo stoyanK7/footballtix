@@ -9,19 +9,19 @@ cache:
     - ./API/.gradle/caches
 
 stages:
-  - build
+  - api-build
   - run-docker-containers
   - test
   - stop-docker-containers
 
-build:
-  stage: build
+api-build:
+  stage: api-build
   script:
     - ./gradlew assemble
 
 run-docker-containers:
   stage: run-docker-containers
-  needs: ["build"]
+  needs: ["api-build"]
   script:
     - ./gradlew build
     # - docker rm -f $(docker ps -aq)
@@ -29,13 +29,13 @@ run-docker-containers:
 
 api-test:
   stage: test
-  needs: ["build"]
+  needs: ["api-build"]
   script:
     - ./gradlew test
 
 sonarqube-check:
   stage: test
-  needs: ["build"]
+  needs: ["api-build"]
   image: gradle:jre11-slim
   variables:
     SONAR_USER_HOME: "${CI_PROJECT_DIR}/.sonar"  
@@ -55,6 +55,7 @@ cypress:
   needs: ["run-docker-containers"]
   before_script:
     - cd Frontend/
+    - docker exec footballtix_db_1 /bin/sh -c 'mysql -u root -p root footballtix < cypress/testdb.sql'
     - npm install
   script:
     - npm run cypress
