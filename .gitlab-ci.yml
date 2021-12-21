@@ -55,6 +55,8 @@ cypress:
   stage: cypress
   script:
     - cd ../Frontend
+    - pwd
+    - npm install
     - npm run cypress
 
 stop-docker-containers:
