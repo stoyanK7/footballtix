@@ -14,3 +14,7 @@ docker run -p 8080:8080 --name footballtix-api footballtix/api
 docker-compose up
 docker-compose build
 docker-compose up --build
+
+
+sudo docker commit footballtix_footballtix-frontend_1 stoyank7/footballtix:frontend
+sudo docker push stoyank7/footballtix:frontend

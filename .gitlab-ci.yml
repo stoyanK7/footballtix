@@ -12,6 +12,7 @@ stages:
   - api-build
   - run-docker-containers
   - test
+  - deploy
   - stop-docker-containers
 
 api-build:
@@ -60,10 +61,21 @@ cypress:
   script:
     - npm run cypress
 
+push-to-dockerhub:
+  stage: deploy
+  needs: ["run-docker-containers", "test"]
+  script:
+    - sudo docker commit footballtix_footballtix-frontend_1 stoyank7/footballtix:frontend
+    - sudo docker push stoyank7/footballtix:frontend
+    - sudo docker commit footballtix_footballtix-api_1 stoyank7/footballtix:api
+    - sudo docker push stoyank7/footballtix:api
+    - sudo docker commit footballtix_db_1 stoyank7/footballtix:db
+    - sudo docker push stoyank7/footballtix:db
+
+
+
 stop-docker-containers:
   stage: stop-docker-containers
   when: always
   script:
     - sudo docker-compose down
-
-#deploy to dockerhub
