@@ -1,5 +1,7 @@
 import "cypress-localstorage-commands";
 
+Cypress.config('defaultCommandTimeout', 10000);
+
 Cypress.Commands.add('loginAdmin', () => {
   cy.request('POST', 'http://localhost:8080/api/authenticate', {
     'email': "admin@gmail.com",

@@ -10,7 +10,7 @@ describe('Verify that admins can edit a match', function () {
 
     cy.get('button.edit-button').click()
 
-    cy.get('input[name=homeTeam]').type('aasdasd')
+    cy.get('input[name=homeTeam]').clear().type('aasdasd')
 
     cy.get('button[type=submit]').click()
 
