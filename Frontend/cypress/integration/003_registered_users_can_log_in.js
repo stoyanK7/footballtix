@@ -10,7 +10,7 @@ describe('Verify that registered users can log in their account', function () {
 
     cy.get('input[name=password]').type('fOoTbAlLtIx_281202')
 
-    cy.get('button[type=submit]').click()
+    cy.get('[data-cy=submit]').click()
 
     cy.url().should('include', '/')
 

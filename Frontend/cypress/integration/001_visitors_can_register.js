@@ -12,7 +12,7 @@ describe('Verify that visitors can register', function () {
 
     cy.get('input[name=password]').type('Gogo_281202')
 
-    cy.get('button[type=submit]').click()
+    cy.get('[data-cy=submit]').click()
 
     cy.url().should('include', '/login')
 

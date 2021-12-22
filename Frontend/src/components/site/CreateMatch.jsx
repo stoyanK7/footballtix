@@ -86,7 +86,7 @@ const CreateMatch = () => {
             onChange={onChangeHandler}
             min='0'
             max='10000' />
-          <button type='submit'>Create</button>
+          <button type='submit' data-cy='submit'>Create</button>
         </form>
       </div>
     </>

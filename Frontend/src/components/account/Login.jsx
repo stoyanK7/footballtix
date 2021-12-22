@@ -62,7 +62,7 @@ const Login = () => {
             type='password'
             onChange={onChangeHandler}
             required />
-          <button type='submit' disabled={responseError}>Log in</button>
+          <button type='submit' data-cy='submit' disabled={responseError}>Log in</button>
           <p>
             <Link to='/register'>Don't have an account?</Link>
             <br />

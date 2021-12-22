@@ -70,7 +70,7 @@ const Register = () => {
             minLength='6'
             pattern='^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@_$!%*?&])[A-Za-z\d@_$!%*?&]{6,}$'
             title='Minimum six characters, at least one uppercase letter, one lowercase letter, one number and one special character:' />
-          <button type='submit' disabled={error}>Register</button>
+          <button type='submit' data-cy='submit' disabled={error}>Register</button>
           <p><Link to='/login'>Already have an account?</Link></p>
         </form>
       </div>

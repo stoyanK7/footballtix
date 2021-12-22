@@ -24,7 +24,7 @@ describe('Verify that admins can add a match', function () {
     cy.get('input[name=ticketsAvailable]').type('1500')
     cy.get('input[name=pricePerTicket]').type('100')
 
-    cy.get('button[type=submit]').click()
+    cy.get('[data-cy=submit]').click()
 
     cy.url().should('include', '/matches/')
 
