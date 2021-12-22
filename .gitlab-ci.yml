@@ -64,6 +64,8 @@ cypress:
 push-to-dockerhub:
   stage: deploy
   needs: ["run-docker-containers", "api-test"]
+  before_script:
+    - sudo docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
   script:
     - sudo docker commit footballtix_footballtix-frontend_1 stoyank7/footballtix:frontend
     - sudo docker push stoyank7/footballtix:frontend
