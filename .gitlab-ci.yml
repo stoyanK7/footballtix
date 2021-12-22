@@ -63,7 +63,7 @@ cypress:
 
 push-to-dockerhub:
   stage: deploy
-  needs: ["run-docker-containers", "test"]
+  needs: ["run-docker-containers", "api-test"]
   script:
     - sudo docker commit footballtix_footballtix-frontend_1 stoyank7/footballtix:frontend
     - sudo docker push stoyank7/footballtix:frontend
@@ -71,8 +71,6 @@ push-to-dockerhub:
     - sudo docker push stoyank7/footballtix:api
     - sudo docker commit footballtix_db_1 stoyank7/footballtix:db
     - sudo docker push stoyank7/footballtix:db
-
-
 
 stop-docker-containers:
   stage: stop-docker-containers
