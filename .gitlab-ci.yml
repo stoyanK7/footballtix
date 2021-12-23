@@ -77,7 +77,7 @@ build-production-docker-containers:
     - touch .env
     - echo "REACT_APP_API_ENDPOINT=http://20.124.233.164:8080" >> ./.env
   script:
-    - sudo docker-compose build  
+    - sudo docker-compose up --build --no-start 
 
 push-to-dockerhub:
   stage: deploy
