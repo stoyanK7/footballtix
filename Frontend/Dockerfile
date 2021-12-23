@@ -10,6 +10,10 @@ RUN npm install -g serve
 
 COPY . .
 
+ARG REACT_APP_API_ENDPOINT
+
+RUN sh create-env-file.sh REACT_APP_API_ENDPOINT=$REACT_APP_API_ENDPOINT
+
 RUN npm run build
 
 EXPOSE 3000
