@@ -96,9 +96,9 @@ deploy-to-production:
   stage: deploy
   # needs: ["push-to-dockerhub"]
   before_script:
-    - sudo ssh -i /home/stoyank/Documents/footballtix.pem azureuser@20.124.233.164
+    - sudo ssh -i ~/footballtix.pem azureuser@20.124.233.164
   script:
-    - ./start.sh
+    - bash start.sh
     - exit
 
 # stop-docker-containers:
