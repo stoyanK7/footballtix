@@ -23,15 +23,12 @@ stages:
 run-docker-containers:
   stage: run-docker-containers
   # needs: ["api-build"]
-  # before_script:
-  #   - touch ../.env
-  #   - echo "REACT_APP_API_ENDPOINT=http://localhost:8080" >> ../.env
   script:
     - ./gradlew build
     # - docker rm -f $(docker ps -aq)
     - cd ..
     - touch .env
-    - echo "REACT_APP_API_ENDPOINT=http://localhost:8080" >> ./.env
+    - echo "REACT_APP_API_ENDPOINT=http://api:8080" >> ./.env
     - sudo docker-compose up --build -d    
 
 # api-test:
