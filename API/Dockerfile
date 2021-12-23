@@ -6,11 +6,11 @@ USER spring:spring
 
 ARG JAR_FILE=target/*.jar
 
-COPY ${JAR_FILE} /app.jar
-
 ARG EXPECTED_ORIGIN
 
 RUN sh create-env-file.sh EXPECTED_ORIGIN=$EXPECTED_ORIGIN
+
+COPY ${JAR_FILE} /app.jar
 
 EXPOSE 8080
 
