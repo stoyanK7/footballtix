@@ -1,5 +1,6 @@
 package bg.stoyank.footballtix.security.config;
 
+import bg.stoyank.footballtix.ExpectedOrigin;
 import bg.stoyank.footballtix.jwt.JwtRequestFilter;
 import bg.stoyank.footballtix.user.UserService;
 import lombok.AllArgsConstructor;
@@ -63,7 +64,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         .allowedOrigins(
                                 "http://localhost:3000",
                                 "http://frontend:3000",
-                                "http://20.124.233.164:3000"
+                                "http://20.124.233.164:3000",
+                                ExpectedOrigin.value
                         );
             }
         };
