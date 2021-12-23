@@ -8,7 +8,7 @@ ARG JAR_FILE=target/*.jar
 
 ARG EXPECTED_ORIGIN
 
-RUN pwd
+RUN ls
 
 RUN sh create-env-file.sh EXPECTED_ORIGIN=$EXPECTED_ORIGIN
 
