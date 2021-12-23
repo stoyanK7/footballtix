@@ -70,6 +70,8 @@ build-production-docker-containers:
   # needs: ["api-test"]
   before_script:
     - cd API/
+    - export GRADLE_USER_HOME=`pwd`/.gradle
+    - chmod +x ./gradlew
     - ./gradlew build
     - cd ..
     - touch .env
