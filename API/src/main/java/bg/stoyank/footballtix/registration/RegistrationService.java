@@ -1,6 +1,5 @@
 package bg.stoyank.footballtix.registration;
 
-import bg.stoyank.footballtix.ExpectedOrigin;
 import bg.stoyank.footballtix.email.EmailService;
 import bg.stoyank.footballtix.email.EmailTemplateService;
 import bg.stoyank.footballtix.registration.confirmationtoken.ConfirmationToken;
@@ -49,7 +48,7 @@ public class RegistrationService {
                 "Confirm your email",
                 emailTemplateService.buildRegistrationConfirmationEmail(
                         user.getFullName(),
-                        ExpectedOrigin.value + "/" + token));
+                        "http://20.124.233.164:3000/" + token));
     }
 
     @Transactional

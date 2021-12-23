@@ -1,4 +1,4 @@
-package bg.stoyank.footballtix;
+package bg.stoyank.footballtix.chat;
 
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;

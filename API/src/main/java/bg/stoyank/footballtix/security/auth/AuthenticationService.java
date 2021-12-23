@@ -1,6 +1,5 @@
 package bg.stoyank.footballtix.security.auth;
 
-import bg.stoyank.footballtix.ExpectedOrigin;
 import bg.stoyank.footballtix.email.EmailService;
 import bg.stoyank.footballtix.email.EmailTemplateService;
 import bg.stoyank.footballtix.security.resettoken.ResetToken;
@@ -30,7 +29,7 @@ public class AuthenticationService {
                 LocalDateTime.now().plusMinutes(15),
                 email);
         resetTokenService.saveResetToken(resetToken);
-        String link = ExpectedOrigin.value + "/reset-password?token=" + token;
+        String link = "http://20.124.233.164:3000/reset-password?token=" + token;
         emailService.send(email,
                 "Reset your password.",
                 emailTemplateService.buildPasswordRecoveryEmail(email, link));

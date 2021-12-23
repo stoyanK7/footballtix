@@ -1,4 +1,4 @@
-package bg.stoyank.footballtix;
+package bg.stoyank.footballtix.chat;
 
 import lombok.Getter;
 import lombok.Setter;

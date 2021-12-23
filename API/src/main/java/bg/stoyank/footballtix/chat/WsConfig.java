@@ -1,4 +1,4 @@
-package bg.stoyank.footballtix;
+package bg.stoyank.footballtix.chat;
 
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.context.annotation.Configuration;
