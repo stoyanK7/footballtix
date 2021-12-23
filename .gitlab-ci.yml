@@ -68,11 +68,13 @@ run-test-docker-containers:
 build-production-docker-containers:
   stage: deploy
   # needs: ["api-test"]
-  script:
+  before_script:
+    - ./gradlew build
     - cd ..
     - touch .env
     - echo "REACT_APP_API_ENDPOINT=http://20.124.233.164:8080" >> ./.env
-    - sudo docker-compose up --build -d   
+  script:
+    - sudo docker-compose build  
 
 push-to-dockerhub:
   stage: deploy
