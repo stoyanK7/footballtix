@@ -10,10 +10,10 @@ cache:
 
 stages:
   # - api-build
-  - run-test-docker-containers
+  # - run-test-docker-containers
   # - test
-  - stop-docker-containers
-  - build-production-docker-containers
+  # - stop-docker-containers
+  # - build-production-docker-containers
   - deploy
 
 # api-build:
@@ -21,16 +21,16 @@ stages:
 #   script:
 #     - ./gradlew assemble
 
-run-test-docker-containers:
-  stage: run-test-docker-containers
-  # needs: ["api-build"]
-  script:
-    - ./gradlew build
-    # - docker rm -f $(docker ps -aq)
-    - cd ..
-    - touch .env
-    - echo "REACT_APP_API_ENDPOINT=http://20.124.233.164:8080" >> ./.env
-    - sudo docker-compose up --build -d    
+# run-test-docker-containers:
+#   stage: run-test-docker-containers
+#   # needs: ["api-build"]
+#   script:
+#     - ./gradlew build
+#     # - docker rm -f $(docker ps -aq)
+#     - cd ..
+#     - touch .env
+#     - echo "REACT_APP_API_ENDPOINT=http://20.124.233.164:8080" >> ./.env
+#     - sudo docker-compose up --build -d    
 
 # api-test:
 #   stage: test
@@ -65,44 +65,44 @@ run-test-docker-containers:
 #   script:
 #     - npm run cypress
 
-build-production-docker-containers:
-  stage: deploy
-  # needs: ["api-test"]
-  before_script:
-    - cd API/
-    - export GRADLE_USER_HOME=`pwd`/.gradle
-    - chmod +x ./gradlew
-    - ./gradlew build
-    - cd ..
-    - touch .env
-    - echo "REACT_APP_API_ENDPOINT=http://20.124.233.164:8080" >> ./.env
-  script:
-    - sudo docker-compose up --build --no-start 
+# build-production-docker-containers:
+#   stage: deploy
+#   # needs: ["api-test"]
+#   before_script:
+#     - cd API/
+#     - export GRADLE_USER_HOME=`pwd`/.gradle
+#     - chmod +x ./gradlew
+#     - ./gradlew build
+#     - cd ..
+#     - touch .env
+#     - echo "REACT_APP_API_ENDPOINT=http://20.124.233.164:8080" >> ./.env
+#   script:
+#     - sudo docker-compose up --build --no-start 
 
-push-to-dockerhub:
-  stage: deploy
-  needs: ["build-production-docker-containers"]
-  before_script:
-    - sudo docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
-  script:
-    - sudo docker commit frontend stoyank7/footballtix:frontend
-    - sudo docker push stoyank7/footballtix:frontend
-    - sudo docker commit api stoyank7/footballtix:api
-    - sudo docker push stoyank7/footballtix:api
-    - sudo docker commit db stoyank7/footballtix:db
-    - sudo docker push stoyank7/footballtix:db
+# push-to-dockerhub:
+#   stage: deploy
+#   needs: ["build-production-docker-containers"]
+#   before_script:
+#     - sudo docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
+#   script:
+#     - sudo docker commit frontend stoyank7/footballtix:frontend
+#     - sudo docker push stoyank7/footballtix:frontend
+#     - sudo docker commit api stoyank7/footballtix:api
+#     - sudo docker push stoyank7/footballtix:api
+#     - sudo docker commit db stoyank7/footballtix:db
+#     - sudo docker push stoyank7/footballtix:db
 
 deploy-to-production:
   stage: deploy
-  needs: ["push-to-dockerhub"]
+  # needs: ["push-to-dockerhub"]
   before_script:
-    - sudo ssh -i ~/Documents/footballtix.pem azureuser@20.124.233.164
+    - sudo ssh -i /home/stoyank/Documents/footballtix.pem azureuser@20.124.233.164
   script:
     - ./start.sh
     - exit
 
-stop-docker-containers:
-  stage: stop-docker-containers
-  when: always
-  script:
-    - sudo docker-compose down
+# stop-docker-containers:
+#   stage: stop-docker-containers
+#   when: always
+#   script:
+#     - sudo docker-compose down
