@@ -69,6 +69,7 @@ build-production-docker-containers:
   stage: deploy
   # needs: ["api-test"]
   before_script:
+    - cd API/
     - ./gradlew build
     - cd ..
     - touch .env
