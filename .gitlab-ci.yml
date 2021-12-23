@@ -13,7 +13,6 @@ cache:
 
 stages:
   - api-build
-  - run-test-docker-containers
   - test
   - deploy
 
@@ -23,7 +22,7 @@ api-build:
     - ./gradlew assemble
 
 run-test-docker-containers:
-  stage: run-test-docker-containers
+  stage: test
   needs: ["api-build"]
   script:
     - ./gradlew build
