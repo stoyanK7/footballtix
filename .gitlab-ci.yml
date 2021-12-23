@@ -98,9 +98,10 @@ deploy-to-production:
   before_script:
     - sudo ssh -i ~/footballtix.pem azureuser@20.124.233.164
   script:
-    - ls 
-    - bash start.sh
-    - exit
+    - sudo ssh azureuser@20.124.233.164 "bash start.sh && exit"
+    # - ls 
+    # - bash start.sh
+    # - exit
 
 # stop-docker-containers:
 #   stage: stop-docker-containers
