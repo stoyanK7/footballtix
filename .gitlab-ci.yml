@@ -82,7 +82,6 @@ build-production-docker-containers:
     - cd ..
     - touch .env
     - echo "REACT_APP_API_ENDPOINT=http://20.124.233.164:8080" >> ./.env
-    - echo "EXPECTED_ORIGIN=http://20.124.233.164:3000" >> ./.env
   script:
     - sudo docker-compose up --build --no-start 
 
