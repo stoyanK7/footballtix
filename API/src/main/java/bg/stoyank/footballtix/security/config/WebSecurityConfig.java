@@ -62,7 +62,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         .allowedMethods("*")
                         .allowedOrigins(
                                 "http://localhost:3000",
-                                "http://footballtix-frontend:3000"
+                                "http://frontend:3000",
+                                "http://20.124.233.164:3000"
                         );
             }
         };
