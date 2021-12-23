@@ -8,13 +8,14 @@ cache:
     - ./API/.gradle/wrapper
     - ./API/.gradle/caches
 
+.stop-docker-containers: &stop-docker-containers
+  - sudo docker-compose down
+
 stages:
   - api-build
   - run-test-docker-containers
   - test
-  - build-production-docker-containers
   - deploy
-  - stop-docker-containers
 
 api-build:
   stage: api-build
@@ -65,6 +66,12 @@ cypress:
   script:
     - npm run cypress
 
+stop-test-docker-containers:
+  stage: test
+  when: always
+  script:
+    - <<:*stop-docker-containers
+
 build-production-docker-containers:
   stage: deploy
   needs: ["api-test", "cypress"]
@@ -76,7 +83,6 @@ build-production-docker-containers:
     - cd ..
     - touch .env
     - echo "REACT_APP_API_ENDPOINT=http://20.124.233.164:8080" >> ./.env
-    - <<:*stop-docker-containers
   script:
     - sudo docker-compose up --build --no-start 
 
@@ -98,12 +104,3 @@ deploy-to-production:
   needs: ["push-to-dockerhub"]
   script:
     - sudo ssh -i ~/footballtix.pem azureuser@20.124.233.164 "bash start.sh && exit"
-
-stop-docker-containers:
-  stage: stop-docker-containers
-  when: always
-  script:
-    - <<:*stop-docker-containers
-
-.stop-docker-containers: &stop-docker-containers
-  - sudo docker-compose down
