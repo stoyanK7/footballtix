@@ -10,18 +10,19 @@ cache:
 
 stages:
   # - api-build
-  - run-docker-containers
+  - run-test-docker-containers
   # - test
-  - deploy
   - stop-docker-containers
+  - build-production-docker-containers
+  - deploy
 
 # api-build:
 #   stage: api-build
 #   script:
 #     - ./gradlew assemble
 
-run-docker-containers:
-  stage: run-docker-containers
+run-test-docker-containers:
+  stage: run-test-docker-containers
   # needs: ["api-build"]
   script:
     - ./gradlew build
@@ -56,7 +57,7 @@ run-docker-containers:
 # cypress:
 #   image: node:latest
 #   stage: test
-#   needs: ["run-docker-containers"]
+#   needs: ["run-test-docker-containers"]
 #   before_script:
 #     - cd Frontend/
 #     - sudo docker exec -i db mysql -u root -proot < ./cypress/testdb.sql
@@ -64,9 +65,18 @@ run-docker-containers:
 #   script:
 #     - npm run cypress
 
+build-production-docker-containers:
+  stage: deploy
+  # needs: ["api-test"]
+  script:
+    - cd ..
+    - touch .env
+    - echo "REACT_APP_API_ENDPOINT=http://20.124.233.164:8080" >> ./.env
+    - sudo docker-compose up --build -d   
+
 push-to-dockerhub:
   stage: deploy
-  needs: ["run-docker-containers"]
+  needs: ["build-production-docker-containers"]
   before_script:
     - sudo docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD"
   script:
@@ -76,6 +86,15 @@ push-to-dockerhub:
     - sudo docker push stoyank7/footballtix:api
     - sudo docker commit db stoyank7/footballtix:db
     - sudo docker push stoyank7/footballtix:db
+
+deploy-to-production:
+  stage: deploy
+  needs: ["push-to-dockerhub"]
+  before_script:
+    - sudo ssh -i ~/Documents/footballtix.pem azureuser@20.124.233.164
+  script:
+    - ./start.sh
+    - exit
 
 stop-docker-containers:
   stage: stop-docker-containers
