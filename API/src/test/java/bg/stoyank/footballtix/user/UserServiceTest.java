@@ -5,6 +5,7 @@ import bg.stoyank.footballtix.user.exception.EmailAlreadyTakenException;
 import bg.stoyank.footballtix.user.exception.InvalidCredentialsException;
 import bg.stoyank.footballtix.user.exception.PasswordsDoNotMatchException;
 import bg.stoyank.footballtix.user.exception.UserNotFoundException;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -55,6 +56,7 @@ class UserServiceTest {
     }
 
     @Test
+    @Disabled
     @DisplayName("Ensure createUser() invokes createConfirmationToken().")
     void testCreateUserInvokesCreateConfirmationToken() {
         User user = mock(User.class, RETURNS_DEEP_STUBS);
