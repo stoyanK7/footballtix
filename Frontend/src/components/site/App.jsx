@@ -1,6 +1,5 @@
 import '../../css/site/App.css';
 
-import React, { useEffect } from 'react';
 import { Route, Switch } from 'react-router';
 
 import Chat from './Chat';
@@ -26,6 +25,7 @@ import Privacy from '../static/Privacy';
 import Profile from '../account/Profile';
 import ProtectedAdminRoute from '../route/ProtectedAdminRoute';
 import ProtectedRoute from '../route/ProtectedRoute';
+import React from 'react';
 import Register from '../account/Register';
 import ResetPassword from '../account/ResetPassword';
 import Terms from '../static/Terms';
@@ -40,7 +40,6 @@ const App = () => {
 
   // axios.defaults.baseURL = 'http://localhost:8080/';
   axios.defaults.baseURL = process.env.REACT_APP_API_ENDPOINT + '/';
-  console.log(process.env.REACT_APP_API_ENDPOINT)
   if (getToken())
     axios.defaults.headers.common['Authorization'] = `Bearer ${getToken()}`;
 
