@@ -38,8 +38,8 @@ const App = () => {
   const redirectMessage = useRedirectMessage();
   const { getToken } = useToken();
 
-  axios.defaults.baseURL = 'http://localhost:8080/';
-  // axios.defaults.baseURL = process.env.REACT_APP_API_ENDPOINT + '/';
+  // axios.defaults.baseURL = 'http://localhost:8080/';
+  axios.defaults.baseURL = process.env.REACT_APP_API_ENDPOINT + '/';
   console.log(process.env.REACT_APP_API_ENDPOINT)
   if (getToken())
     axios.defaults.headers.common['Authorization'] = `Bearer ${getToken()}`;
