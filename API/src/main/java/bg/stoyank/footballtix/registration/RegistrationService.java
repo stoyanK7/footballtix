@@ -48,7 +48,7 @@ public class RegistrationService {
                 "Confirm your email",
                 emailTemplateService.buildRegistrationConfirmationEmail(
                         user.getFullName(),
-                        "http://20.124.233.164:3000/" + token));
+                        "http://20.124.233.164:3000/confirm-token/" + token));
     }
 
     @Transactional

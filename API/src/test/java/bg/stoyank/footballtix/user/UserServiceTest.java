@@ -56,7 +56,6 @@ class UserServiceTest {
     }
 
     @Test
-    @Disabled
     @DisplayName("Ensure createUser() invokes createConfirmationToken().")
     void testCreateUserInvokesCreateConfirmationToken() {
         User user = mock(User.class, RETURNS_DEEP_STUBS);
