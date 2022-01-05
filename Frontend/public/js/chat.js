@@ -21,7 +21,7 @@ function connect(event) {
         usernamePage.classList.add('hidden');
         chatPage.classList.remove('hidden');
 
-        var socket = new SockJS(`${process.env.REACT_APP_API_ENDPOINT}/footballtix`);
+        var socket = new SockJS('http://20.124.233.164:8080/footballtix');
         stompClient = Stomp.over(socket);
 
         stompClient.connect({}, onConnected, onError);
