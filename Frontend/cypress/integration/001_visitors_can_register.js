@@ -6,11 +6,11 @@ describe('Verify that visitors can register', function () {
 
     cy.get('a[href="/register"]').click()
     
-    cy.get('input[name=email]').type(`test${Math.random()}@gmail.com`)
+    cy.get('input[name=email]').type(`test@gmail.com`)
 
     cy.get('input[name=fullName]').type('Asddd')
 
-    cy.get('input[name=password]').type('Gogo_281202')
+    cy.get('input[name=password]').type('fOoTbAlLtIx_281202')
 
     cy.get('[data-cy=submit]').click()
 

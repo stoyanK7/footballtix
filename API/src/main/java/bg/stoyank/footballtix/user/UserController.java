@@ -47,6 +47,7 @@ public class UserController {
     }
 
     @PutMapping("/password")
+    @CrossOrigin(origins = "*")
     public void updatePassword(@RequestBody Map<String, String> json) {
         String email = jwtService.extractUsername(json.get("jwt"));
         String currentPassword = json.get("currentPassword");
@@ -56,6 +57,7 @@ public class UserController {
     }
 
     @DeleteMapping
+    @CrossOrigin(origins = "*")
     public ResponseEntity<Object> deleteUser(@RequestParam("jwt") String jwt) {
         String email = jwtService.extractUsername(jwt);
         userService.deleteUser(email);
