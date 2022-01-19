@@ -3,11 +3,21 @@ package bg.stoyank.footballtix.file;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.net.URISyntaxException;
 
 @Service
 public class CommonPathsService {
-    public static final String PROJECT_PATH =
-            new File("").getAbsolutePath();
+    public static String PROJECT_PATH;
+
+    static {
+        try {
+            PROJECT_PATH = new File(CommonPathsService.class.getProtectionDomain().getCodeSource().getLocation()
+                    .toURI()).getPath();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static final File RECEIPT_TEMPLATE =
             new File(PROJECT_PATH + "/src/main/resources/templates/Receipt.pdf");
     public static final String RECEIPT_SAVE_PATH =
