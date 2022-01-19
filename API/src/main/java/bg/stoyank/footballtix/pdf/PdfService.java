@@ -80,7 +80,7 @@ public class PdfService {
             pDAcroForm.refreshAppearances();
 
             String jwt = jwtService.generateTicketJwtToken(order);
-            String address = "http://localhost:8080/api/tickets/confirm?token=" + jwt + "&fullName=" + order.getFullName().replace(" ", "%20");
+            String address = "http://20.124.233.164:8080/api/tickets/confirm?token=" + jwt + "&fullName=" + order.getFullName().replace(" ", "%20");
             qrService.createQrCode(address);
 
             PDImageXObject pdImage = PDImageXObject.createFromFile(

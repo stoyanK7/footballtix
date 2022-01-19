@@ -1,4 +1,4 @@
-package bg.stoyank.footballtix.qr;
+-package bg.stoyank.footballtix.qr;
 
 import bg.stoyank.footballtix.file.CommonPathsService;
 import com.google.zxing.BarcodeFormat;
