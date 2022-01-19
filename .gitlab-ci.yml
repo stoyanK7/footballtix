@@ -102,4 +102,4 @@ deploy-to-production:
   stage: deploy
   needs: ["push-to-dockerhub"]
   script:
-    - ssh -i ~/footballtix.pem azureuser@20.124.233.164 "bash start.sh && exit"
+    - sudo ssh -i ~/footballtix.pem azureuser@20.124.233.164 "bash start.sh && exit"
