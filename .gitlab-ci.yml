@@ -73,7 +73,7 @@ stop-test-docker-containers:
 
 build-production-docker-containers:
   stage: deploy
-  needs: ["api-test", "cypress"] 
+  needs: ["api-test"] 
   before_script:
     - cd API/
     - export GRADLE_USER_HOME=`pwd`/.gradle
